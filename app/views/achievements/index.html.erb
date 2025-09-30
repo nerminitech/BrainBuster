@@ -1,0 +1,57 @@
+<% content_for :title, "Achievements · BrainBuster" %>
+
+<section class="space-y-8">
+  <header class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <h1 class="text-3xl font-bold text-white">Achievements</h1>
+      <p class="text-sm text-slate-300">Schalte besondere Auszeichnungen frei und sammle Bonuspunkte.</p>
+    </div>
+    <% if current_user %>
+      <div class="text-sm text-slate-300">
+        <p>Freigeschaltet: <span class="font-semibold text-emerald-400"><%= current_user.achievements_count %></span> / <%= @achievements.size %></p>
+      </div>
+    <% end %>
+  </header>
+
+  <% if current_user && @recent_achievements.any? %>
+    <section class="rounded-xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg shadow-emerald-500/5">
+      <h2 class="text-lg font-semibold text-white">Deine letzten Erfolge</h2>
+      <ul class="mt-4 space-y-3 text-sm">
+        <% @recent_achievements.each do |ua| %>
+          <li class="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-900/50 px-4 py-3">
+            <div>
+              <p class="font-semibold text-emerald-300"><%= ua.achievement.name %></p>
+              <p class="text-xs text-slate-500"><%= ua.achievement.description %></p>
+            </div>
+            <span class="text-xs text-slate-400"><%= l ua.awarded_at, format: :short %></span>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <% @achievements.each do |achievement| %>
+      <% unlocked = @unlocked_ids.include?(achievement.id) %>
+      <article class="rounded-xl border <%= unlocked ? 'border-emerald-600 bg-emerald-500/10' : 'border-slate-800 bg-slate-900/60' %> p-6 transition">
+        <header class="flex items-center justify-between">
+          <h3 class="text-xl font-semibold <%= unlocked ? 'text-emerald-300' : 'text-white' %>"><%= achievement.name %></h3>
+          <span class="text-xs font-semibold <%= unlocked ? 'text-emerald-400' : 'text-slate-500' %>">
+            <%= unlocked ? 'Freigeschaltet' : 'Gesperrt' %>
+          </span>
+        </header>
+        <p class="mt-3 text-sm text-slate-300"><%= achievement.description %></p>
+        <dl class="mt-4 flex items-center justify-between text-xs text-slate-400">
+          <div>
+            <dt>Punktebonus</dt>
+            <dd class="text-sm font-semibold <%= unlocked ? 'text-emerald-300' : 'text-slate-200' %>"><%= achievement.points_bonus %></dd>
+          </div>
+          <div>
+            <dt>Kategorie</dt>
+            <dd class="text-sm font-semibold text-slate-200"><%= achievement.category.titleize %></dd>
+          </div>
+        </dl>
+      </article>
+    <% end %>
+  </div>
+</section>

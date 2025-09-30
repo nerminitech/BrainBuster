@@ -30,6 +30,25 @@
         <p class="mt-4 text-sm text-slate-400">Noch keine Matches gespielt. Starte jetzt dein erstes Quiz!</p>
       <% end %>
     </div>
+
+    <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-6">
+      <h3 class="text-xl font-semibold text-white">Deine Achievements</h3>
+      <p class="mt-2 text-sm text-slate-300"><%= current_user.achievements_count %> / <%= @achievements.size %> freigeschaltet.</p>
+
+      <ul class="mt-4 grid gap-3 md:grid-cols-2">
+        <% @achievements.first(6).each do |achievement| %>
+          <% unlocked = @unlocked_achievement_ids.include?(achievement.id) %>
+          <li class="rounded-lg border px-4 py-3 text-sm <%= unlocked ? 'border-emerald-600 bg-emerald-500/10 text-emerald-200' : 'border-slate-800 bg-slate-900/60 text-slate-200' %>">
+            <p class="font-semibold"><%= achievement.name %></p>
+            <p class="mt-1 text-xs <%= unlocked ? 'text-emerald-300/80' : 'text-slate-400' %>"><%= achievement.description %></p>
+          </li>
+        <% end %>
+      </ul>
+
+      <div class="mt-4 text-sm">
+        <%= link_to "Alle Achievements ansehen", achievements_path, class: "text-emerald-400 hover:text-emerald-300" %>
+      </div>
+    </div>
   </div>
 
   <aside class="space-y-6">

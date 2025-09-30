@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   end
 
   resources :leaderboards, only: :index
+  resources :achievements, only: :index
 
   namespace :admin do
     resources :categories

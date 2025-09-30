@@ -12,6 +12,8 @@ class PagesController < ApplicationController
     @featured_categories = Category.featured.limit(3)
     @recent_matches = current_user.match_participations.order(created_at: :desc).limit(5)
     @leaderboard = Leaderboard::Global.top_players(limit: 5)
+    @achievements = Achievement.order(:name)
+    @unlocked_achievement_ids = current_user.achievements.pluck(:id)
   end
 
   def help
