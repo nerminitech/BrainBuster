@@ -22,6 +22,17 @@ jobs:
           ruby-version: '3.2.1'
           bundler-cache: true
 
+      - name: Run Rubocop (style checks)
+        run: bundle exec rubocop
+
+      - name: Run Brakeman (security scan)
+        run: bundle exec brakeman -q
+
+      - name: Run Bundler Audit (dependency vulnerabilities)
+        run: |
+          bundle exec bundler-audit update
+          bundle exec bundler-audit check --fail-on CVE
+
       - name: Prepare database
         run: bin/rails db:test:prepare
 
