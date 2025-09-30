@@ -16,7 +16,8 @@
     <p class="mt-2"><strong>Zeitlimit:</strong> <%= @question.time_limit_seconds %> Sekunden</p>
     <p class="mt-2"><strong>Basis-Punkte:</strong> <%= @question.base_points %></p>
     <% if @question.source_url.present? %>
-      <p class="mt-2"><strong>Quelle:</strong> <%= link_to @question.source_url, @question.source_url, class: "text-emerald-300 hover:text-emerald-200" %></p>
+      <% source_url = @question.source_url.gsub(/[^\w\-\.:\/?&=%+]/, "") %>
+      <p class="mt-2"><strong>Quelle:</strong> <%= link_to source_url, source_url, class: "text-emerald-300 hover:text-emerald-200", rel: "noopener", target: "_blank" %></p>
     <% end %>
     <% if @question.explanation.present? %>
       <p class="mt-4 text-slate-300"><strong>Erklärung:</strong> <%= @question.explanation %></p>
