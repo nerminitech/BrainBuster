@@ -14,7 +14,7 @@ class CreateMatchParticipations < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :match_participations, [:match_id, :user_id], unique: true
+    add_index :match_participations, [ :match_id, :user_id ], unique: true
     add_index :match_participations, :status
   end
 end

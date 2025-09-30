@@ -8,6 +8,6 @@ class CreateUserAchievements < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :user_achievements, [:user_id, :achievement_id], unique: true
+    add_index :user_achievements, [ :user_id, :achievement_id ], unique: true
   end
 end

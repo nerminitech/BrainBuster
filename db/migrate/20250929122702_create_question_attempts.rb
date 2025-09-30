@@ -11,6 +11,6 @@ class CreateQuestionAttempts < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :question_attempts, [:match_participation_id, :match_question_id], name: "index_attempts_on_participation_and_question", unique: true
+    add_index :question_attempts, [ :match_participation_id, :match_question_id ], name: "index_attempts_on_participation_and_question", unique: true
   end
 end
