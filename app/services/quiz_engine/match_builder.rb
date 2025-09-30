@@ -56,7 +56,7 @@ module QuizEngine
         raise ActiveRecord::RecordInvalid.new(category)
       end
 
-      scope.order("RANDOM()" ).limit(@question_count)
+      scope.order("RANDOM()").limit(@question_count)
     end
 
     def generate_title

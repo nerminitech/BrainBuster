@@ -8,6 +8,6 @@ class CreateMatchQuestions < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :match_questions, [:match_id, :position], unique: true
+    add_index :match_questions, [ :match_id, :position ], unique: true
   end
 end

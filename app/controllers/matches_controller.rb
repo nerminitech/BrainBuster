@@ -63,7 +63,7 @@ class MatchesController < ApplicationController
     @match_question = match_question
     @current_question = match_question.question
     @positions_answered = @participation.question_attempts.count
-    @time_remaining_seconds = [@match.time_per_question - elapsed_seconds, 0].max
+    @time_remaining_seconds = [ @match.time_per_question - elapsed_seconds, 0 ].max
   end
 
   def join

@@ -68,11 +68,12 @@ class MatchParticipation < ApplicationRecord
     end
 
     total_answers = correct_count + incorrect_count
-    self.average_response_ms = if total_answers.positive?
-                                 ((average_response_ms * (total_answers - 1)) + response_time_ms) / total_answers
-                               else
-                                 response_time_ms
-                               end
+    self.average_response_ms =
+      if total_answers.positive?
+        ((average_response_ms * (total_answers - 1)) + response_time_ms) / total_answers
+      else
+        response_time_ms
+      end
     save!
   end
 

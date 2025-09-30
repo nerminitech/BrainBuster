@@ -11,11 +11,12 @@ module Matches
         redirect_to play_match_path(@match), alert: "Diese Frage ist nicht mehr aktiv." and return
       end
 
-      answer_option = if params[:answer_option_id].present?
-                        match_question.question.answer_options.find(params[:answer_option_id])
-                      else
-                        nil
-                      end
+      answer_option =
+        if params[:answer_option_id].present?
+          match_question.question.answer_options.find(params[:answer_option_id])
+        else
+          nil
+        end
 
       response_time_ms = calculate_response_time
       time_limit_ms = @match.time_per_question * 1000

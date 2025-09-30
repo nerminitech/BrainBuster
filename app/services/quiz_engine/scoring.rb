@@ -42,7 +42,7 @@ module QuizEngine
       time_limit_ms = question.time_limit_seconds * 1000
       return 0 if time_limit_ms.zero?
 
-      remaining = [time_limit_ms - response_time_ms, 0].max
+      remaining = [ time_limit_ms - response_time_ms, 0 ].max
       ((remaining.to_f / time_limit_ms) * base * SPEED_BONUS_FACTOR).round
     end
 

@@ -80,11 +80,12 @@ else
   puts "Willkommen zurück, #{user.display_name}!"
 end
 
-categories = if options[:category]
-               Category.where(name: options[:category])
-             else
-               Category.order(:name)
-             end
+categories =
+  if options[:category]
+    Category.where(name: options[:category])
+  else
+    Category.order(:name)
+  end
 
 if categories.empty?
   puts "Keine passende Kategorie gefunden. Verfügbare Kategorien:"
@@ -92,17 +93,18 @@ if categories.empty?
   exit 1
 end
 
-selected_category = if options[:category]
-                       categories.first
-                     else
-                       puts "Verfügbare Kategorien:"
-                       categories.each_with_index do |category, index|
-                         puts format("  %2d) %-20s (%d Fragen)", index + 1, category.name, category.questions.count)
-                       end
-                       print "Bitte wähle eine Kategorie (Zahl eingeben): "
-                       index = STDIN.gets.to_i - 1
-                       categories[index] || categories.first
-                     end
+selected_category =
+  if options[:category]
+    categories.first
+  else
+    puts "Verfügbare Kategorien:"
+    categories.each_with_index do |category, index|
+      puts format("  %2d) %-20s (%d Fragen)", index + 1, category.name, category.questions.count)
+    end
+    print "Bitte wähle eine Kategorie (Zahl eingeben): "
+    index = STDIN.gets.to_i - 1
+    categories[index] || categories.first
+  end
 
 if selected_category.questions.count.zero?
   puts "Diese Kategorie enthält noch keine Fragen. Bitte wähle eine andere Kategorie."
@@ -182,12 +184,12 @@ end
 puts "== Spiel beendet =="
 puts "Dein Ergebnis: #{participation.score} Punkte (#{participation.correct_count}/#{match.question_count} richtig)"
 
-puts "\nMatch-Rangliste:" 
+puts "\nMatch-Rangliste:"
 match.leaderboard.each_with_index do |entry, index|
   puts format("  %2d) %-20s %5d Punkte", index + 1, entry.user.display_name, entry.score)
 end
 
-puts "\nGlobale Top-10:" 
+puts "\nGlobale Top-10:"
 Leaderboard::Global.top_players(limit: 10).each_with_index do |player, index|
   puts format("  %2d) %-20s %5d Punkte", index + 1, player.display_name, player.total_points)
 end
