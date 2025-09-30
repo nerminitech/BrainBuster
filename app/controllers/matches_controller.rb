@@ -44,18 +44,26 @@ class MatchesController < ApplicationController
       redirect_to match_path(@match), notice: "Dieses Quiz hast du bereits abgeschlossen." and return
     end
 
-    if @match.open?
-      @match.update!(state: "active", started_at: Time.current)
-    end
+    @match.update!(state: "active", started_at: Time.current) if @match.open?
 
-    if next_question.blank?
+    match_question = next_question
+    if match_question.blank?
       finalize_participation!(@participation)
       redirect_to match_path(@match), notice: "Gut gemacht!" and return
     end
 
-    @current_question = next_question.question
-    @match_question = next_question
+    @participation.start_question!(match_question)
+
+    elapsed_seconds = @participation.current_question_elapsed_seconds
+    if elapsed_seconds >= @match.time_per_question
+      handle_time_expired(match_question)
+      redirect_to play_match_path(@match), alert: "Zeit abgelaufen! Die Frage wurde als falsch gewertet." and return
+    end
+
+    @match_question = match_question
+    @current_question = match_question.question
     @positions_answered = @participation.question_attempts.count
+    @time_remaining_seconds = [@match.time_per_question - elapsed_seconds, 0].max
   end
 
   def join
@@ -108,6 +116,23 @@ class MatchesController < ApplicationController
 
     if participation.match.match_participations.where.not(status: "completed").none?
       participation.match.update!(state: "completed", completed_at: Time.current)
+    end
+  end
+
+  def handle_time_expired(match_question)
+    return if @participation.question_attempts.exists?(match_question: match_question)
+
+    @participation.register_attempt!(
+      match_question: match_question,
+      answer_option: nil,
+      correct: false,
+      response_time_ms: @match.time_per_question * 1_000,
+      points_awarded: 0
+    )
+
+    @next_question = nil
+    if next_question.blank?
+      finalize_participation!(@participation)
     end
   end
 

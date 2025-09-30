@@ -1,7 +1,7 @@
 class QuestionAttempt < ApplicationRecord
   belongs_to :match_participation
   belongs_to :match_question
-  belongs_to :answer_option
+  belongs_to :answer_option, optional: true
 
   delegate :question, to: :match_question
 

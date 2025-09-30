@@ -7,9 +7,22 @@ module Matches
       match_question = @match.match_questions.find(params[:match_question_id])
       ensure_attempt_not_recorded!(match_question)
 
-      answer_option = match_question.question.answer_options.find(params[:answer_option_id])
-      correct = answer_option.correct?
+      unless @participation.current_match_question_id == match_question.id
+        redirect_to play_match_path(@match), alert: "Diese Frage ist nicht mehr aktiv." and return
+      end
+
+      answer_option = if params[:answer_option_id].present?
+                        match_question.question.answer_options.find(params[:answer_option_id])
+                      else
+                        nil
+                      end
+
       response_time_ms = calculate_response_time
+      time_limit_ms = @match.time_per_question * 1000
+      timed_out = response_time_ms >= time_limit_ms
+
+      answer_is_correct = !!answer_option&.correct?
+      correct = answer_is_correct && !timed_out
       current_streak = correct ? @participation.current_streak : 0
       scoring = QuizEngine::Scoring.call(
         question: match_question.question,
@@ -25,6 +38,10 @@ module Matches
         response_time_ms: response_time_ms,
         points_awarded: scoring.total_points
       )
+
+      if timed_out
+        redirect_to play_match_path(@match), alert: "Zeit abgelaufen! Die Frage wurde als falsch gewertet." and return
+      end
 
       message = correct ? "Richtig! +#{scoring.total_points} Punkte" : "Leider falsch."
       redirect_to play_match_path(@match), notice: message
@@ -43,11 +60,10 @@ module Matches
     end
 
     def calculate_response_time
-      started_at = params[:started_at].presence
-      return 0 unless started_at
+      started_at = @participation.current_question_started_at
+      return @match.time_per_question * 1000 unless started_at
 
-      start_time = Time.zone.at(started_at.to_f)
-      ((Time.current - start_time) * 1000).to_i.clamp(0, 120_000)
+      ((Time.current - started_at) * 1000).to_i.clamp(0, 300_000)
     end
 
     def ensure_attempt_not_recorded!(match_question)

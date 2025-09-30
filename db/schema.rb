@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_29_122728) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_30_081825) do
   create_table "achievements", force: :cascade do |t|
     t.string "code", null: false
     t.string "name", null: false
@@ -55,6 +55,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_29_122728) do
     t.string "status", default: "pending", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "current_match_question_id"
+    t.datetime "current_question_started_at"
+    t.index ["current_match_question_id"], name: "index_match_participations_on_current_match_question_id"
     t.index ["match_id", "user_id"], name: "index_match_participations_on_match_id_and_user_id", unique: true
     t.index ["match_id"], name: "index_match_participations_on_match_id"
     t.index ["status"], name: "index_match_participations_on_status"
@@ -95,7 +98,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_29_122728) do
   create_table "question_attempts", force: :cascade do |t|
     t.integer "match_participation_id", null: false
     t.integer "match_question_id", null: false
-    t.integer "answer_option_id", null: false
+    t.integer "answer_option_id"
     t.boolean "correct", default: false, null: false
     t.integer "response_time_ms", default: 0, null: false
     t.integer "awarded_points", default: 0, null: false
@@ -153,6 +156,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_29_122728) do
   end
 
   add_foreign_key "answer_options", "questions"
+  add_foreign_key "match_participations", "match_questions", column: "current_match_question_id"
   add_foreign_key "match_participations", "matches"
   add_foreign_key "match_participations", "users"
   add_foreign_key "match_questions", "matches"

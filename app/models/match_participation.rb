@@ -4,6 +4,7 @@ class MatchParticipation < ApplicationRecord
   belongs_to :match
   belongs_to :user
   has_many :question_attempts, dependent: :destroy
+  belongs_to :current_match_question, class_name: "MatchQuestion", optional: true
 
   validates :status, inclusion: { in: STATUSES }
 
@@ -27,6 +28,22 @@ class MatchParticipation < ApplicationRecord
     streak
   end
 
+  def start_question!(match_question)
+    return if current_match_question_id == match_question.id && current_question_started_at.present?
+
+    update!(current_match_question: match_question, current_question_started_at: Time.current)
+  end
+
+  def current_question_elapsed_seconds
+    return 0 unless current_question_started_at
+
+    (Time.current - current_question_started_at).to_i
+  end
+
+  def clear_current_question!
+    update_columns(current_match_question_id: nil, current_question_started_at: nil)
+  end
+
   def register_attempt!(match_question:, answer_option:, correct:, response_time_ms:, points_awarded:)
     question_attempts.create!(
       match_question: match_question,
@@ -37,6 +54,7 @@ class MatchParticipation < ApplicationRecord
     )
 
     update_statistics!(correct:, points_awarded:, response_time_ms:)
+    clear_current_question!
   end
 
   def update_statistics!(correct:, points_awarded:, response_time_ms:)
@@ -59,6 +77,7 @@ class MatchParticipation < ApplicationRecord
   end
 
   def finish!
+    clear_current_question!
     update!(status: "completed", completed_at: Time.current)
   end
 end
