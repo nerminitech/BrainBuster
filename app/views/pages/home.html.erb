@@ -1,0 +1,63 @@
+<section class="grid gap-10 lg:grid-cols-[1.6fr,1fr]">
+  <div class="space-y-6">
+    <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-6 shadow-xl shadow-emerald-500/5">
+      <h2 class="text-2xl font-bold text-white">Starte dein nächstes Quiz</h2>
+      <p class="mt-2 text-sm text-slate-300">Wähle eine Kategorie und fordere dich selbst oder andere Spieler heraus.</p>
+      <div class="mt-5 flex flex-wrap gap-3">
+        <%= link_to "Neues Solo-Quiz", new_match_path(mode: "solo"), class: "rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
+        <%= link_to "Freunde herausfordern", new_match_path(mode: "versus"), class: "rounded-lg border border-slate-700 px-4 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-800" %>
+      </div>
+    </div>
+
+    <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-6">
+      <h3 class="text-xl font-semibold text-white">Deine letzten Matches</h3>
+      <% if @recent_matches.any? %>
+        <ul class="mt-4 space-y-3">
+          <% @recent_matches.each do |participation| %>
+            <li class="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-900/60 px-4 py-3">
+              <div>
+                <p class="text-sm font-semibold text-white"><%= participation.match.title || participation.match.category.name %></p>
+                <p class="text-xs text-slate-400"><%= participation.match.category.name %> · <%= l participation.created_at, format: :short %></p>
+              </div>
+              <div class="text-right text-sm">
+                <p class="font-semibold text-emerald-400">+<%= participation.score %> Punkte</p>
+                <p class="text-xs text-slate-500"><%= participation.correct_count %>/<%= participation.match.question_count %> richtig</p>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="mt-4 text-sm text-slate-400">Noch keine Matches gespielt. Starte jetzt dein erstes Quiz!</p>
+      <% end %>
+    </div>
+  </div>
+
+  <aside class="space-y-6">
+    <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+      <h3 class="text-lg font-semibold text-white">Top-Spieler</h3>
+      <ol class="mt-4 space-y-2 text-sm">
+        <% @leaderboard.each_with_index do |player, index| %>
+          <li class="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-900/50 px-3 py-2">
+            <span class="flex items-center gap-3">
+              <span class="text-xs text-slate-500">#<%= index + 1 %></span>
+              <span class="font-semibold text-white"><%= player.display_name %></span>
+            </span>
+            <span class="text-xs text-emerald-400 font-semibold"><%= player.total_points %> Punkte</span>
+          </li>
+        <% end %>
+      </ol>
+    </div>
+
+    <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+      <h3 class="text-lg font-semibold text-white">Empfohlene Kategorien</h3>
+      <ul class="mt-4 space-y-2 text-sm">
+        <% @featured_categories.each do |category| %>
+          <li class="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-900/50 px-3 py-2">
+            <span class="font-semibold text-white"><%= category.name %></span>
+            <span class="text-xs text-slate-400"><%= pluralize(category.questions.count, "Frage", "Fragen") %></span>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </aside>
+</section>

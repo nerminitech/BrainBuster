@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  achievement: one
+  awarded_at: 2025-09-29 14:27:28
+
+two:
+  user: two
+  achievement: two
+  awarded_at: 2025-09-29 14:27:28

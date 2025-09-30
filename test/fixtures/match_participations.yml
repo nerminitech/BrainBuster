@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  match: one
+  user: one
+  score: 1
+  correct_count: 1
+  incorrect_count: 1
+  best_streak: 1
+  average_response_ms: 1
+  completed_at: 2025-09-29 14:26:44
+  status: completed
+
+two:
+  match: two
+  user: two
+  score: 1
+  correct_count: 1
+  incorrect_count: 1
+  best_streak: 1
+  average_response_ms: 1
+  completed_at: 2025-09-29 14:26:44
+  status: completed

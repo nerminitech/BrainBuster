@@ -1,0 +1,47 @@
+<% content_for :title, "Neues Quiz · BrainBuster" %>
+
+<section class="max-w-3xl space-y-6">
+  <header>
+    <h2 class="text-3xl font-bold text-white">Quiz konfigurieren</h2>
+    <p class="mt-2 text-sm text-slate-300">Lege fest, wie viele Fragen gestellt werden und wen du herausfordern möchtest.</p>
+  </header>
+
+  <%= form_with model: @match, url: matches_path, class: "space-y-6" do |form| %>
+    <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-6 space-y-4">
+      <div>
+        <%= form.label :category_id, "Kategorie", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+        <%= form.collection_select :category_id, @categories, :id, :name, { prompt: "Bitte auswählen" }, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500" %>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div>
+          <%= form.label :question_count, "Fragenzahl", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+          <%= form.number_field :question_count, min: 5, max: 20, step: 1, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500" %>
+        </div>
+        <div>
+          <%= form.label :time_per_question, "Zeit pro Frage (Sekunden)", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+          <%= form.number_field :time_per_question, min: 10, max: 120, step: 5, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500" %>
+        </div>
+      </div>
+
+      <div>
+        <span class="block text-xs font-semibold uppercase tracking-wide text-slate-400">Modus</span>
+        <div class="mt-2 flex flex-wrap gap-3 text-sm">
+          <label class="flex cursor-pointer items-center gap-2 rounded-md border border-slate-800 bg-slate-950 px-4 py-2 hover:border-emerald-500">
+            <%= form.radio_button :mode, "solo", checked: @match.mode == "solo" %>
+            <span>Solo</span>
+          </label>
+          <label class="flex cursor-pointer items-center gap-2 rounded-md border border-slate-800 bg-slate-950 px-4 py-2 hover:border-emerald-500">
+            <%= form.radio_button :mode, "versus", checked: @match.mode == "versus" %>
+            <span>Duell</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <%= form.submit "Quiz starten", class: "rounded-lg bg-emerald-500 px-5 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
+      <%= link_to "Abbrechen", matches_path, class: "text-sm text-slate-400 hover:text-slate-200" %>
+    </div>
+  <% end %>
+</section>

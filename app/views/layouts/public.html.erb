@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "BrainBuster" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  </head>
+  <body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100">
+    <div class="mx-auto flex min-h-screen w-full max-w-5xl flex-col px-6 py-12">
+      <header class="mb-16">
+        <div class="flex items-center justify-between">
+          <h1 class="text-3xl font-bold tracking-tight">BrainBuster</h1>
+          <div class="space-x-3">
+            <%= link_to "Anmelden", new_user_session_path, class: "rounded-md border border-slate-700 px-4 py-2 text-sm font-semibold hover:bg-slate-800" %>
+            <%= link_to "Kostenlos starten", new_user_registration_path, class: "rounded-md bg-emerald-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 hover:bg-emerald-400" %>
+          </div>
+        </div>
+      </header>
+
+      <main class="flex-1">
+        <%= yield %>
+      </main>
+
+      <footer class="mt-16 border-t border-slate-800 pt-6 text-xs text-slate-500">
+        <p>&copy; <%= Time.current.year %> BrainBuster</p>
+      </footer>
+    </div>
+  </body>
+</html>

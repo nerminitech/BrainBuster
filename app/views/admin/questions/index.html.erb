@@ -1,0 +1,31 @@
+<section class="space-y-6">
+  <header class="flex items-center justify-between">
+    <h2 class="text-3xl font-bold text-white">Fragen verwalten</h2>
+    <%= link_to "Neue Frage", new_admin_question_path, class: "rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
+  </header>
+
+  <table class="w-full table-fixed rounded-xl border border-slate-800 bg-slate-900/60 text-sm text-slate-200">
+    <thead class="text-xs uppercase tracking-wide text-slate-400">
+      <tr>
+        <th class="px-4 py-3 text-left">Frage</th>
+        <th class="px-4 py-3 text-left">Kategorie</th>
+        <th class="px-4 py-3 text-left">Schwierigkeit</th>
+        <th class="px-4 py-3 text-right">Aktionen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @questions.each do |question| %>
+        <tr class="border-t border-slate-800/60">
+          <td class="px-4 py-3 font-semibold text-white"><%= truncate(question.content, length: 80) %></td>
+          <td class="px-4 py-3 text-slate-300"><%= question.category.name %></td>
+          <td class="px-4 py-3"><%= difficulty_badge(question.difficulty) %></td>
+          <td class="px-4 py-3 text-right space-x-2">
+            <%= link_to "Anzeigen", admin_question_path(question), class: "text-xs font-semibold text-emerald-300 hover:text-emerald-200" %>
+            <%= link_to "Bearbeiten", edit_admin_question_path(question), class: "text-xs font-semibold text-blue-300 hover:text-blue-200" %>
+            <%= link_to "Löschen", admin_question_path(question), data: { turbo_method: :delete, turbo_confirm: "Frage wirklich löschen?" }, class: "text-xs font-semibold text-rose-300 hover:text-rose-200" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>

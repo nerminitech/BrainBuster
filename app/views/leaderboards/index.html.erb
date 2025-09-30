@@ -1,0 +1,68 @@
+<section class="space-y-10">
+  <header class="flex items-center justify-between">
+    <div>
+      <h2 class="text-3xl font-bold text-white">Globale Rangliste</h2>
+      <p class="mt-2 text-sm text-slate-300">Vergleiche deine Leistung mit der Community. Punkte werden aus Solo- und Duell-Spielen addiert.</p>
+    </div>
+    <%= link_to "Neues Quiz", new_match_path, class: "rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" if user_signed_in? %>
+  </header>
+
+  <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+    <h3 class="text-xl font-semibold text-white">Top 20 Spieler</h3>
+    <table class="mt-4 w-full table-fixed text-sm">
+      <thead class="text-xs uppercase tracking-wide text-slate-400">
+        <tr>
+          <th class="px-4 py-3 text-left">Platz</th>
+          <th class="px-4 py-3 text-left">Spieler</th>
+          <th class="px-4 py-3 text-right">Gesamtpunkte</th>
+          <th class="px-4 py-3 text-right">Achievements</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @top_players.each_with_index do |player, index| %>
+          <tr class="border-t border-slate-800/60">
+            <td class="px-4 py-3 text-slate-500">#<%= index + 1 %></td>
+            <td class="px-4 py-3 font-semibold text-white"><%= player.display_name %></td>
+            <td class="px-4 py-3 text-right text-emerald-400"><%= player.total_points %></td>
+            <td class="px-4 py-3 text-right text-slate-300"><%= player.achievements_count %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid gap-6 lg:grid-cols-2">
+    <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+      <h3 class="text-lg font-semibold text-white">Beste Matches (Woche)</h3>
+      <ul class="mt-4 space-y-3 text-sm">
+        <% @best_of_week.each do |participation| %>
+          <li class="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-900/50 px-4 py-3">
+            <div>
+              <p class="font-semibold text-white"><%= participation.user.display_name %></p>
+              <p class="text-xs text-slate-400"><%= participation.match.category.name %> · <%= l participation.completed_at, format: :short %></p>
+            </div>
+            <span class="text-xs font-semibold text-emerald-400">+<%= participation.score %> Punkte</span>
+          </li>
+        <% end %>
+        <% if @best_of_week.empty? %>
+          <li class="rounded-lg border border-slate-800 bg-slate-900/50 px-4 py-3 text-center text-xs text-slate-400">Noch keine abgeschlossenen Spiele diese Woche.</li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+      <h3 class="text-lg font-semibold text-white">Zuletzt abgeschlossen</h3>
+      <ul class="mt-4 space-y-3 text-sm">
+        <% @recent_matches.each do |match| %>
+          <li class="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-900/50 px-4 py-3">
+            <div>
+              <p class="font-semibold text-white"><%= match.title || match.category.name %></p>
+              <p class="text-xs text-slate-400">Beendet am <%= l match.completed_at, format: :short %></p>
+            </div>
+            <span class="text-xs text-slate-400">Teilnehmer: <%= match.match_participations.count %></span>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</section>

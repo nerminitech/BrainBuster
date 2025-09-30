@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  code: fixture_first_steps
+  name: Erstes Fixture
+  description: Beispiel
+  points_bonus: 10
+  threshold: 1
+  category: test
+
+two:
+  code: fixture_perfect
+  name: Perfekt Fixture
+  description: Beispiel
+  points_bonus: 20
+  threshold: 1
+  category: test

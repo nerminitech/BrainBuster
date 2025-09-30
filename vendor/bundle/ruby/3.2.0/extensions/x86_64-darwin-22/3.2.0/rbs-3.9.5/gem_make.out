@@ -1,0 +1,31 @@
+current directory: /Users/nerminvejzovic/coding2/BrainBuster2/BrainBuster/vendor/bundle/ruby/3.2.0/gems/rbs-3.9.5/ext/rbs_extension
+/Users/nerminvejzovic/.rvm/rubies/ruby-3.2.1/bin/ruby extconf.rb
+/Users/nerminvejzovic/.rvm/rubies/ruby-3.2.1/bin/ruby: warning: Ruby was built without YJIT support. You may need to install rustc to build Ruby with YJIT.
+checking for whether -std=gnu99 is accepted as CFLAGS... yes
+creating Makefile
+
+current directory: /Users/nerminvejzovic/coding2/BrainBuster2/BrainBuster/vendor/bundle/ruby/3.2.0/gems/rbs-3.9.5/ext/rbs_extension
+make DESTDIR\= sitearchdir\=./.gem.20250929-81795-3jgyfm sitelibdir\=./.gem.20250929-81795-3jgyfm clean
+
+current directory: /Users/nerminvejzovic/coding2/BrainBuster2/BrainBuster/vendor/bundle/ruby/3.2.0/gems/rbs-3.9.5/ext/rbs_extension
+make DESTDIR\= sitearchdir\=./.gem.20250929-81795-3jgyfm sitelibdir\=./.gem.20250929-81795-3jgyfm
+compiling ./../../src/constants.c
+compiling ./../../src/ruby_objs.c
+compiling ./../../src/util/rbs_constant_pool.c
+compiling lexer.c
+compiling lexstate.c
+compiling location.c
+compiling main.c
+compiling parser.c
+compiling parserstate.c
+compiling unescape.c
+linking shared-object rbs_extension.bundle
+ld: warning: -multiply_defined is obsolete
+ld: warning: ignoring duplicate libraries: '-lruby.3.2'
+
+current directory: /Users/nerminvejzovic/coding2/BrainBuster2/BrainBuster/vendor/bundle/ruby/3.2.0/gems/rbs-3.9.5/ext/rbs_extension
+make DESTDIR\= sitearchdir\=./.gem.20250929-81795-3jgyfm sitelibdir\=./.gem.20250929-81795-3jgyfm install
+/usr/local/opt/coreutils/bin/ginstall -c -m 0755 rbs_extension.bundle ./.gem.20250929-81795-3jgyfm
+
+current directory: /Users/nerminvejzovic/coding2/BrainBuster2/BrainBuster/vendor/bundle/ruby/3.2.0/gems/rbs-3.9.5/ext/rbs_extension
+make DESTDIR\= sitearchdir\=./.gem.20250929-81795-3jgyfm sitelibdir\=./.gem.20250929-81795-3jgyfm clean

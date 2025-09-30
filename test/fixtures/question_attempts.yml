@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  match_participation: one
+  match_question: one
+  answer_option: one
+  correct: false
+  response_time_ms: 1
+  awarded_points: 1
+
+two:
+  match_participation: two
+  match_question: two
+  answer_option: two
+  correct: false
+  response_time_ms: 1
+  awarded_points: 1

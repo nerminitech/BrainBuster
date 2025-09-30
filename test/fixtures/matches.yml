@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  creator: one
+  category: one
+  mode: solo
+  state: draft
+  question_count: 5
+  time_per_question: 30
+  share_code: FIX123
+  started_at: 2025-09-29 14:26:11
+  completed_at: 2025-09-29 14:26:11
+  title: Fixture Solo
+
+two:
+  creator: two
+  category: two
+  mode: versus
+  state: open
+  question_count: 5
+  time_per_question: 30
+  share_code: FIX456
+  started_at: 2025-09-29 14:26:11
+  completed_at: 2025-09-29 14:26:11
+  title: Fixture Duell

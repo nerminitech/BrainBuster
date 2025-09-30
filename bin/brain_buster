@@ -1,0 +1,195 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "optparse"
+require "securerandom"
+require_relative "../config/boot"
+require_relative "../config/environment"
+
+options = {
+  mode: "solo",
+  question_count: 5,
+  category: nil,
+  help: false
+}
+
+OptionParser.new do |opts|
+  opts.banner = <<~BANNER
+    BrainBuster – Konsolenmodus
+    Nutzung: bin/brain_buster [optionen]
+
+    Beispiele:
+      bin/brain_buster                 # Starte ein Solo-Quiz
+      bin/brain_buster -m versus       # Erstelle ein Duell und teile den Match-Code
+  BANNER
+
+  opts.on("-m MODE", "Spielmodus (solo oder versus)") do |mode|
+    options[:mode] = mode
+  end
+
+  opts.on("-q ANZAHL", Integer, "Anzahl der Fragen (5-15)") do |count|
+    options[:question_count] = count
+  end
+
+  opts.on("-c KATEGORIE", "Kategorie-Name (optional)") do |category|
+    options[:category] = category
+  end
+
+  opts.on("-h", "Hilfe anzeigen") do
+    options[:help] = true
+  end
+end.parse!
+
+options[:question_count] = options[:question_count].clamp(5, 15)
+
+if options[:help]
+  puts <<~HELP
+    BrainBuster – Steuerungshilfe
+
+    -m, --mode       Modus auswählen (solo, versus)
+    -q, --question   Anzahl der Fragen (Standard: 5)
+    -c, --category   Kategorie-Name (optional, exakte Übereinstimmung)
+    -h               Hilfe anzeigen
+
+    Ablauf:
+      1. Melde dich mit deiner E-Mail-Adresse an (oder lasse ein neues Konto erzeugen).
+      2. Wähle die gewünschte Kategorie.
+      3. Beantworte die Fragen per Tastatureingabe.
+      4. Am Ende wird die Rangliste angezeigt.
+  HELP
+  exit
+end
+
+puts "Willkommen bei BrainBuster (Konsole)"
+print "Bitte gib deine E-Mail-Adresse ein: "
+email = STDIN.gets&.strip
+abort "Keine E-Mail eingegeben." if email.to_s.empty?
+
+user = User.find_or_initialize_by(email: email.downcase)
+if user.new_record?
+  print "Wähle einen Benutzernamen: "
+  username = STDIN.gets&.strip
+  username = "player_#{SecureRandom.hex(3)}" if username.to_s.empty?
+  user.username = username
+  user.display_name = username
+  user.password = SecureRandom.base58(12)
+  user.password_confirmation = user.password
+  user.save!
+  puts "Neues Konto erstellt. Ein temporäres Passwort wurde gesetzt (#{user.password})."
+else
+  puts "Willkommen zurück, #{user.display_name}!"
+end
+
+categories = if options[:category]
+               Category.where(name: options[:category])
+             else
+               Category.order(:name)
+             end
+
+if categories.empty?
+  puts "Keine passende Kategorie gefunden. Verfügbare Kategorien:"
+  Category.order(:name).pluck(:name).each { |name| puts "  - #{name}" }
+  exit 1
+end
+
+selected_category = if options[:category]
+                       categories.first
+                     else
+                       puts "Verfügbare Kategorien:"
+                       categories.each_with_index do |category, index|
+                         puts format("  %2d) %-20s (%d Fragen)", index + 1, category.name, category.questions.count)
+                       end
+                       print "Bitte wähle eine Kategorie (Zahl eingeben): "
+                       index = STDIN.gets.to_i - 1
+                       categories[index] || categories.first
+                     end
+
+if selected_category.questions.count.zero?
+  puts "Diese Kategorie enthält noch keine Fragen. Bitte wähle eine andere Kategorie."
+  exit 1
+end
+
+if selected_category.questions.count < options[:question_count]
+  puts "Diese Kategorie enthält zu wenige Fragen. Es werden #{selected_category.questions.count} Fragen verwendet."
+  options[:question_count] = selected_category.questions.count
+end
+
+builder = QuizEngine::MatchBuilder.new(
+  user: user,
+  category: selected_category,
+  mode: options[:mode] == "versus" ? "versus" : "solo",
+  question_count: options[:question_count],
+  time_per_question: 30
+)
+
+match = builder.call
+participation = match.match_participations.find_by!(user: user)
+match.update!(state: "active", started_at: Time.current)
+
+puts "\nMatch-Code: #{match.share_code}"
+puts "Modus: #{match.mode == "versus" ? "Duell" : "Solo"}"
+puts "Kategorie: #{selected_category.name}"
+puts "Fragen: #{match.question_count}\n"
+
+match.match_questions.order(:position).each do |match_question|
+  question = match_question.question
+  puts "Frage #{match_question.position + 1}/#{match.question_count}: #{question.content}"
+  question.answer_options.order(:position).each_with_index do |option, index|
+    puts "  #{index + 1}) #{option.text}"
+  end
+
+  print "Deine Antwort (Zahl eingeben): "
+  user_choice = STDIN.gets.to_i
+  answer_option = question.answer_options.order(:position)[user_choice - 1]
+  unless answer_option
+    puts "Ungültige Auswahl, Frage wird als falsch gewertet."
+    answer_option = question.answer_options.first
+  end
+
+  response_time_ms = rand(2000..question.time_limit_seconds * 1000) # grobe Schätzung ohne Timer
+  correct = answer_option.correct?
+  scoring = QuizEngine::Scoring.call(
+    question: question,
+    response_time_ms: response_time_ms,
+    correct: correct,
+    current_streak: correct ? participation.current_streak : 0
+  )
+
+  participation.register_attempt!(
+    match_question: match_question,
+    answer_option: answer_option,
+    correct: correct,
+    response_time_ms: response_time_ms,
+    points_awarded: scoring.total_points
+  )
+
+  if correct
+    puts "✔ Richtig! +#{scoring.total_points} Punkte"
+  else
+    puts "✖ Falsch. Richtige Antwort: #{question.correct_option&.text}"
+  end
+  puts "Aktueller Punktestand: #{participation.score}\n"
+end
+
+participation.finish!
+user.add_points!(participation.score)
+QuizEngine::AchievementAwarder.call(participation)
+
+if match.match_participations.where.not(status: "completed").none?
+  match.update!(state: "completed", completed_at: Time.current)
+end
+
+puts "== Spiel beendet =="
+puts "Dein Ergebnis: #{participation.score} Punkte (#{participation.correct_count}/#{match.question_count} richtig)"
+
+puts "\nMatch-Rangliste:" 
+match.leaderboard.each_with_index do |entry, index|
+  puts format("  %2d) %-20s %5d Punkte", index + 1, entry.user.display_name, entry.score)
+end
+
+puts "\nGlobale Top-10:" 
+Leaderboard::Global.top_players(limit: 10).each_with_index do |player, index|
+  puts format("  %2d) %-20s %5d Punkte", index + 1, player.display_name, player.total_points)
+end
+
+puts "\nDanke fürs Spielen!"

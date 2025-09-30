@@ -1,0 +1,39 @@
+<% content_for :title, "#{@category.name} · BrainBuster" %>
+
+<section class="space-y-8">
+  <header class="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+    <p class="text-sm text-slate-400"><%= link_to "Zurück", categories_path, class: "hover:text-slate-200" %></p>
+    <h2 class="mt-2 text-3xl font-bold text-white"><%= @category.name %></h2>
+    <p class="mt-3 max-w-2xl text-sm text-slate-300"><%= @category.description %></p>
+    <div class="mt-4 flex flex-wrap items-center gap-3 text-xs text-slate-400">
+      <span><%= pluralize(@category.questions.count, "Frage", "Fragen") %></span>
+      <% if @category.featured? %>
+        <span class="rounded-full bg-emerald-500/20 px-3 py-1 font-semibold text-emerald-200">Community-Tipp</span>
+      <% end %>
+      <% if user_signed_in? %>
+        <%= link_to "Quiz in dieser Kategorie", new_match_path(match: { category_id: @category.id }), class: "rounded-full bg-emerald-500 px-4 py-1 font-semibold text-white hover:bg-emerald-400" %>
+      <% end %>
+    </div>
+  </header>
+
+  <div class="space-y-4">
+    <h3 class="text-xl font-semibold text-white">Beispielfragen</h3>
+    <% @questions.each do |question| %>
+      <article class="rounded-xl border border-slate-800 bg-slate-900/50 p-5">
+        <div class="flex items-center justify-between text-xs">
+          <%= difficulty_badge(question.difficulty) %>
+          <span class="text-slate-500">⏱ <%= question.time_limit_seconds %> Sekunden</span>
+        </div>
+        <p class="mt-4 text-base text-white"><%= question.content %></p>
+        <ul class="mt-4 grid gap-2 text-sm text-slate-200">
+          <% question.answer_options.each do |option| %>
+            <li class="rounded-lg border border-slate-800 bg-slate-950/60 px-4 py-2"><%= option.text %></li>
+          <% end %>
+        </ul>
+        <% if question.explanation.present? %>
+          <p class="mt-4 text-xs text-slate-400"><strong>Erklärung:</strong> <%= question.explanation %></p>
+        <% end %>
+      </article>
+    <% end %>
+  </div>
+</section>

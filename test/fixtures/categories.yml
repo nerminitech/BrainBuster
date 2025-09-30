@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Fixture Allgemeinwissen
+  description: MyText
+  featured: false
+
+two:
+  name: Fixture Technik
+  description: MyText
+  featured: false

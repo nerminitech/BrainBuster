@@ -1,0 +1,42 @@
+<section class="grid gap-12 lg:grid-cols-[2fr,1fr]">
+  <div>
+    <h2 class="mb-6 text-4xl font-bold leading-tight tracking-tight text-white">Teste dein Wissen, erobere die Rangliste.</h2>
+    <p class="mb-8 max-w-xl text-lg text-slate-300">
+      BrainBuster ist die deutschsprachige Quiz-Plattform für Wissbegierige. Spiele alleine gegen die Zeit
+      oder fordere deine Freunde in Live-Duellen heraus. Sammle Punkte, schalte Achievements frei und klettere
+      bis an die Spitze der globalen Rangliste.
+    </p>
+    <div class="flex flex-wrap items-center gap-4">
+      <%= link_to "Kostenloses Konto erstellen", new_user_registration_path, class: "rounded-lg bg-emerald-500 px-5 py-3 text-base font-semibold text-white shadow-lg shadow-emerald-600/30 transition hover:bg-emerald-400" %>
+      <%= link_to "Mehr erfahren", help_path, class: "rounded-lg border border-slate-700 px-5 py-3 text-base font-semibold text-slate-200 transition hover:bg-slate-800" %>
+    </div>
+    <dl class="mt-10 grid gap-6 sm:grid-cols-3">
+      <div class="rounded-lg border border-slate-800 bg-slate-900/50 p-5">
+        <dt class="text-sm text-slate-400">Kategorien</dt>
+        <dd class="text-2xl font-semibold text-white"><%= Category.count %>+</dd>
+      </div>
+      <div class="rounded-lg border border-slate-800 bg-slate-900/50 p-5">
+        <dt class="text-sm text-slate-400">Fragen</dt>
+        <dd class="text-2xl font-semibold text-white"><%= Question.count %>+</dd>
+      </div>
+      <div class="rounded-lg border border-slate-800 bg-slate-900/50 p-5">
+        <dt class="text-sm text-slate-400">Aktive Spieler</dt>
+        <dd class="text-2xl font-semibold text-white"><%= User.count %>+</dd>
+      </div>
+    </dl>
+  </div>
+  <div class="space-y-4">
+    <h3 class="text-sm uppercase tracking-[0.2em] text-slate-400">Beliebte Kategorien</h3>
+    <ul class="space-y-3">
+      <% @featured_categories.each do |category| %>
+        <li class="rounded-lg border border-slate-800 bg-slate-900/60 px-4 py-3">
+          <div class="flex items-center justify-between">
+            <span class="font-semibold text-white"><%= category.name %></span>
+            <span class="text-xs text-slate-400"><%= pluralize(category.questions.count, "Frage", "Fragen") %></span>
+          </div>
+          <p class="mt-1 text-xs text-slate-400"><%= truncate(category.description.to_s, length: 90) %></p>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</section>

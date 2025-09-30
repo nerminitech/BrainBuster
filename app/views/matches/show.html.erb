@@ -1,0 +1,31 @@
+<% content_for :title, "Match ##{@match.share_code} · BrainBuster" %>
+
+<section class="space-y-8">
+  <header class="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+    <p class="text-xs text-slate-400">Match-Code: <span class="font-mono text-emerald-300"><%= @match.share_code %></span></p>
+    <h2 class="mt-1 text-3xl font-bold text-white"><%= @match.title || @match.category.name %></h2>
+    <div class="mt-4 flex flex-wrap items-center gap-3 text-xs text-slate-400">
+      <span>Kategorie: <%= @match.category.name %></span>
+      <span><%= @match.question_count %> Fragen</span>
+      <span>⏱ <%= @match.time_per_question %> Sekunden pro Frage</span>
+      <span class="rounded-full bg-blue-500/20 px-3 py-1 font-semibold text-blue-200"><%= @match.mode == "versus" ? "Duell" : "Solo" %></span>
+    </div>
+    <% if @participation&.playing? %>
+      <div class="mt-5">
+        <%= link_to "Quiz fortsetzen", play_match_path(@match), class: "rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
+      </div>
+    <% elsif @match.mode == "versus" && @match.open? %>
+      <div class="mt-5">
+        <%= form_with url: join_matches_path, method: :post, class: "flex items-center gap-3" do |form| %>
+          <%= form.hidden_field :share_code, value: @match.share_code %>
+          <%= form.submit "Dem Duell beitreten", class: "rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
+        <% end %>
+      </div>
+    <% end %>
+  </header>
+
+  <section>
+    <h3 class="text-xl font-semibold text-white">Rangliste</h3>
+    <%= render partial: "leaderboard", locals: { participations: @leaderboard } %>
+  </section>
+</section>

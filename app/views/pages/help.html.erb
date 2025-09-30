@@ -1,0 +1,38 @@
+<section class="space-y-10">
+  <header>
+    <h2 class="text-3xl font-bold text-white">Steuerung & Regeln</h2>
+    <p class="mt-2 max-w-2xl text-sm text-slate-300">BrainBuster lässt sich komplett über die Webseite oder optional über die Konsole bedienen. Unten findest du alle wichtigen Steuerbefehle.</p>
+  </header>
+
+  <article class="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+    <h3 class="text-xl font-semibold text-white">Web-Steuerung</h3>
+    <ul class="mt-4 space-y-2 text-sm text-slate-200">
+      <li>• Wähle unter "Quiz erstellen" eine Kategorie, Frageanzahl und einen Spielmodus.</li>
+      <li>• Beantworte jede Frage innerhalb des Zeitlimits. Richtig beantwortete Fragen bringen Basis- und Geschwindigkeits-Punkte.</li>
+      <li>• Nach Spielende siehst du eine detaillierte Auswertung plus die globale Rangliste.</li>
+      <li>• Teile den Match-Code, um Freunde zu einem Duell einzuladen.</li>
+    </ul>
+  </article>
+
+  <article class="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+    <h3 class="text-xl font-semibold text-white">Konsole</h3>
+    <p class="mt-2 text-sm text-slate-300">Starte das Konsolenspiel aus dem Projektverzeichnis:</p>
+    <pre class="mt-3 overflow-x-auto rounded-lg bg-slate-950 px-4 py-3 text-sm text-emerald-400">bin/brain_buster            # startet ein Solo-Quiz
+bin/brain_buster -m versus   # fordert andere Spieler heraus
+bin/brain_buster -h          # zeigt diese Hilfe
+</pre>
+    <p class="mt-3 text-sm text-slate-300">Nach jedem Konsolenspiel wird automatisch die globale Rangliste angezeigt.</p>
+  </article>
+
+  <aside class="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+    <h3 class="text-xl font-semibold text-white">Aktuelle Kategorien</h3>
+    <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+      <% @categories.each do |category| %>
+        <li class="rounded-lg border border-slate-800 bg-slate-900/50 px-4 py-3">
+          <p class="font-semibold text-white"><%= category.name %></p>
+          <p class="text-xs text-slate-400"><%= category.questions.count %> Fragen verfügbar</p>
+        </li>
+      <% end %>
+    </ul>
+  </aside>
+</section>

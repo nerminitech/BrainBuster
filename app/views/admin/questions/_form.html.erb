@@ -1,0 +1,58 @@
+<%= form_with model: [:admin, @question], class: "space-y-5" do |form| %>
+  <div>
+    <%= form.label :category_id, "Kategorie", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+    <%= form.collection_select :category_id, @categories, :id, :name, {}, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500" %>
+  </div>
+
+  <div>
+    <%= form.label :content, "Fragetext", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+    <%= form.text_area :content, rows: 4, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500" %>
+  </div>
+
+  <div>
+    <%= form.label :explanation, "Erklärung", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+    <%= form.text_area :explanation, rows: 3, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500" %>
+  </div>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div>
+      <%= form.label :difficulty, "Schwierigkeit", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+      <%= form.select :difficulty, Question::DIFFICULTIES.map { |d| [d.titleize, d] }, {}, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500" %>
+    </div>
+    <div>
+      <%= form.label :time_limit_seconds, "Zeitlimit (Sekunden)", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+      <%= form.number_field :time_limit_seconds, min: 10, max: 120, step: 5, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500" %>
+    </div>
+  </div>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div>
+      <%= form.label :base_points, "Basis-Punkte", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+      <%= form.number_field :base_points, min: 50, max: 500, step: 10, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500" %>
+    </div>
+    <div>
+      <%= form.label :source_url, "Quelle", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+      <%= form.url_field :source_url, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500" %>
+    </div>
+  </div>
+
+  <div class="space-y-3">
+    <h4 class="text-sm font-semibold uppercase tracking-wide text-slate-400">Antwortoptionen</h4>
+    <%= form.fields_for :answer_options do |option_form| %>
+      <div class="grid gap-3 rounded-lg border border-slate-800 bg-slate-950/70 px-4 py-3 sm:grid-cols-[auto,1fr,auto] sm:items-center">
+        <div class="flex items-center gap-2 text-xs text-slate-300">
+          <%= option_form.hidden_field :correct, value: false %>
+          <%= option_form.radio_button :correct, true, checked: option_form.object.correct?, class: "h-4 w-4" %>
+          <%= option_form.label :correct, "Korrekt" %>
+        </div>
+        <%= option_form.text_field :text, placeholder: "Antworttext", class: "w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500" %>
+        <%= option_form.hidden_field :position, value: option_form.index %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <%= form.submit class: "rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
+    <%= link_to "Abbrechen", admin_questions_path, class: "text-sm text-slate-400 hover:text-slate-200" %>
+  </div>
+<% end %>

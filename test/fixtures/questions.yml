@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  category: one
+  content: Fixture Frage 1
+  explanation: Beispiel
+  difficulty: leicht
+  time_limit_seconds: 30
+  base_points: 100
+  source_url: https://example.com
+  language: de
+
+two:
+  category: two
+  content: Fixture Frage 2
+  explanation: Beispiel
+  difficulty: mittel
+  time_limit_seconds: 30
+  base_points: 120
+  source_url: https://example.com
+  language: de

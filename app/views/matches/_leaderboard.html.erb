@@ -1,0 +1,27 @@
+<table class="mt-4 w-full table-fixed rounded-xl border border-slate-800 bg-slate-900/60 text-sm text-slate-200">
+  <thead class="text-xs uppercase tracking-wide text-slate-400">
+    <tr>
+      <th class="px-4 py-3 text-left">Platz</th>
+      <th class="px-4 py-3 text-left">Spieler</th>
+      <th class="px-4 py-3 text-right">Punkte</th>
+      <th class="px-4 py-3 text-right">Richtig</th>
+      <th class="px-4 py-3 text-right">Ø Zeit (ms)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% participations.each_with_index do |participation, index| %>
+      <tr class="border-t border-slate-800/60">
+        <td class="px-4 py-3 text-slate-500">#<%= index + 1 %></td>
+        <td class="px-4 py-3 font-semibold text-white"><%= participation.user.display_name %></td>
+        <td class="px-4 py-3 text-right font-semibold text-emerald-400"><%= participation.score %></td>
+        <td class="px-4 py-3 text-right"><%= participation.correct_count %>/<%= participation.match.question_count %></td>
+        <td class="px-4 py-3 text-right"><%= participation.average_response_ms %></td>
+      </tr>
+    <% end %>
+    <% if participations.empty? %>
+      <tr>
+        <td colspan="5" class="px-4 py-4 text-center text-slate-400">Noch keine Ergebnisse vorhanden.</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
