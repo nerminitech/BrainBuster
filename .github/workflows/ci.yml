@@ -31,7 +31,7 @@ jobs:
       - name: Run Bundler Audit (dependency vulnerabilities)
         run: |
           bundle exec bundler-audit update
-          bundle exec bundler-audit check --fail-on CVE
+          bundle exec bundler-audit check
 
       - name: Prepare database
         run: bin/rails db:test:prepare
