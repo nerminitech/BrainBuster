@@ -1,8 +1,7 @@
 <% if user.present? %>
   <%= link_to profile_path, class: "group flex items-center gap-3" do %>
     <%= avatar_for(user, size: 40, classes: "ring-2 ring-transparent transition group-hover:ring-emerald-400/60") %>
-    <div class="hidden md:block text-left">
-      <p class="text-xs uppercase tracking-wide text-slate-500">Angemeldet</p>
+    <div class="hidden text-left md:block">
       <p class="text-sm font-semibold text-white transition group-hover:text-emerald-300"><%= truncate(user.display_name, length: 20) %></p>
     </div>
   <% end %>
