@@ -7,6 +7,17 @@
   </header>
 
   <%= form_with model: @match, url: matches_path, class: "space-y-6" do |form| %>
+    <% if @match.errors.any? %>
+      <div class="rounded-lg border border-rose-700/60 bg-rose-900/30 p-4 text-sm text-rose-100">
+        <p class="font-semibold">Bitte behebe die folgenden Fehler:</p>
+        <ul class="mt-2 space-y-1">
+          <% @match.errors.full_messages.each do |message| %>
+            <li>• <%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
     <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-6 space-y-4">
       <div>
         <%= form.label :category_id, "Kategorie", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>

@@ -4,7 +4,9 @@ class MatchesController < ApplicationController
   before_action :ensure_participation_owner!, only: %i[play]
 
   def index
-    @participations = current_user.match_participations.includes(match: :category).order(created_at: :desc)
+    @pagy, @participations = pagy(
+      current_user.match_participations.includes(match: :category).order(created_at: :desc)
+    )
   end
 
   def new
@@ -13,6 +15,13 @@ class MatchesController < ApplicationController
   end
 
   def create
+    if match_params[:category_id].blank?
+      @categories = Category.order(:name)
+      @match = Match.new(match_params)
+      @match.errors.add(:category, "muss ausgewählt werden")
+      render :new, status: :unprocessable_entity and return
+    end
+
     category = Category.find(match_params[:category_id])
     builder = QuizEngine::MatchBuilder.new(
       user: current_user,
