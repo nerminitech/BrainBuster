@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get "hilfe", to: "pages#help", as: :help
   get "dashboard", to: "pages#home"
 
+  resource :profile, only: %i[show edit update]
+
   resources :categories, only: %i[index show]
 
   resources :matches do

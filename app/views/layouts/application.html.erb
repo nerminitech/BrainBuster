@@ -33,25 +33,19 @@
               <%= link_to "Admin", admin_categories_path, class: nav_link_classes(admin_categories_path) %>
             <% end %>
           </nav>
-          <div class="flex items-center gap-3 text-sm">
-            <% if user_signed_in? %>
-              <span class="hidden md:block text-slate-300">Hallo, <%= current_user.display_name %></span>
-              <%= button_to "Abmelden", destroy_user_session_path, method: :delete, class: "rounded-md bg-red-500 px-3 py-1 font-semibold text-white transition hover:bg-red-400" %>
-            <% else %>
-              <%= link_to "Registrieren", new_user_registration_path, class: "rounded-md bg-emerald-500 px-3 py-1 font-semibold text-white transition hover:bg-emerald-400" %>
-              <%= link_to "Anmelden", new_user_session_path, class: "rounded-md border border-slate-700 px-3 py-1 font-semibold text-slate-200 transition hover:bg-slate-800" %>
-            <% end %>
+          <div class="text-sm">
+            <turbo-frame id="user_nav" class="flex items-center gap-3">
+              <%= render "layouts/user_nav", user: current_user %>
+            </turbo-frame>
           </div>
         </div>
       </header>
 
       <main class="flex-1">
         <div class="mx-auto w-full max-w-6xl px-6 py-10">
-          <% flash.each do |type, message| %>
-            <div class="mb-4 rounded-md border border-slate-700 bg-slate-900/70 px-4 py-3 text-sm text-slate-100">
-              <%= message %>
-            </div>
-          <% end %>
+          <turbo-frame id="flash_messages">
+            <%= render "shared/flash" %>
+          </turbo-frame>
           <%= yield %>
         </div>
       </main>

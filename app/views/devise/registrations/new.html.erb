@@ -6,7 +6,7 @@
 
   <%= render "devise/shared/error_messages", resource: resource %>
 
-  <%= form_with model: resource, url: registration_path(resource_name), class: "mt-6 space-y-4" do |form| %>
+  <%= form_with model: resource, url: registration_path(resource_name), html: { class: "mt-6 space-y-4", multipart: true } do |form| %>
     <div>
       <%= form.label :username, "Benutzername", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
       <%= form.text_field :username, autofocus: true, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500 focus:outline-none" %>
@@ -15,6 +15,18 @@
     <div>
       <%= form.label :display_name, "Anzeigename (optional)", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
       <%= form.text_field :display_name, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500 focus:outline-none" %>
+    </div>
+
+    <div>
+      <%= form.label :bio, "Kurzbeschreibung (optional)", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+      <%= form.text_area :bio, rows: 3, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500 focus:outline-none" %>
+      <p class="mt-1 text-xs text-slate-500">Maximal 280 Zeichen – erzähle kurz von dir.</p>
+    </div>
+
+    <div>
+      <%= form.label :avatar, "Profilbild", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+      <%= form.file_field :avatar, accept: "image/png,image/jpeg,image/webp", class: "mt-2 w-full text-sm text-slate-300 file:mr-4 file:rounded-md file:border-0 file:bg-emerald-500 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-emerald-400" %>
+      <p class="mt-1 text-xs text-slate-500">PNG, JPG oder WEBP bis 5 MB.</p>
     </div>
 
     <div>

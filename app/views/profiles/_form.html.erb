@@ -1,0 +1,48 @@
+<% if user.errors.any? %>
+  <div class="rounded-md border border-rose-700/70 bg-rose-900/40 p-4 text-sm text-rose-100">
+    <p class="font-semibold"><%= pluralize(user.errors.count, "Fehler") %> verhinderten das Speichern:</p>
+    <ul class="mt-2 space-y-1">
+      <% user.errors.full_messages.each do |message| %>
+        <li>• <%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: user, url: profile_path, method: :patch, html: { multipart: true, class: "space-y-6" } do |form| %>
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div>
+      <%= form.label :username, "Benutzername", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+      <%= form.text_field :username, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500 focus:outline-none" %>
+    </div>
+    <div>
+      <%= form.label :display_name, "Anzeigename", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+      <%= form.text_field :display_name, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500 focus:outline-none" %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.label :bio, "Über dich", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+    <%= form.text_area :bio, rows: 4, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm leading-relaxed text-white focus:border-emerald-500 focus:outline-none" %>
+    <p class="mt-1 text-xs text-slate-500">Maximal 280 Zeichen. Erzähle der Community etwas über dich.</p>
+  </div>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div>
+      <%= form.label :avatar, "Profilbild", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+      <%= form.file_field :avatar, accept: "image/png,image/jpeg,image/webp", class: "mt-2 w-full text-sm text-slate-300 file:mr-4 file:rounded-md file:border-0 file:bg-emerald-500 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-emerald-400" %>
+      <p class="mt-1 text-xs text-slate-500">PNG, JPG oder WEBP bis 5&nbsp;MB.</p>
+    </div>
+    <% if user.avatar.attached? %>
+      <div class="flex items-center gap-3 pt-6">
+        <%= form.check_box :remove_avatar, class: "h-4 w-4 rounded border-slate-700 bg-slate-900" %>
+        <%= form.label :remove_avatar, "Aktuelles Profilbild entfernen", class: "text-sm text-slate-300" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <%= form.submit "Profil speichern", class: "rounded-md bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
+    <%= link_to "Zurück", dashboard_path, class: "text-sm text-slate-400 hover:text-slate-200" %>
+  </div>
+<% end %>

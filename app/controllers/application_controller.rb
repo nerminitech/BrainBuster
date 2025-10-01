@@ -10,8 +10,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: %i[username display_name])
-    devise_parameter_sanitizer.permit(:account_update, keys: %i[username display_name])
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[username display_name avatar bio])
+    devise_parameter_sanitizer.permit(:account_update, keys: %i[username display_name avatar remove_avatar bio])
   end
 
   def require_admin!

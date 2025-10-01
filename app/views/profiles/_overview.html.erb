@@ -1,0 +1,29 @@
+<div class="rounded-xl border border-slate-800 bg-slate-900/70 p-8 shadow-xl shadow-emerald-500/10">
+  <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+    <div class="flex items-center gap-4">
+      <%= avatar_for(user, size: 88, classes: "shadow-xl shadow-emerald-500/20") %>
+      <div>
+        <h1 class="text-2xl font-semibold text-white"><%= user.display_name %></h1>
+        <p class="text-sm text-slate-400">@<%= user.username %></p>
+        <p class="mt-2 text-xs text-slate-500">Mitglied seit <%= l(user.created_at.to_date, format: :long) %></p>
+      </div>
+    </div>
+    <div class="flex items-center gap-4 text-sm text-slate-300">
+      <div class="rounded-lg border border-slate-800 bg-slate-950 px-4 py-3 text-center">
+        <p class="text-xs uppercase tracking-widest text-slate-500">Gesamtpunkte</p>
+        <p class="mt-1 text-xl font-semibold text-emerald-400"><%= number_with_delimiter(user.total_points) %></p>
+      </div>
+      <div class="rounded-lg border border-slate-800 bg-slate-950 px-4 py-3 text-center">
+        <p class="text-xs uppercase tracking-widest text-slate-500">Achievements</p>
+        <p class="mt-1 text-xl font-semibold text-emerald-400"><%= user.achievements_count %></p>
+      </div>
+    </div>
+  </div>
+
+  <% if user.bio.present? %>
+    <div class="mt-6 rounded-lg border border-slate-800 bg-slate-950 p-4 text-sm text-slate-200">
+      <h2 class="text-xs font-semibold uppercase tracking-wide text-slate-500">Über mich</h2>
+      <p class="mt-2 leading-relaxed text-slate-300"><%= simple_format(user.bio) %></p>
+    </div>
+  <% end %>
+</div>
