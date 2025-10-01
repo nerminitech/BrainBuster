@@ -4,7 +4,6 @@ class MatchesController < ApplicationController
   before_action :ensure_participation_owner!, only: %i[play]
 
   def index
-    @open_matches = Match.publicly_visible.includes(:category, :creator).order(created_at: :desc)
     @participations = current_user.match_participations.includes(match: :category).order(created_at: :desc)
   end
 

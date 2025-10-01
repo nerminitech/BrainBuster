@@ -2,34 +2,11 @@
   <div class="space-y-6">
     <header class="flex items-center justify-between">
       <div>
-        <h2 class="text-3xl font-bold text-white">Offene Matches</h2>
-        <p class="mt-1 text-sm text-slate-300">Tritt offenen Duellen bei oder starte dein eigenes Quiz.</p>
+        <h2 class="text-3xl font-bold text-white">Deine Matches</h2>
+        <p class="mt-1 text-sm text-slate-300">Starte neue Quizrunden oder setze begonnene Spiele fort.</p>
       </div>
       <%= link_to "Neues Quiz", new_match_path, class: "rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
     </header>
-
-    <% if @open_matches.any? %>
-      <ul class="space-y-4">
-        <% @open_matches.each do |match| %>
-          <li class="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-            <div class="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <p class="text-sm font-semibold text-white"><%= match.title || match.category.name %></p>
-                <p class="text-xs text-slate-400">
-                  Kategorie: <%= match.category.name %> · <%= match.question_count %> Fragen · Code <span class="font-mono text-emerald-300"><%= match.share_code %></span>
-                </p>
-              </div>
-              <div class="flex items-center gap-2 text-xs text-slate-400">
-                <span class="rounded-full bg-blue-500/20 px-3 py-1 font-semibold text-blue-200"><%= match.mode == "versus" ? "Duell" : "Solo" %></span>
-                <%= link_to "Beitreten", match_path(match), class: "rounded-md border border-emerald-500 px-3 py-1 font-semibold text-emerald-400 hover:bg-emerald-500/10" %>
-              </div>
-            </div>
-          </li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p class="text-sm text-slate-400">Aktuell warten keine offenen Duelle. Starte dein eigenes Match!</p>
-    <% end %>
 
     <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
       <h3 class="text-lg font-semibold text-white">Deine Spiele</h3>
@@ -46,7 +23,7 @@
           <% end %>
         </ul>
       <% else %>
-        <p class="mt-4 text-sm text-slate-400">Noch keine Spiele. Erstelle das erste Match!</p>
+        <p class="mt-4 text-sm text-slate-400">Noch keine Spiele. Erstelle dein erstes Match oder tritt per Code einem Quiz bei.</p>
       <% end %>
     </div>
   </div>
