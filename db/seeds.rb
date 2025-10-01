@@ -759,6 +759,554 @@ categories_payload = [
         ]
       }
     ]
+  },
+  {
+    name: "Naturwissenschaften",
+    description: "Physik, Chemie und Biologie für wissbegierige Köpfe.",
+    featured: true,
+    questions: [
+      {
+        content: "Wie lautet die chemische Formel von Wasser?",
+        explanation: "Zwei Wasserstoff- und ein Sauerstoffatom bilden ein Wassermolekül.",
+        difficulty: "leicht",
+        time_limit_seconds: 15,
+        base_points: 80,
+        answers: [
+          { text: "H2O", correct: true },
+          { text: "CO2", correct: false },
+          { text: "O2H", correct: false },
+          { text: "H2O2", correct: false }
+        ]
+      },
+      {
+        content: "Welcher Planet unseres Sonnensystems hat die meisten Monde?",
+        explanation: "Stand 2024 besitzt der Gasriese Jupiter die meisten bekannten Monde.",
+        difficulty: "mittel",
+        time_limit_seconds: 25,
+        base_points: 120,
+        answers: [
+          { text: "Saturn", correct: false },
+          { text: "Jupiter", correct: true },
+          { text: "Neptun", correct: false },
+          { text: "Uranus", correct: false }
+        ]
+      },
+      {
+        content: "Wie nennt man den Prozess, bei dem Pflanzen Lichtenergie in chemische Energie umwandeln?",
+        explanation: "Die Photosynthese ermöglicht die Produktion von Glukose aus Licht, Wasser und CO₂.",
+        difficulty: "leicht",
+        time_limit_seconds: 20,
+        base_points: 90,
+        answers: [
+          { text: "Photosynthese", correct: true },
+          { text: "Fermentation", correct: false },
+          { text: "Oxidation", correct: false },
+          { text: "Respiration", correct: false }
+        ]
+      },
+      {
+        content: "Welches Teilchen ist elektrisch negativ geladen?",
+        explanation: "Elektronen tragen eine negative Ladung.",
+        difficulty: "leicht",
+        time_limit_seconds: 15,
+        base_points: 85,
+        answers: [
+          { text: "Proton", correct: false },
+          { text: "Neutron", correct: false },
+          { text: "Elektron", correct: true },
+          { text: "Photon", correct: false }
+        ]
+      },
+      {
+        content: "Welche Blutgruppe gilt als universeller Spender?",
+        explanation: "Menschen mit Blutgruppe 0 negativ können den meisten Patienten Blut spenden.",
+        difficulty: "mittel",
+        time_limit_seconds: 25,
+        base_points: 110,
+        answers: [
+          { text: "AB+", correct: false },
+          { text: "A-", correct: false },
+          { text: "0-", correct: true },
+          { text: "B+", correct: false }
+        ]
+      },
+      {
+        content: "Welches Element hat das chemische Symbol Na?",
+        explanation: "Na steht für Natrium, ein Alkali-Metall.",
+        difficulty: "mittel",
+        time_limit_seconds: 20,
+        base_points: 100,
+        answers: [
+          { text: "Natrium", correct: true },
+          { text: "Stickstoff", correct: false },
+          { text: "Neon", correct: false },
+          { text: "Nickel", correct: false }
+        ]
+      },
+      {
+        content: "Welche Einheit misst elektrische Leistung?",
+        explanation: "Elektrische Leistung wird in Watt angegeben.",
+        difficulty: "leicht",
+        time_limit_seconds: 15,
+        base_points: 80,
+        answers: [
+          { text: "Volt", correct: false },
+          { text: "Ampere", correct: false },
+          { text: "Watt", correct: true },
+          { text: "Ohm", correct: false }
+        ]
+      },
+      {
+        content: "Was beschreibt das Hooke'sche Gesetz?",
+        explanation: "Es stellt eine lineare Beziehung zwischen Kraft und Dehnung einer Feder her.",
+        difficulty: "schwer",
+        time_limit_seconds: 30,
+        base_points: 150,
+        answers: [
+          { text: "Zusammenhang zwischen Masse und Energie", correct: false },
+          { text: "Zusammenhang zwischen Kraft und Beschleunigung", correct: false },
+          { text: "Zusammenhang zwischen Kraft und Federdehnung", correct: true },
+          { text: "Zusammenhang zwischen Druck und Volumen", correct: false }
+        ]
+      },
+      {
+        content: "Welches Organ filtert beim Menschen Blut und produziert Urin?",
+        explanation: "Die Nieren reinigen das Blut und bilden Urin zur Ausscheidung von Stoffwechselprodukten.",
+        difficulty: "leicht",
+        time_limit_seconds: 15,
+        base_points: 85,
+        answers: [
+          { text: "Herz", correct: false },
+          { text: "Leber", correct: false },
+          { text: "Nieren", correct: true },
+          { text: "Milz", correct: false }
+        ]
+      },
+      {
+        content: "Wie nennt man den Wechsel des Aggregatzustands von fest zu gasförmig ohne flüssige Phase?",
+        explanation: "Sublimation beschreibt diesen direkten Übergang.",
+        difficulty: "mittel",
+        time_limit_seconds: 25,
+        base_points: 115,
+        answers: [
+          { text: "Schmelzen", correct: false },
+          { text: "Verdampfen", correct: false },
+          { text: "Sublimation", correct: true },
+          { text: "Kondensation", correct: false }
+        ]
+      }
+    ]
+  },
+  {
+    name: "Literatur & Sprache",
+    description: "Romane, Gedichte und sprachliche Raffinessen aus aller Welt.",
+    featured: false,
+    questions: [
+      {
+        content: "Wer schrieb den Roman 'Der Name der Rose'?",
+        explanation: "Umberto Eco veröffentlichte das Werk 1980.",
+        difficulty: "mittel",
+        time_limit_seconds: 25,
+        base_points: 110,
+        answers: [
+          { text: "Umberto Eco", correct: true },
+          { text: "Italo Calvino", correct: false },
+          { text: "Paolo Coelho", correct: false },
+          { text: "Franz Kafka", correct: false }
+        ]
+      },
+      {
+        content: "Welche literarische Epoche prägte Johann Wolfgang von Goethe?",
+        explanation: "Goethe gilt als zentrale Figur der Weimarer Klassik.",
+        difficulty: "mittel",
+        time_limit_seconds: 25,
+        base_points: 120,
+        answers: [
+          { text: "Expressionismus", correct: false },
+          { text: "Weimarer Klassik", correct: true },
+          { text: "Romantik", correct: false },
+          { text: "Naturalismus", correct: false }
+        ]
+      },
+      {
+        content: "Welche Sprache hat die meisten Muttersprachler weltweit?",
+        explanation: "Mandarin-Chinesisch führt mit über 900 Millionen Muttersprachlern.",
+        difficulty: "leicht",
+        time_limit_seconds: 20,
+        base_points: 90,
+        answers: [
+          { text: "Spanisch", correct: false },
+          { text: "Mandarin", correct: true },
+          { text: "Englisch", correct: false },
+          { text: "Hindi", correct: false }
+        ]
+      },
+      {
+        content: "Welches Werk beginnt mit dem Satz 'Im Anfang war das Wort'?",
+        explanation: "Der Prolog des Johannesevangeliums startet mit diesem Vers.",
+        difficulty: "mittel",
+        time_limit_seconds: 20,
+        base_points: 105,
+        answers: [
+          { text: "Die Bibel", correct: true },
+          { text: "Faust", correct: false },
+          { text: "Odyssee", correct: false },
+          { text: "Der Prozess", correct: false }
+        ]
+      },
+      {
+        content: "Wie viele Zeichen umfasst das deutsche Alphabet einschließlich Umlaute?",
+        explanation: "Mit ä, ö, ü und ß umfasst es 30 Zeichen.",
+        difficulty: "leicht",
+        time_limit_seconds: 20,
+        base_points: 95,
+        answers: [
+          { text: "26", correct: false },
+          { text: "28", correct: false },
+          { text: "30", correct: true },
+          { text: "32", correct: false }
+        ]
+      },
+      {
+        content: "Welches epische Werk verfasste Homer neben der Odyssee?",
+        explanation: "Die Ilias schildert Ereignisse des Trojanischen Kriegs.",
+        difficulty: "leicht",
+        time_limit_seconds: 20,
+        base_points: 90,
+        answers: [
+          { text: "Die Ilias", correct: true },
+          { text: "Die Äneis", correct: false },
+          { text: "Antigone", correct: false },
+          { text: "Die Medea", correct: false }
+        ]
+      },
+      {
+        content: "Wie nennt man die Stilfigur, bei der Anfangsbuchstaben gleich sind?",
+        explanation: "Die Alliteration nutzt gleiche Anlaute in aufeinanderfolgenden Wörtern.",
+        difficulty: "mittel",
+        time_limit_seconds: 20,
+        base_points: 105,
+        answers: [
+          { text: "Metapher", correct: false },
+          { text: "Alliteration", correct: true },
+          { text: "Hyperbel", correct: false },
+          { text: "Vergleich", correct: false }
+        ]
+      },
+      {
+        content: "Wie heißt die Autorin von 'Harry Potter'?",
+        explanation: "J.K. Rowling veröffentlichte die Romanreihe zwischen 1997 und 2007.",
+        difficulty: "leicht",
+        time_limit_seconds: 15,
+        base_points: 80,
+        answers: [
+          { text: "J.K. Rowling", correct: true },
+          { text: "Suzanne Collins", correct: false },
+          { text: "Stephenie Meyer", correct: false },
+          { text: "Veronica Roth", correct: false }
+        ]
+      },
+      {
+        content: "Welcher Literat erhielt 1999 den Literaturnobelpreis?",
+        explanation: "Günter Grass wurde 1999 für sein Lebenswerk ausgezeichnet.",
+        difficulty: "schwer",
+        time_limit_seconds: 35,
+        base_points: 150,
+        answers: [
+          { text: "Günter Grass", correct: true },
+          { text: "Elfriede Jelinek", correct: false },
+          { text: "Peter Handke", correct: false },
+          { text: "Herta Müller", correct: false }
+        ]
+      },
+      {
+        content: "Welche Gattung umfasst Werke wie Lehrgedichte oder Fabeln?",
+        explanation: "Didaktische Literatur verfolgt das Ziel, Wissen oder Moral zu vermitteln.",
+        difficulty: "mittel",
+        time_limit_seconds: 25,
+        base_points: 115,
+        answers: [
+          { text: "Epik", correct: false },
+          { text: "Didaktik", correct: true },
+          { text: "Drama", correct: false },
+          { text: "Lyrik", correct: false }
+        ]
+      }
+    ]
+  },
+  {
+    name: "Musik & Popkultur",
+    description: "Chart-Hits, Musikgeschichte und popkulturelle Highlights.",
+    featured: false,
+    questions: [
+      {
+        content: "Welche Band veröffentlichte das Album 'Abbey Road'?",
+        explanation: "Das 1969 erschienene Album stammt von den Beatles.",
+        difficulty: "leicht",
+        time_limit_seconds: 20,
+        base_points: 90,
+        answers: [
+          { text: "The Beatles", correct: true },
+          { text: "The Rolling Stones", correct: false },
+          { text: "Pink Floyd", correct: false },
+          { text: "Led Zeppelin", correct: false }
+        ]
+      },
+      {
+        content: "Welcher Künstler steht hinter dem Hit 'Blinding Lights'?",
+        explanation: "Der kanadische Sänger The Weeknd landete damit 2020 einen Mega-Erfolg.",
+        difficulty: "leicht",
+        time_limit_seconds: 20,
+        base_points: 85,
+        answers: [
+          { text: "Ed Sheeran", correct: false },
+          { text: "The Weeknd", correct: true },
+          { text: "Shawn Mendes", correct: false },
+          { text: "Bruno Mars", correct: false }
+        ]
+      },
+      {
+        content: "Welche Musikerin gewann 2023 den Eurovision Song Contest?",
+        explanation: "Loreen siegte für Schweden mit dem Song 'Tattoo'.",
+        difficulty: "mittel",
+        time_limit_seconds: 25,
+        base_points: 110,
+        answers: [
+          { text: "Loreen", correct: true },
+          { text: "Netta", correct: false },
+          { text: "Måneskin", correct: false },
+          { text: "Jamala", correct: false }
+        ]
+      },
+      {
+        content: "Wie heißt das erfolgreichste deutschsprachige Rap-Album der 2010er laut Chartplatzierungen?",
+        explanation: "Capital Bra erreichte zahlreiche Nummer-1-Platzierungen, unter anderem mit 'Berlin lebt'.",
+        difficulty: "schwer",
+        time_limit_seconds: 35,
+        base_points: 150,
+        answers: [
+          { text: "Royal Bunker", correct: false },
+          { text: "Berlin lebt", correct: true },
+          { text: "Aqua", correct: false },
+          { text: "Der Holland Job", correct: false }
+        ]
+      },
+      {
+        content: "Welche K-Pop-Gruppe brachte 2020 den Song 'Butter' heraus?",
+        explanation: "Die südkoreanische Gruppe BTS dominierte weltweit die Charts.",
+        difficulty: "mittel",
+        time_limit_seconds: 25,
+        base_points: 110,
+        answers: [
+          { text: "BTS", correct: true },
+          { text: "Blackpink", correct: false },
+          { text: "EXO", correct: false },
+          { text: "Seventeen", correct: false }
+        ]
+      },
+      {
+        content: "Welcher Film gewann 2023 den Oscar für den besten Film?",
+        explanation: "'Everything Everywhere All at Once' wurde mehrfach ausgezeichnet.",
+        difficulty: "mittel",
+        time_limit_seconds: 25,
+        base_points: 115,
+        answers: [
+          { text: "Everything Everywhere All at Once", correct: true },
+          { text: "Top Gun: Maverick", correct: false },
+          { text: "Avatar: The Way of Water", correct: false },
+          { text: "The Banshees of Inisherin", correct: false }
+        ]
+      },
+      {
+        content: "Wer hostete die Late-Night-Show 'TV total'?",
+        explanation: "Stefan Raab moderierte die Show von 1999 bis 2015.",
+        difficulty: "leicht",
+        time_limit_seconds: 20,
+        base_points: 90,
+        answers: [
+          { text: "Stefan Raab", correct: true },
+          { text: "Harald Schmidt", correct: false },
+          { text: "Jan Böhmermann", correct: false },
+          { text: "Klaas Heufer-Umlauf", correct: false }
+        ]
+      },
+      {
+        content: "Welche Comicfigur feierte 1939 ihr Debüt in 'Detective Comics'?",
+        explanation: "Batman erschien erstmals in Detective Comics #27.",
+        difficulty: "mittel",
+        time_limit_seconds: 25,
+        base_points: 120,
+        answers: [
+          { text: "Superman", correct: false },
+          { text: "Batman", correct: true },
+          { text: "Wonder Woman", correct: false },
+          { text: "The Flash", correct: false }
+        ]
+      },
+      {
+        content: "Welche US-Serie machte Bryan Cranston als Walter White weltbekannt?",
+        explanation: "'Breaking Bad' war zwischen 2008 und 2013 ein internationaler Erfolg.",
+        difficulty: "leicht",
+        time_limit_seconds: 20,
+        base_points: 85,
+        answers: [
+          { text: "Breaking Bad", correct: true },
+          { text: "Mad Men", correct: false },
+          { text: "Lost", correct: false },
+          { text: "The Wire", correct: false }
+        ]
+      },
+      {
+        content: "Welcher Künstler ist unter dem Spitznamen 'King of Pop' bekannt?",
+        explanation: "Michael Jackson wird seit den 1980ern so genannt.",
+        difficulty: "leicht",
+        time_limit_seconds: 15,
+        base_points: 80,
+        answers: [
+          { text: "Michael Jackson", correct: true },
+          { text: "Prince", correct: false },
+          { text: "Justin Timberlake", correct: false },
+          { text: "Usher", correct: false }
+        ]
+      }
+    ]
+  },
+  {
+    name: "Gaming & eSports",
+    description: "Videospiel-Klassiker, moderne Hits und eSports-Wissen.",
+    featured: false,
+    questions: [
+      {
+        content: "Welches Unternehmen entwickelte 'The Legend of Zelda'?",
+        explanation: "Nintendo veröffentlichte das erste Zelda-Spiel 1986.",
+        difficulty: "leicht",
+        time_limit_seconds: 20,
+        base_points: 90,
+        answers: [
+          { text: "Nintendo", correct: true },
+          { text: "Sony", correct: false },
+          { text: "Sega", correct: false },
+          { text: "Ubisoft", correct: false }
+        ]
+      },
+      {
+        content: "Welcher Battle-Royale-Titel wurde 2017 von Epic Games veröffentlicht?",
+        explanation: "Fortnite etablierte das Genre mit seinem Free-to-Play-Modell.",
+        difficulty: "leicht",
+        time_limit_seconds: 20,
+        base_points: 85,
+        answers: [
+          { text: "Fortnite", correct: true },
+          { text: "PUBG", correct: false },
+          { text: "Apex Legends", correct: false },
+          { text: "Warzone", correct: false }
+        ]
+      },
+      {
+        content: "Wie heißt die Entwicklerfirma hinter 'League of Legends'?",
+        explanation: "Riot Games entwickelte das populäre MOBA, das 2009 erschien.",
+        difficulty: "mittel",
+        time_limit_seconds: 25,
+        base_points: 110,
+        answers: [
+          { text: "Riot Games", correct: true },
+          { text: "Valve", correct: false },
+          { text: "Blizzard", correct: false },
+          { text: "Hi-Rez Studios", correct: false }
+        ]
+      },
+      {
+        content: "Welches Team gewann 2021 die League-of-Legends-Weltmeisterschaft?",
+        explanation: "Edward Gaming besiegte DWG KIA im Finale.",
+        difficulty: "mittel",
+        time_limit_seconds: 30,
+        base_points: 125,
+        answers: [
+          { text: "DWG KIA", correct: false },
+          { text: "Edward Gaming", correct: true },
+          { text: "T1", correct: false },
+          { text: "Gen.G", correct: false }
+        ]
+      },
+      {
+        content: "Wie viele einzigartige Figuren (Champions) gab es in League of Legends Anfang 2024?",
+        explanation: "Zu diesem Zeitpunkt waren über 160 Champions spielbar.",
+        difficulty: "schwer",
+        time_limit_seconds: 35,
+        base_points: 150,
+        answers: [
+          { text: "Über 160", correct: true },
+          { text: "Rund 120", correct: false },
+          { text: "Rund 80", correct: false },
+          { text: "Unter 60", correct: false }
+        ]
+      },
+      {
+        content: "Wie heißt das ikonische Item, das in Minecraft zum Craften nötig ist, um den Nether zu betreten?",
+        explanation: "Ein Nether-Portal wird aus Obsidian-Blöcken aufgebaut.",
+        difficulty: "leicht",
+        time_limit_seconds: 20,
+        base_points: 90,
+        answers: [
+          { text: "Obsidian", correct: true },
+          { text: "Basalt", correct: false },
+          { text: "Endstein", correct: false },
+          { text: "Netherrack", correct: false }
+        ]
+      },
+      {
+        content: "Welches Entwicklerstudio steht hinter der 'The Witcher'-Spielereihe?",
+        explanation: "CD Projekt Red entwickelte die Rollenspielserie basierend auf Sapkowskis Romanen.",
+        difficulty: "mittel",
+        time_limit_seconds: 25,
+        base_points: 115,
+        answers: [
+          { text: "CD Projekt Red", correct: true },
+          { text: "BioWare", correct: false },
+          { text: "Bethesda", correct: false },
+          { text: "Square Enix", correct: false }
+        ]
+      },
+      {
+        content: "In welchem Jahr erschien die erste PlayStation-Konsole in Europa?",
+        explanation: "Sony veröffentlichte die PlayStation 1995 in Europa.",
+        difficulty: "mittel",
+        time_limit_seconds: 25,
+        base_points: 110,
+        answers: [
+          { text: "1992", correct: false },
+          { text: "1995", correct: true },
+          { text: "1998", correct: false },
+          { text: "2000", correct: false }
+        ]
+      },
+      {
+        content: "Welches Videospiel gilt als erstes kommerziell erfolgreiches Arcade-Spiel?",
+        explanation: "'Pong' von Atari wurde 1972 ein weltweiter Erfolg.",
+        difficulty: "mittel",
+        time_limit_seconds: 20,
+        base_points: 105,
+        answers: [
+          { text: "Pong", correct: true },
+          { text: "Space Invaders", correct: false },
+          { text: "Pac-Man", correct: false },
+          { text: "Donkey Kong", correct: false }
+        ]
+      },
+      {
+        content: "Welches Spiel entwickelte FromSoftware vor 'Elden Ring'?",
+        explanation: "2019 veröffentlichte das Studio 'Sekiro: Shadows Die Twice'.",
+        difficulty: "mittel",
+        time_limit_seconds: 25,
+        base_points: 120,
+        answers: [
+          { text: "Sekiro: Shadows Die Twice", correct: true },
+          { text: "Bloodborne", correct: false },
+          { text: "Dark Souls III", correct: false },
+          { text: "Armored Core VI", correct: false }
+        ]
+      }
+    ]
   }
 ]
 
@@ -773,9 +1321,19 @@ categories_payload.each do |category_attrs|
     question.assign_attributes(question_attrs.merge(language: "de"))
     question.save!
 
-    question.answer_options.destroy_all
+    kept_ids = []
     answers.each_with_index do |answer_attrs, position|
-      question.answer_options.create!(answer_attrs.merge(position: position))
+      option = question.answer_options.find_or_initialize_by(position: position)
+      option.update!(answer_attrs.merge(position: position))
+      kept_ids << option.id
+    end
+
+    question.answer_options.where.not(id: kept_ids).find_each do |option|
+      if QuestionAttempt.where(answer_option_id: option.id).exists?
+        puts "   WARN: Antwortoption '#{option.text}' blieb erhalten (bereits beantwortet)"
+      else
+        option.destroy!
+      end
     end
   end
 end
