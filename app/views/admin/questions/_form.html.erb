@@ -36,17 +36,23 @@
     </div>
   </div>
 
-  <div class="space-y-3">
-    <h4 class="text-sm font-semibold uppercase tracking-wide text-slate-400">Antwortoptionen</h4>
+  <div class="space-y-3" data-controller="single-correct">
+    <div class="flex items-center justify-between">
+      <h4 class="text-sm font-semibold uppercase tracking-wide text-slate-400">Antwortoptionen</h4>
+      <span class="text-xs text-slate-500">Markiere genau eine Option als korrekt.</span>
+    </div>
     <%= form.fields_for :answer_options do |option_form| %>
-      <div class="grid gap-3 rounded-lg border border-slate-800 bg-slate-950/70 px-4 py-3 sm:grid-cols-[auto,1fr,auto] sm:items-center">
+      <div class="grid gap-3 rounded-lg border border-slate-800 bg-slate-950/70 px-4 py-3 sm:grid-cols-[auto,1fr] sm:items-center">
         <div class="flex items-center gap-2 text-xs text-slate-300">
-          <%= option_form.hidden_field :correct, value: false %>
-          <%= option_form.radio_button :correct, true, checked: option_form.object.correct?, class: "h-4 w-4" %>
+          <%= option_form.check_box :correct,
+                class: "h-4 w-4",
+                data: { single_correct_target: "checkbox", action: "change->single-correct#toggle" } %>
           <%= option_form.label :correct, "Korrekt" %>
         </div>
-        <%= option_form.text_field :text, placeholder: "Antworttext", class: "w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500" %>
-        <%= option_form.hidden_field :position, value: option_form.index %>
+        <div class="space-y-2">
+          <%= option_form.text_field :text, placeholder: "Antworttext", class: "w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500" %>
+          <%= option_form.hidden_field :position, value: option_form.object.position || option_form.index %>
+        </div>
       </div>
     <% end %>
   </div>
