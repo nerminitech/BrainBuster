@@ -16,18 +16,11 @@ else
   puts "   ✔ Admin-Konto vorhanden"
 end
 
-achievements = [
-  { code: "first_steps", name: "Erstes Quiz", description: "Schließe dein erstes Quiz erfolgreich ab.", points_bonus: 50 },
-  { code: "perfect_run", name: "Perfekter Lauf", description: "Beantworte alle Fragen eines Quiz korrekt.", points_bonus: 150 },
-  { code: "speedster", name: "Blitzschnell", description: "Halte deine durchschnittliche Antwortzeit unter 5 Sekunden.", points_bonus: 100 },
-  { code: "duel_champion", name: "Duell-Champion", description: "Gewinne ein Duell gegen andere Spieler.", points_bonus: 200 }
-]
-
-achievements.each do |attrs|
+Achievement.catalog.each do |attrs|
   achievement = Achievement.find_or_initialize_by(code: attrs[:code])
   achievement.update!(attrs)
 end
-puts "   ✔ Achievements synchronisiert"
+puts "   ✔ Achievements synchronisiert (#{Achievement.count} gesamt)"
 
 categories_payload = [
   {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_01_082128) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_01_083427) do
   create_table "achievements", force: :cascade do |t|
     t.string "code", null: false
     t.string "name", null: false
@@ -20,6 +20,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_01_082128) do
     t.string "category", default: "general", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "condition", default: "manual", null: false
     t.index ["code"], name: "index_achievements_on_code", unique: true
   end
 
