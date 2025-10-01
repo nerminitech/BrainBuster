@@ -27,7 +27,9 @@ Rails.application.routes.draw do
   resources :achievements, only: :index
 
   namespace :admin do
-    resources :categories
+    resources :categories do
+      resources :questions, only: :create, module: :categories
+    end
     resources :questions
   end
 end

@@ -8,6 +8,7 @@ module Admin
 
     def show
       @questions = @category.questions.order(:created_at)
+      @new_question = prepare_new_question
     end
 
     def new
@@ -46,6 +47,15 @@ module Admin
 
     def category_params
       params.require(:category).permit(:name, :description, :featured)
+    end
+
+    def prepare_new_question(question = nil)
+      question ||= @category.questions.build(language: "de", difficulty: "mittel", time_limit_seconds: 30, base_points: 100)
+      existing = question.answer_options.size
+      (existing...4).each do |position|
+        question.answer_options.build(position: position)
+      end
+      question
     end
   end
 end

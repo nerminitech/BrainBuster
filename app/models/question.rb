@@ -2,8 +2,8 @@ class Question < ApplicationRecord
   DIFFICULTIES = %w[leicht mittel schwer experte].freeze
 
   belongs_to :category
-  has_many :answer_options, -> { order(:position) }, dependent: :destroy, inverse_of: :question
   has_many :match_questions, dependent: :destroy
+  has_many :answer_options, -> { order(:position) }, dependent: :destroy, inverse_of: :question
 
   accepts_nested_attributes_for :answer_options, allow_destroy: true
 

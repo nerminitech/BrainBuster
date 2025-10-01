@@ -29,4 +29,73 @@
       <% end %>
     </ul>
   </section>
+
+  <section class="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+    <h3 class="text-lg font-semibold text-white">Neue Frage hinzufügen</h3>
+    <p class="mt-1 text-xs text-slate-400">Erstelle eine neue Frage für diese Kategorie inklusive Antwortmöglichkeiten.</p>
+
+    <% if @new_question.errors.any? %>
+      <div class="mt-4 rounded-lg border border-rose-700/60 bg-rose-900/30 p-4 text-sm text-rose-100">
+        <p class="font-semibold">Bitte behebe die folgenden Fehler:</p>
+        <ul class="mt-2 space-y-1">
+          <% @new_question.errors.full_messages.each do |message| %>
+            <li>• <%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form_with model: [:admin, @category, @new_question], class: "mt-5 space-y-5" do |form| %>
+      <%= form.hidden_field :language, value: @new_question.language || "de" %>
+
+      <div>
+        <%= form.label :content, "Fragetext", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+        <%= form.text_area :content, rows: 3, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500 focus:outline-none" %>
+      </div>
+
+      <div>
+        <%= form.label :explanation, "Erklärung (optional)", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+        <%= form.text_area :explanation, rows: 3, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500 focus:outline-none" %>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-3">
+        <div>
+          <%= form.label :difficulty, "Schwierigkeit", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+          <%= form.select :difficulty, Question::DIFFICULTIES.map { |d| [d.titleize, d] }, {}, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500" %>
+        </div>
+        <div>
+          <%= form.label :time_limit_seconds, "Zeitlimit (Sek.)", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+          <%= form.number_field :time_limit_seconds, value: @new_question.time_limit_seconds || 30, min: 10, max: 120, step: 5, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500" %>
+        </div>
+        <div>
+          <%= form.label :base_points, "Basis-Punkte", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+          <%= form.number_field :base_points, value: @new_question.base_points || 100, min: 50, max: 500, step: 10, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500" %>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="text-xs font-semibold uppercase tracking-wide text-slate-400">Antwortoptionen</h4>
+        <p class="mt-1 text-xs text-slate-500">Markiere genau eine Option als korrekt.</p>
+
+        <div class="mt-3 space-y-3">
+          <%= form.fields_for :answer_options do |option_form| %>
+            <div class="grid gap-3 rounded-lg border border-slate-800 bg-slate-950/70 px-4 py-3 sm:grid-cols-[auto,1fr] sm:items-center">
+              <div class="flex items-center gap-2 text-xs text-slate-300">
+                <%= option_form.hidden_field :correct, value: false %>
+                <%= option_form.radio_button :correct, true, checked: option_form.object.correct?, class: "h-4 w-4" %>
+                <%= option_form.label :correct, "Korrekt" %>
+              </div>
+              <%= option_form.text_field :text, placeholder: "Antworttext", class: "w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500" %>
+              <%= option_form.hidden_field :position, value: option_form.object.position || option_form.index %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <%= form.submit "Frage speichern", class: "rounded-md bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
+        <%= link_to "Zur Fragenübersicht", admin_questions_path, class: "text-sm text-slate-400 hover:text-slate-200" %>
+      </div>
+    <% end %>
+  </section>
 </section>
