@@ -108,8 +108,8 @@ module ApplicationHelper
     return (1..pagy.pages).to_a if pagy.pages <= 7
 
     pages = [1]
-    start_page = [pagy.page - 1, 2].max
-    end_page = [pagy.page + 1, pagy.pages - 1].min
+    start_page = [ pagy.page - 1, 2 ].max
+    end_page = [ pagy.page + 1, pagy.pages - 1 ].min
 
     pages << :gap if start_page > 2
     pages.concat((start_page..end_page).to_a)

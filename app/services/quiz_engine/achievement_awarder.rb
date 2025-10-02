@@ -99,7 +99,7 @@ module QuizEngine
           next false unless mp.match.mode == "versus"
 
           winner = mp.match.match_participations.max_by do |candidate|
-            [candidate.score, -candidate.average_response_ms.to_i]
+            [ candidate.score, -candidate.average_response_ms.to_i ]
           end
 
           winner&.user_id == user.id

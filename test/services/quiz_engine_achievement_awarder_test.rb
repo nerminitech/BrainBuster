@@ -141,6 +141,6 @@ class QuizEngineAchievementAwarderTest < ActiveSupport::TestCase
 
     assert_includes codes, "perfect_run"
     assert_includes codes, "sharpshooter"
-    refute_includes codes, "flawless_legend"
+    assert_not_includes codes, "flawless_legend"
   end
 end
