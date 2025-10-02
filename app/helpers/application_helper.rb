@@ -27,11 +27,7 @@ module ApplicationHelper
                 width: size,
                 height: size
     else
-      initials = user&.display_name.to_s.split.map(&:first).join[0, 2].to_s.upcase
-      initials = user&.username.to_s[0, 2].upcase if initials.blank?
-      content_tag :span, initials,
-                  class: [ "flex items-center justify-center rounded-full bg-slate-800 text-xs font-semibold text-slate-200", classes ].reject(&:blank?).join(" "),
-                  style: "width: #{size}px; height: #{size}px;"
+      render "shared/default_avatar", size: size, classes: base_classes
     end
   end
 
