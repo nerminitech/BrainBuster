@@ -18,10 +18,10 @@ module ApplicationHelper
   end
 
   def avatar_for(user, size: 48, classes: "")
-    base_classes = ["rounded-full border border-slate-800 object-cover", classes].reject(&:blank?).join(" ")
+    base_classes = [ "rounded-full border border-slate-800 object-cover", classes ].reject(&:blank?).join(" ")
 
     if user&.avatar&.attached?
-      image_tag user.avatar.variant(resize_to_fill: [size, size]).processed,
+      image_tag user.avatar.variant(resize_to_fill: [ size, size ]).processed,
                 class: base_classes,
                 alt: user.display_name,
                 width: size,
@@ -30,7 +30,7 @@ module ApplicationHelper
       initials = user&.display_name.to_s.split.map(&:first).join[0, 2].to_s.upcase
       initials = user&.username.to_s[0, 2].upcase if initials.blank?
       content_tag :span, initials,
-                  class: ["flex items-center justify-center rounded-full bg-slate-800 text-xs font-semibold text-slate-200", classes].reject(&:blank?).join(" "),
+                  class: [ "flex items-center justify-center rounded-full bg-slate-800 text-xs font-semibold text-slate-200", classes ].reject(&:blank?).join(" "),
                   style: "width: #{size}px; height: #{size}px;"
     end
   end
@@ -107,7 +107,7 @@ module ApplicationHelper
   def pagination_pages(pagy)
     return (1..pagy.pages).to_a if pagy.pages <= 7
 
-    pages = [1]
+    pages = [ 1 ]
     start_page = [ pagy.page - 1, 2 ].max
     end_page = [ pagy.page + 1, pagy.pages - 1 ].min
 
