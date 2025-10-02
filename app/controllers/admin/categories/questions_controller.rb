@@ -12,7 +12,7 @@ module Admin
         else
           @questions = @category.questions.order(:created_at)
           @new_question = prepare_new_question(@question)
-          render "admin/categories/show", status: :unprocessable_entity
+          render "admin/categories/show", status: 422
         end
       end
 

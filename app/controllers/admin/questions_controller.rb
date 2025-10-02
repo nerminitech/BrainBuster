@@ -24,7 +24,7 @@ module Admin
         redirect_to admin_question_path(@question), notice: "Frage wurde erstellt."
       else
         set_categories
-        render :new, status: :unprocessable_entity
+        render :new, status: 422
       end
     end
 
@@ -33,7 +33,7 @@ module Admin
         redirect_to admin_question_path(@question), notice: "Frage wurde aktualisiert."
       else
         set_categories
-        render :edit, status: :unprocessable_entity
+        render :edit, status: 422
       end
     end
 

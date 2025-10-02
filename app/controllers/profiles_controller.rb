@@ -29,13 +29,13 @@ class ProfilesController < ApplicationController
         flash.now[:error] = "Profil konnte nicht aktualisiert werden."
         format.html do
           @user = current_user
-          render :show, status: :unprocessable_entity
+          render :show, status: 422
         end
         format.turbo_stream do
           render turbo_stream: [
             turbo_stream.replace("profile_form", partial: "profiles/form", locals: { user: @user }),
             turbo_stream.replace("flash_messages", partial: "shared/flash")
-          ], status: :unprocessable_entity
+          ], status: 422
         end
       end
     end

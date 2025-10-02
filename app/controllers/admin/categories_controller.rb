@@ -22,7 +22,7 @@ module Admin
       if @category.save
         redirect_to admin_category_path(@category), notice: "Kategorie wurde erstellt."
       else
-        render :new, status: :unprocessable_entity
+        render :new, status: 422
       end
     end
 
@@ -30,7 +30,7 @@ module Admin
       if @category.update(category_params)
         redirect_to admin_category_path(@category), notice: "Kategorie wurde aktualisiert."
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: 422
       end
     end
 

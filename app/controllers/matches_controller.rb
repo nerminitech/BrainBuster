@@ -19,7 +19,7 @@ class MatchesController < ApplicationController
       @categories = Category.order(:name)
       @match = Match.new(match_params)
       @match.errors.add(:category, "muss ausgewählt werden")
-      render :new, status: :unprocessable_entity and return
+      render :new, status: 422 and return
     end
 
     category = Category.find(match_params[:category_id])
@@ -39,7 +39,7 @@ class MatchesController < ApplicationController
     @categories = Category.order(:name)
     flash.now[:alert] = e.record.errors.full_messages.to_sentence
     @match = Match.new(match_params)
-    render :new, status: :unprocessable_entity
+    render :new, status: 422
   end
 
   def show
