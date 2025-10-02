@@ -1,18 +1,16 @@
 <% content_for :title, "Dein Profil · BrainBuster" %>
 
 <div class="mx-auto space-y-8 max-w-5xl">
-  <turbo-frame id="profile_overview">
+  <div>
     <%= render "overview", user: @user %>
-  </turbo-frame>
+  </div>
 
   <div class="grid gap-6 lg:grid-cols-[2fr,1fr]">
     <div class="p-6 rounded-xl border border-slate-800 bg-slate-900/70">
       <h2 class="text-lg font-semibold text-white">Profil anpassen</h2>
-      <p class="mt-1 text-sm text-slate-400">Passe deinen Anzeigenamen, deine Bio oder dein Profilbild an. Alle Anpassungen werden sofort mit Hotwire aktualisiert.</p>
+      <p class="mt-1 text-sm text-slate-400">Passe deinen Anzeigenamen, deine Bio oder dein Profilbild an und speichere deine Änderungen.</p>
       <div class="mt-6">
-        <turbo-frame id="profile_form">
-          <%= render "form", user: @user %>
-        </turbo-frame>
+        <%= render "form", user: @user %>
       </div>
     </div>
 

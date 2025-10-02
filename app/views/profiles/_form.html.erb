@@ -9,7 +9,11 @@
   </div>
 <% end %>
 
-<%= form_with model: user, url: profile_path, method: :patch, html: { multipart: true, class: "space-y-6" } do |form| %>
+<%= form_with model: user,
+              url: profile_path,
+              method: :patch,
+              data: { turbo: false },
+              html: { multipart: true, class: "space-y-6" } do |form| %>
   <div class="grid gap-4 sm:grid-cols-2">
     <div>
       <%= form.label :username, "Benutzername", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
