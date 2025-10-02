@@ -19,6 +19,7 @@ class User < ApplicationRecord
   validates :display_name, length: { maximum: 60 }, allow_blank: true
   validates :bio, length: { maximum: 280 }, allow_blank: true
   validate :avatar_format
+  validate :password_complexity
 
   before_validation :ensure_display_name
   before_save :purge_avatar_if_requested
@@ -33,6 +34,19 @@ class User < ApplicationRecord
   end
 
   private
+
+  def password_complexity
+    return if password.blank?
+
+    requirements = []
+    requirements << "einen Großbuchstaben" unless password.match?(/[A-Z]/)
+    requirements << "eine Zahl" unless password.match?(/\d/)
+    requirements << "ein Sonderzeichen" unless password.match?(/[^A-Za-z0-9]/)
+
+    return if requirements.empty?
+
+    errors.add(:password, "muss #{requirements.to_sentence(two_words_connector: ' und ', last_word_connector: ' und ')} enthalten")
+  end
 
   def ensure_display_name
     self.display_name = username if display_name.blank?
