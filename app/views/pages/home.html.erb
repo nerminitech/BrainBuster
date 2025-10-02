@@ -3,9 +3,8 @@
     <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-6 shadow-xl shadow-emerald-500/5">
       <h2 class="text-2xl font-bold text-white">Starte dein nächstes Quiz</h2>
       <p class="mt-2 text-sm text-slate-300">Wähle eine Kategorie und fordere dich selbst oder andere Spieler heraus.</p>
-      <div class="mt-5 flex flex-wrap gap-3">
-        <%= link_to "Neues Solo-Quiz", new_match_path(mode: "solo"), class: "rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
-        <%= link_to "Freunde herausfordern", new_match_path(mode: "versus"), class: "rounded-lg border border-slate-700 px-4 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-800" %>
+      <div class="mt-5">
+        <%= link_to "Neues Quiz erstellen", new_match_path, class: "rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
       </div>
     </div>
 

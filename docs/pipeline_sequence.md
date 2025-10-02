@@ -19,7 +19,7 @@ sequenceDiagram
     CI->>QA: bundle exec bundler-audit update && check
 
     Note over CI: Testdatenbank vorbereiten
-    CI->>CI: bin/rails db:test:prepare
+    CI->>CI:  bin/rails db:test:prepare
 
     Note over QA: Automatisierte Tests
     CI->>QA: bin/rails test (Unit & Integration)
