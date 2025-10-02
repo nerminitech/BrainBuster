@@ -1,0 +1,27 @@
+de:
+  activerecord:
+    models:
+      user: "Benutzer"
+    attributes:
+      user:
+        username: "Benutzername"
+        display_name: "Anzeigename"
+        email: "E-Mail"
+        password: "Passwort"
+        password_confirmation: "Passwortbestätigung"
+        current_password: "Aktuelles Passwort"
+        remember_me: "Angemeldet bleiben"
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      blank: "darf nicht leer sein"
+      taken: "ist bereits vergeben"
+      too_short: "ist zu kurz (mindestens %{count} Zeichen)"
+      too_long: "ist zu lang (höchstens %{count} Zeichen)"
+      confirmation: "stimmt nicht mit %{attribute} überein"
+      invalid: "ist ungültig"
+      not_a_number: "ist keine gültige Zahl"
+      accepted: "muss akzeptiert werden"
+      already_taken: "ist bereits vergeben"
+      present: "darf nicht ausgefüllt sein"
+      record_invalid: "Validierung fehlgeschlagen: %{errors}"

@@ -20,9 +20,7 @@
       <span class="text-xs text-slate-400">Verbleibende Fragen: <%= @match.question_count - @positions_answered %></span>
     </div>
     <h3 class="mt-4 text-xl font-semibold text-white"><%= @current_question.content %></h3>
-    <% if @current_question.explanation.present? %>
-      <p class="mt-2 text-xs text-slate-500">Hinweis: <%= @current_question.explanation %></p>
-    <% end %>
+    <%# Hinweis bewusst ausgeblendet %>
 
     <%= form_with url: match_attempts_path(@match), method: :post, data: { countdown_target: "form" }, class: "mt-6 space-y-3" do |form| %>
       <%= hidden_field_tag :match_question_id, @match_question.id %>
