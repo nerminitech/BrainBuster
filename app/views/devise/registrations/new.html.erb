@@ -35,6 +35,15 @@
     </div>
 
     <div>
+      <%= form.label :role, "Account-Typ", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
+      <div class="mt-2 flex items-center gap-2">
+        <%= form.check_box :role, { class: "h-4 w-4 rounded border border-slate-700 bg-slate-950 text-emerald-500 focus:ring-emerald-500" }, "admin", "player" %>
+        <span class="text-sm text-slate-300">Als Administrator registrieren</span>
+      </div>
+      <p class="mt-1 text-xs text-slate-500">Deaktiviert bleibt der Account ein normaler Spieler.</p>
+    </div>
+
+    <div>
       <%= form.label :password, "Passwort", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
       <%= form.password_field :password, autocomplete: "new-password", class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500 focus:outline-none" %>
       <p class="mt-1 text-xs text-slate-500">Mindestens 8 Zeichen mit einem Großbuchstaben, einer Zahl und einem Sonderzeichen.</p>
