@@ -72,6 +72,8 @@ class MatchesController < ApplicationController
     @current_question = match_question.question
     @positions_answered = @participation.question_attempts.count
     @time_remaining_seconds = [ @match.time_per_question - elapsed_seconds, 0 ].max
+    started_at = @participation.current_question_started_at || Time.current
+    @question_deadline_epoch_ms = ((started_at + @match.time_per_question.seconds).to_f * 1000).to_i
   end
 
   def join

@@ -2,28 +2,70 @@
   <% next if message.blank? %>
 
   <% variant = type.to_sym %>
-  <% css = case variant
+  <% base_classes, icon_wrapper_classes, label = case variant
           when :success
-            "border-l-4 border-emerald-400 bg-emerald-500/10 text-emerald-50 shadow-lg ring-1 ring-emerald-400/40"
+            [
+              "bg-gradient-to-r from-emerald-500 to-emerald-400 text-white shadow-2xl ring-2 ring-emerald-200/70",
+              "bg-white/15 text-white",
+              "Erfolg"
+            ]
           when :warning, :alert
-            "border-l-4 border-amber-400 bg-amber-500/10 text-amber-50 shadow-lg ring-1 ring-amber-400/40"
+            [
+              "bg-gradient-to-r from-amber-500 to-amber-400 text-white shadow-2xl ring-2 ring-amber-200/70",
+              "bg-white/15 text-white",
+              "Hinweis"
+            ]
           when :error
-            "border-l-4 border-rose-400 bg-rose-500/10 text-rose-50 shadow-lg ring-1 ring-rose-400/40"
+            [
+              "bg-gradient-to-r from-rose-600 to-rose-500 text-white shadow-2xl ring-2 ring-rose-200/70",
+              "bg-white/15 text-white",
+              "Fehler"
+            ]
           else
-            "border-l-4 border-slate-400 bg-slate-800 text-slate-100 shadow-lg ring-1 ring-slate-500/30"
+            [
+              "bg-gradient-to-r from-slate-800 to-slate-700 text-slate-100 shadow-2xl ring-2 ring-slate-400/60",
+              "bg-white/10 text-slate-100",
+              "Info"
+            ]
           end %>
-  <% label = case variant
-            when :success then "Erfolg"
-            when :warning, :alert then "Hinweis"
-            when :error then "Fehler"
-            else "Info"
-            end %>
 
-  <div class="relative mb-4 flex items-start gap-3 overflow-hidden rounded-2xl px-5 py-4 text-sm font-semibold leading-5 transition-transform duration-300 ease-out <%= css %>" role="status">
-    <span class="mt-1 inline-flex h-3 w-3 flex-none animate-ping rounded-full bg-current opacity-80"></span>
-    <div class="flex flex-col gap-1">
-      <span class="text-xs uppercase tracking-wide opacity-90"><%= label %></span>
-      <span class="text-base font-medium leading-6"><%= message %></span>
+  <% icon_svg = case variant
+          when :success
+            tag.svg(xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", stroke_width: 2, class: "h-6 w-6") do
+              tag.path(d: "M5 13l4 4L19 7", stroke_linecap: "round", stroke_linejoin: "round")
+            end
+          when :warning, :alert
+            tag.svg(xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", stroke_width: 2, class: "h-6 w-6") do
+              safe_join([
+                tag.path(d: "M12 9v4", stroke_linecap: "round", stroke_linejoin: "round"),
+                tag.path(d: "M12 17h.01", stroke_linecap: "round", stroke_linejoin: "round"),
+                tag.path(d: "M10.29 3.86L1.82 18a1 1 0 00.86 1.5h18.64a1 1 0 00.86-1.5L13.71 3.86a1 1 0 00-1.72 0z", stroke_linecap: "round", stroke_linejoin: "round")
+              ])
+            end
+          when :error
+            tag.svg(xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", stroke_width: 2, class: "h-6 w-6") do
+              safe_join([
+                tag.path(d: "M6 18L18 6", stroke_linecap: "round", stroke_linejoin: "round"),
+                tag.path(d: "M6 6l12 12", stroke_linecap: "round", stroke_linejoin: "round")
+              ])
+            end
+          else
+            tag.svg(xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", stroke_width: 2, class: "h-6 w-6") do
+              safe_join([
+                tag.circle(cx: 12, cy: 12, r: 9),
+                tag.line(x1: 12, y1: 8, x2: 12, y2: 12, stroke_linecap: "round"),
+                tag.circle(cx: 12, cy: 16, r: 0.5, fill: "currentColor")
+              ])
+            end
+          end %>
+
+  <div class="relative mb-6 flex items-center gap-4 overflow-hidden rounded-3xl border border-white/10 px-6 py-5 text-base font-semibold leading-6 backdrop-blur-sm transition-transform duration-300 ease-out <%= base_classes %>" role="alert" aria-live="assertive">
+    <div class="flex h-12 w-12 flex-none items-center justify-center rounded-full shadow-md <%= icon_wrapper_classes %>">
+      <%= icon_svg %>
+    </div>
+    <div class="flex flex-col gap-1 text-left">
+      <span class="text-xs font-bold uppercase tracking-[0.2em] opacity-90"><%= label %></span>
+      <span class="text-lg font-semibold"><%= message %></span>
     </div>
   </div>
 <% end %>

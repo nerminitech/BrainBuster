@@ -2,52 +2,75 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static values = {
-    remaining: Number
+    remaining: Number,
+    deadline: Number
   }
 
   static targets = ["display", "form"]
 
   connect() {
     this.submitted = false
-    this.remaining = Math.max(0, Math.floor(this.remainingValue || 0))
-    this.updateDisplay()
+    this.remaining = 0
+    this.syncRemainingFromDeadline()
 
     if (this.remaining <= 0) {
       this.expire()
     } else {
-      this.timerId = setInterval(() => this.tick(), 1000)
+      this.startTimer()
     }
   }
 
   disconnect() {
-    if (this.timerId) {
-      clearInterval(this.timerId)
-    }
+    this.stopTimer()
   }
 
   tick() {
-    this.remaining -= 1
+    this.syncRemainingFromDeadline()
     if (this.remaining <= 0) {
-      this.remaining = 0
-      this.updateDisplay()
       this.expire()
-    } else {
-      this.updateDisplay()
     }
   }
 
   updateDisplay() {
     if (this.hasDisplayTarget) {
-      this.displayTarget.textContent = `${this.remaining}s`
+      const seconds = Number.isFinite(this.remaining) ? Math.max(0, Math.floor(this.remaining)) : 0
+      this.displayTarget.textContent = `${seconds}s`
     }
   }
 
   expire() {
     if (this.submitted) return
     this.submitted = true
-    if (this.timerId) clearInterval(this.timerId)
+    this.stopTimer()
     if (this.hasFormTarget) {
       this.formTarget.requestSubmit()
     }
+  }
+
+  startTimer() {
+    this.stopTimer()
+    this.timerId = setInterval(() => this.tick(), 250)
+  }
+
+  stopTimer() {
+    if (this.timerId) {
+      clearInterval(this.timerId)
+      this.timerId = null
+    }
+  }
+
+  syncRemainingFromDeadline() {
+    const nowMs = Date.now()
+
+    if (this.hasDeadlineValue && this.deadlineValue > 0) {
+      const diffMs = this.deadlineValue - nowMs
+      this.remaining = Math.max(0, Math.ceil(diffMs / 1000))
+    } else if (this.hasRemainingValue) {
+      this.remaining = Math.max(0, Math.floor(this.remainingValue))
+    } else {
+      this.remaining = 0
+    }
+
+    this.updateDisplay()
   }
 }

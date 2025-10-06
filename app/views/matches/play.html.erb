@@ -1,6 +1,6 @@
 <% content_for :title, "Match ##{@match.share_code} · Frage #{@match_question.position + 1}" %>
 
-<section class="space-y-6" data-controller="countdown" data-countdown-remaining-value="<%= @time_remaining_seconds %>">
+<section class="space-y-6" data-controller="countdown" data-countdown-remaining-value="<%= @time_remaining_seconds %>" data-countdown-deadline-value="<%= @question_deadline_epoch_ms %>">
   <header class="flex items-center justify-between">
     <div>
       <p class="text-xs text-slate-400">Match-Code: <span class="font-mono text-emerald-300"><%= @match.share_code %></span></p>
