@@ -28,3 +28,8 @@ de:
   time:
     formats:
       short: "%d.%m.%Y %H:%M"
+  date:
+    formats:
+      default: "%d.%m.%Y"
+      long: "%d. %B %Y"
+      short: "%d.%m."
