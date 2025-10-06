@@ -21,15 +21,35 @@ production:
   primary:
     <<: *default
     url: <%= ENV["DATABASE_URL"] %>
+    database: <%= ENV.fetch("PROD_DB_NAME", "brainbuster_production") %>
+    username: <%= ENV.fetch("PROD_DB_USER", ENV.fetch("PGUSER", "root")) %>
+    password: <%= ENV.fetch("PROD_DB_PASSWORD", ENV.fetch("PGPASSWORD", "root")) %>
+    host: <%= ENV.fetch("PROD_DB_HOST", ENV.fetch("PGHOST", "localhost")) %>
+    port: <%= ENV.fetch("PROD_DB_PORT", ENV.fetch("PGPORT", 5432)) %>
   cache:
     <<: *default
     url: <%= ENV["DATABASE_URL"] %>
+    database: <%= ENV.fetch("PROD_CACHE_DB_NAME", ENV.fetch("PROD_DB_NAME", "brainbuster_production")) %>
+    username: <%= ENV.fetch("PROD_DB_USER", ENV.fetch("PGUSER", "root")) %>
+    password: <%= ENV.fetch("PROD_DB_PASSWORD", ENV.fetch("PGPASSWORD", "root")) %>
+    host: <%= ENV.fetch("PROD_DB_HOST", ENV.fetch("PGHOST", "localhost")) %>
+    port: <%= ENV.fetch("PROD_DB_PORT", ENV.fetch("PGPORT", 5432)) %>
     migrations_paths: db/cache_migrate
   queue:
     <<: *default
     url: <%= ENV["DATABASE_URL"] %>
+    database: <%= ENV.fetch("PROD_QUEUE_DB_NAME", ENV.fetch("PROD_DB_NAME", "brainbuster_production")) %>
+    username: <%= ENV.fetch("PROD_DB_USER", ENV.fetch("PGUSER", "root")) %>
+    password: <%= ENV.fetch("PROD_DB_PASSWORD", ENV.fetch("PGPASSWORD", "root")) %>
+    host: <%= ENV.fetch("PROD_DB_HOST", ENV.fetch("PGHOST", "localhost")) %>
+    port: <%= ENV.fetch("PROD_DB_PORT", ENV.fetch("PGPORT", 5432)) %>
     migrations_paths: db/queue_migrate
   cable:
     <<: *default
     url: <%= ENV["DATABASE_URL"] %>
+    database: <%= ENV.fetch("PROD_CABLE_DB_NAME", ENV.fetch("PROD_DB_NAME", "brainbuster_production")) %>
+    username: <%= ENV.fetch("PROD_DB_USER", ENV.fetch("PGUSER", "root")) %>
+    password: <%= ENV.fetch("PROD_DB_PASSWORD", ENV.fetch("PGPASSWORD", "root")) %>
+    host: <%= ENV.fetch("PROD_DB_HOST", ENV.fetch("PGHOST", "localhost")) %>
+    port: <%= ENV.fetch("PROD_DB_PORT", ENV.fetch("PGPORT", 5432)) %>
     migrations_paths: db/cable_migrate

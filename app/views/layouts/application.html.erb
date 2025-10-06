@@ -54,7 +54,6 @@
         <div class="flex justify-between items-center px-6 py-6 mx-auto w-full max-w-6xl text-xs text-slate-400">
           <span>Von Team 11</span>
           <nav class="flex gap-4 items-center">
-            <%= link_to "Kategorien", categories_path, class: "hover:text-slate-200" %>
             <span>Punkte insgesamt: <%= current_user&.total_points || 0 %></span>
           </nav>
         </div>
