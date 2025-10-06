@@ -25,3 +25,6 @@ de:
       already_taken: "ist bereits vergeben"
       present: "darf nicht ausgefüllt sein"
       record_invalid: "Validierung fehlgeschlagen: %{errors}"
+  time:
+    formats:
+      short: "%d.%m.%Y %H:%M"

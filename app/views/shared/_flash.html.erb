@@ -1,16 +1,29 @@
 <% flash.each do |type, message| %>
   <% next if message.blank? %>
-  <% css = case type.to_sym
+
+  <% variant = type.to_sym %>
+  <% css = case variant
           when :success
-            "border-emerald-700 bg-emerald-900/40 text-emerald-100"
+            "border-l-4 border-emerald-400 bg-emerald-500/10 text-emerald-50 shadow-lg ring-1 ring-emerald-400/40"
           when :warning, :alert
-            "border-amber-700 bg-amber-900/40 text-amber-100"
+            "border-l-4 border-amber-400 bg-amber-500/10 text-amber-50 shadow-lg ring-1 ring-amber-400/40"
           when :error
-            "border-rose-700 bg-rose-900/40 text-rose-100"
+            "border-l-4 border-rose-400 bg-rose-500/10 text-rose-50 shadow-lg ring-1 ring-rose-400/40"
           else
-            "border-slate-700 bg-slate-900/70 text-slate-100"
+            "border-l-4 border-slate-400 bg-slate-800 text-slate-100 shadow-lg ring-1 ring-slate-500/30"
           end %>
-  <div class="mb-4 rounded-md border px-4 py-3 text-sm <%= css %>">
-    <%= message %>
+  <% label = case variant
+            when :success then "Erfolg"
+            when :warning, :alert then "Hinweis"
+            when :error then "Fehler"
+            else "Info"
+            end %>
+
+  <div class="relative mb-4 flex items-start gap-3 overflow-hidden rounded-2xl px-5 py-4 text-sm font-semibold leading-5 transition-transform duration-300 ease-out <%= css %>" role="status">
+    <span class="mt-1 inline-flex h-3 w-3 flex-none animate-ping rounded-full bg-current opacity-80"></span>
+    <div class="flex flex-col gap-1">
+      <span class="text-xs uppercase tracking-wide opacity-90"><%= label %></span>
+      <span class="text-base font-medium leading-6"><%= message %></span>
+    </div>
   </div>
 <% end %>

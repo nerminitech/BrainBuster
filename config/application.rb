@@ -18,7 +18,7 @@ module BrainBuster
 
     config.i18n.available_locales = %i[de en]
     config.i18n.default_locale = :de
-    config.i18n.fallbacks = [:de, :en]
+    config.i18n.fallbacks = %i[de en]
 
     # Configuration for the application, engines, and railties goes here.
     #
