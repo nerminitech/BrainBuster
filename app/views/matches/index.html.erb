@@ -36,7 +36,7 @@
       <%= form_with url: join_matches_path, method: :post, class: "mt-4 space-y-3" do |form| %>
         <%= form.label :share_code, "Match-Code", class: "text-xs font-semibold uppercase tracking-wide text-slate-400" %>
         <%= form.text_field :share_code, class: "w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500 focus:outline-none", placeholder: "ABC123" %>
-        <%= form.submit "Beitreten", class: "w-full rounded-md bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
+        <%= form.submit "Beitreten", class: "w-full cursor-pointer rounded-md bg-emerald-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:ring-offset-2 focus:ring-offset-slate-950" %>
       <% end %>
     </div>
   </aside>
