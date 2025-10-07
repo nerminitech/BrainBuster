@@ -2,11 +2,13 @@ module ApplicationHelper
   include Pagy::Frontend
 
   def nav_link_classes(path)
+    # Kuerzelt die CSS-Klasse fuer Navigationseintraege zusammen und hebt den aktiven Link hervor.
     base = "transition-colors hover:text-emerald-300"
     current_page?(path) ? "text-emerald-400 #{base}" : "text-slate-300 #{base}"
   end
 
   def difficulty_badge(difficulty)
+    # Wandelt die gespeicherte Schwierigkeit in einen farbigen Hinweis-Badge fuer die Ansicht.
     colors = {
       "leicht" => "bg-emerald-500/20 text-emerald-200",
       "mittel" => "bg-blue-500/20 text-blue-200",
@@ -18,6 +20,7 @@ module ApplicationHelper
   end
 
   def avatar_for(user, size: 48, classes: "")
+    # Liefert das richtige Profilbild: Entweder das hochgeladene Bild oder einen Platzhalter.
     base_classes = [ "rounded-full border border-slate-800 object-cover", classes ].reject(&:blank?).join(" ")
 
     if user&.avatar&.attached?
@@ -32,6 +35,7 @@ module ApplicationHelper
   end
 
   def pagy_nav_slate(pagy)
+    # Erstellt die schicke Paginierung mit Vor-/Zurueck-Buttons und Seitenzahlen.
     return if pagy.pages <= 1
 
     content_tag :nav, class: "pagy-nav mt-6 flex justify-center" do
@@ -48,6 +52,7 @@ module ApplicationHelper
   private
 
   def pagination_prev_button(pagy)
+    # Baut den "Zurueck"-Knopf und deaktiviert ihn, falls es keine vorherige Seite gibt.
     label = raw("&larr;")
     if pagy.prev
       content_tag :li do
@@ -59,6 +64,7 @@ module ApplicationHelper
   end
 
   def pagination_next_button(pagy)
+    # Baut den "Weiter"-Knopf fuer die letzte Seite.
     label = raw("&rarr;")
     if pagy.next
       content_tag :li do
@@ -70,6 +76,7 @@ module ApplicationHelper
   end
 
   def pagination_page_buttons(pagy)
+    # Stellt die einzelnen Seitenzahlen inklusive Auslassungszeichen zusammen.
     pages = pagination_pages(pagy)
 
     pages.map do |item|
@@ -89,18 +96,22 @@ module ApplicationHelper
   end
 
   def pagination_link_classes
+    # Standard-CSS fuer aktive Links.
     "rounded-full px-3 py-1 text-sm font-medium text-slate-200 transition hover:bg-emerald-500/20 hover:text-emerald-200"
   end
 
   def pagination_active_classes
+    # Optik fuer die aktuell angezeigte Seite.
     "rounded-full bg-emerald-500 px-3 py-1 text-sm font-semibold text-white shadow shadow-emerald-500/40"
   end
 
   def pagination_disabled_classes
+    # Optik fuer ausgegraute Bedienelemente ohne Funktion.
     "rounded-full px-3 py-1 text-sm font-medium text-slate-500"
   end
 
   def pagination_pages(pagy)
+    # Legt fest, welche Seiten als Buttons angezeigt werden (inkl. kuerzender Ellipsen).
     return (1..pagy.pages).to_a if pagy.pages <= 7
 
     pages = [ 1 ]

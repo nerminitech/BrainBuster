@@ -1,7 +1,9 @@
+<!-- Geht alle Flash-Nachrichten durch, die Rails fuer diese Seite bereithält -->
 <% flash.each do |type, message| %>
   <% next if message.blank? %>
 
   <% variant = type.to_sym %>
+  <!-- Sorgt dafuer, dass jede Nachricht passende Farben, Icons und Texte bekommt -->
   <% base_classes, icon_wrapper_classes, label = case variant
           when :success
             [
@@ -29,6 +31,7 @@
             ]
           end %>
 
+  <!-- Waehlt das richtige Symbol entsprechend des Nachrichtentyps -->
   <% icon_svg = case variant
           when :success
             tag.svg(xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", stroke_width: 2, class: "h-6 w-6") do
@@ -59,6 +62,7 @@
             end
           end %>
 
+  <!-- Die eigentliche Box, die auf der Seite angezeigt wird -->
   <div class="relative mb-6 flex items-center gap-4 overflow-hidden rounded-3xl border border-white/10 px-6 py-5 text-base font-semibold leading-6 backdrop-blur-sm transition-transform duration-300 ease-out <%= base_classes %>" role="alert" aria-live="assertive">
     <div class="flex h-12 w-12 flex-none items-center justify-center rounded-full shadow-md <%= icon_wrapper_classes %>">
       <%= icon_svg %>

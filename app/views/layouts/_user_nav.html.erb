@@ -1,14 +1,18 @@
+<!-- Zwei Zustaende: angemeldete Person oder Gast -->
 <% if user.present? %>
+  <!-- Klickbarer Bereich mit Avatar und Namen fuehrt zum Profil -->
   <%= link_to profile_path, class: "group flex items-center gap-3", data: { turbo_frame: "_top" } do %>
     <%= avatar_for(user, size: 40, classes: "ring-2 ring-transparent transition group-hover:ring-emerald-400/60") %>
     <div class="hidden text-left md:block">
       <p class="text-sm font-semibold text-white transition group-hover:text-emerald-300"><%= truncate(user.display_name, length: 20) %></p>
     </div>
   <% end %>
+  <!-- Abmelden als Button, damit eine POST/DELETE-Anfrage gesendet wird -->
   <%= button_to "Abmelden", destroy_user_session_path, method: :delete,
                 form: { class: "contents", data: { turbo_frame: "_top" } },
                 class: "rounded-md bg-red-500 px-3 py-1 font-semibold text-white transition hover:bg-red-400" %>
 <% else %>
+  <!-- Gast-Ansicht mit Links zum Registrieren oder Einloggen -->
   <%= link_to "Registrieren", new_user_registration_path,
               class: "rounded-md bg-emerald-500 px-3 py-1 font-semibold text-white transition hover:bg-emerald-400",
               data: { turbo_frame: "_top" } %>

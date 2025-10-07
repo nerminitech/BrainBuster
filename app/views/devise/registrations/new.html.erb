@@ -1,11 +1,13 @@
 <% content_for :title, "Registrieren · BrainBuster" %>
 
+<!-- Anmeldeformular fuer neue Spielerinnen und Spieler -->
 <div class="mx-auto max-w-md rounded-xl border border-slate-800 bg-slate-900/70 p-8 shadow-2xl shadow-emerald-500/10">
   <h2 class="text-2xl font-bold text-white">Kostenloses Konto erstellen</h2>
   <p class="mt-2 text-sm text-slate-300">Mit einem Account kannst du deine Punkte speichern, Achievements freischalten und an Duellen teilnehmen.</p>
 
   <%= render "devise/shared/error_messages", resource: resource %>
 
+  <!-- Rails erzeugt anhand des Models automatisch die passenden Formularfelder -->
   <%= form_with model: resource, url: registration_path(resource_name), html: { class: "mt-6 space-y-4", multipart: true } do |form| %>
     <div>
       <%= form.label :username, "Benutzername", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
@@ -13,6 +15,7 @@
     </div>
 
     <div>
+      <!-- Optionaler Anzeigename fuer das Profil -->
       <%= form.label :display_name, "Anzeigename (optional)", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
       <%= form.text_field :display_name, class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500 focus:outline-none" %>
     </div>
@@ -24,6 +27,7 @@
     </div>
 
     <div>
+      <!-- Upload eines Profilbildes -->
       <%= form.label :avatar, "Profilbild", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
       <%= form.file_field :avatar, accept: "image/png,image/jpeg,image/webp", class: "mt-2 w-full text-sm text-slate-300 file:mr-4 file:rounded-md file:border-0 file:bg-emerald-500 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-emerald-400" %>
       <p class="mt-1 text-xs text-slate-500">PNG, JPG oder WEBP bis 5 MB.</p>
@@ -35,6 +39,7 @@
     </div>
 
     <div>
+      <!-- Ermoeglicht Accounts mit Adminrechten -->
       <%= form.label :role, "Account-Typ", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
       <div class="mt-2 flex items-center gap-2">
         <%= form.check_box :role, { class: "h-4 w-4 rounded border border-slate-700 bg-slate-950 text-emerald-500 focus:ring-emerald-500" }, "admin", "player" %>
@@ -44,6 +49,7 @@
     </div>
 
     <div>
+      <!-- Standard-Passwortfeld -->
       <%= form.label :password, "Passwort", class: "block text-xs font-semibold uppercase tracking-wide text-slate-400" %>
       <%= form.password_field :password, autocomplete: "new-password", class: "mt-2 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500 focus:outline-none" %>
       <p class="mt-1 text-xs text-slate-500">Mindestens 8 Zeichen mit einem Großbuchstaben, einer Zahl und einem Sonderzeichen.</p>

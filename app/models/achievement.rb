@@ -1,4 +1,5 @@
 class Achievement < ApplicationRecord
+  # Alle moeglichen Kennzahlen, auf deren Basis Achievements vergeben werden koennen.
   CONDITIONS = %w[
     matches_completed
     total_points
@@ -11,6 +12,7 @@ class Achievement < ApplicationRecord
     match_score
   ].freeze
 
+  # Vollstaendige interne Beschreibung aller Achievements, die per Seeds eingelesen wird.
   CATALOG = [
     {
       code: "first_steps",

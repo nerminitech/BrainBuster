@@ -2,6 +2,7 @@
 
 puts "==> Initialisiere BrainBuster-Datenbank"
 
+# 1) Administrator anlegen, falls noch nicht vorhanden.
 admin = User.find_or_initialize_by(email: "admin@brainbuster.local")
 if admin.new_record?
   admin.username = "admin"
@@ -16,12 +17,14 @@ else
   puts "   ✔ Admin-Konto vorhanden"
 end
 
+# 2) Achievement-Liste mit der Datenbank synchron halten.
 Achievement.catalog.each do |attrs|
   achievement = Achievement.find_or_initialize_by(code: attrs[:code])
   achievement.update!(attrs)
 end
 puts "   ✔ Achievements synchronisiert (#{Achievement.count} gesamt)"
 
+# 3) Beispiel-Kategorien samt Fragen und Antworten importieren.
 categories_payload = [
   {
     name: "Allgemeinwissen",

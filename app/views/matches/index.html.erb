@@ -1,16 +1,19 @@
 <section class="grid gap-8 lg:grid-cols-[1.4fr,1fr]">
+  <!-- Linke Seite: Uebersicht ueber alle eigenen Matches -->
   <div class="space-y-6">
     <header class="flex items-center justify-between">
       <div>
         <h2 class="text-3xl font-bold text-white">Deine Matches</h2>
         <p class="mt-1 text-sm text-slate-300">Starte neue Quizrunden oder setze begonnene Spiele fort.</p>
       </div>
+      <!-- Button, mit dem ein neues Quiz erstellt wird -->
       <%= link_to "Neues Quiz", new_match_path, class: "rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
     </header>
 
     <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
       <h3 class="text-lg font-semibold text-white">Deine Spiele</h3>
       <% if @participations.any? %>
+        <!-- Liste aller Matches, an denen die Person teilnimmt oder teilgenommen hat -->
         <ul class="mt-4 space-y-3">
           <% @participations.each do |participation| %>
             <li class="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-900/50 px-4 py-3">
@@ -18,6 +21,7 @@
                 <p class="text-sm font-semibold text-white"><%= participation.match.title || participation.match.category.name %></p>
                 <p class="text-xs text-slate-400"><%= participation.status.titleize %> · <%= l participation.created_at, format: :short %></p>
               </div>
+              <!-- Je nach Fortschritt weiter spielen oder Ergebnis ansehen -->
               <%= link_to participation.completed? ? "Ergebnis" : "Weiter", participation.completed? ? match_path(participation.match) : play_match_path(participation.match), class: "rounded-md bg-emerald-500 px-3 py-1 text-xs font-semibold text-white hover:bg-emerald-400" %>
             </li>
           <% end %>
@@ -30,10 +34,12 @@
   </div>
 
   <aside class="space-y-6">
+    <!-- Rechte Seite: Feld fuer den Beitritt via Code -->
     <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
       <h3 class="text-lg font-semibold text-white">Match-Code eingeben</h3>
       <p class="mt-2 text-sm text-slate-300">Du hast einen Einladungs-Code erhalten? Tippe ihn hier ein:</p>
       <%= form_with url: join_matches_path, method: :post, class: "mt-4 space-y-3" do |form| %>
+        <!-- Eingabefeld fuer den Einladungscode -->
         <%= form.label :share_code, "Match-Code", class: "text-xs font-semibold uppercase tracking-wide text-slate-400" %>
         <%= form.text_field :share_code, class: "w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-white focus:border-emerald-500 focus:outline-none", placeholder: "ABC123" %>
         <%= form.submit "Beitreten", class: "w-full cursor-pointer rounded-md bg-emerald-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:ring-offset-2 focus:ring-offset-slate-950" %>

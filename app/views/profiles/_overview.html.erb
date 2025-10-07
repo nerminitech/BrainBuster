@@ -1,6 +1,8 @@
+<!-- Profil-Zusammenfassung mit Avatar und wichtigsten Kennzahlen -->
 <div class="p-8 mb-8 rounded-xl border shadow-xl border-slate-800 bg-slate-900/70 shadow-emerald-500/10">
   <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
     <div class="flex gap-4 items-center">
+      <!-- Zeigt das aktuelle Profilbild oder einen Platzhalter -->
       <%= avatar_for(user, size: 88, classes: "shadow-xl shadow-emerald-500/20") %>
       <div>
         <h1 class="text-2xl font-semibold text-white"><%= user.display_name %></h1>
@@ -9,6 +11,7 @@
       </div>
     </div>
     <div class="flex gap-4 items-center text-sm text-slate-300">
+      <!-- Kennzahlenkarten fuer Punkte und Achievements -->
       <div class="px-4 py-3 text-center rounded-lg border border-slate-800 bg-slate-950">
         <p class="text-xs tracking-widest uppercase text-slate-500">Gesamtpunkte</p>
         <p class="mt-1 text-xl font-semibold text-emerald-400"><%= number_with_delimiter(user.total_points) %></p>
@@ -21,6 +24,7 @@
   </div>
 
   <% if user.bio.present? %>
+    <!-- Bio wird nur angezeigt, wenn sie wirklich hinterlegt wurde -->
     <div class="p-4 mt-6 text-sm rounded-lg border border-slate-800 bg-slate-950 text-slate-200">
       <h2 class="text-xs font-semibold tracking-wide uppercase text-slate-500">Über mich</h2>
       <p class="mt-2 leading-relaxed text-slate-300"><%= simple_format(user.bio) %></p>
