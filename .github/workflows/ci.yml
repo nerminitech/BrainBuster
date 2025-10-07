@@ -53,5 +53,8 @@ jobs:
       - name: Prepare database
         run: bin/rails db:test:prepare
 
+      - name: Run integration tests
+        run: bin/rails test:integration
+
       - name: Run test suite
         run: bin/rails test
