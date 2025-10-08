@@ -2,6 +2,7 @@ require "test_helper"
 
 class QuizEngineMatchBuilderTest < ActiveSupport::TestCase
   def setup
+    # Builder benoetigt eine Spielerin, eine Kategorie sowie ausreichende Fragen.
     @user = User.create!(
       email: "builder@example.com",
       username: "builder",
@@ -11,6 +12,7 @@ class QuizEngineMatchBuilderTest < ActiveSupport::TestCase
     )
     @category = Category.create!(name: "Builder Kategorie", featured: false)
     6.times do |index|
+      # Jede Frage erhaelt mindestens eine korrekte Antwortoption, damit sie spielbar ist.
       question = @category.questions.create!(
         content: "Frage #{index}",
         difficulty: "leicht",
@@ -22,6 +24,7 @@ class QuizEngineMatchBuilderTest < ActiveSupport::TestCase
   end
 
   test "creates match with the requested number of questions" do
+    # Builder aufrufen und ein Match mit genau 5 Fragen erzeugen.
     match = QuizEngine::MatchBuilder.new(
       user: @user,
       category: @category,
@@ -30,12 +33,14 @@ class QuizEngineMatchBuilderTest < ActiveSupport::TestCase
       time_per_question: 20
     ).call
 
+    # Ergebnis pruefen: Fragenanzahl, Creator-Zuordnung und Teilnahme des Erstellers.
     assert_equal 5, match.match_questions.count
     assert_equal @user, match.creator
     assert match.match_participations.exists?(user: @user)
   end
 
   test "raises when not enough questions are available" do
+    # Ueberzogene Fragenanzahl fuehrt zu einer Validierungs-Exception.
     assert_raises ActiveRecord::RecordInvalid do
       QuizEngine::MatchBuilder.new(
         user: @user,

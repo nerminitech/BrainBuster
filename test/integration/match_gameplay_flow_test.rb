@@ -2,6 +2,8 @@ require "test_helper"
 
 class MatchGameplayFlowTest < ActionDispatch::IntegrationTest
   setup do
+    # Vorbereitungen: Eine Spielerin, Kategorie, Frage samt Antworten und ein Match anlegen,
+    # damit der Flow den kompletten Spielablauf nachvollziehen kann.
     @user = User.create!(
       username: "player_one",
       email: "player@example.com",
@@ -40,26 +42,32 @@ class MatchGameplayFlowTest < ActionDispatch::IntegrationTest
   end
 
   test "player answers question and completes match" do
+    # 1) Spieler:in anmelden, damit geschuetzte Routen genutzt werden koennen.
     sign_in @user, scope: :user
 
+    # 2) Spielseite aufrufen und pruefen, ob die Frage tatsächlich angezeigt wird.
     get play_match_path(@match)
     assert_response :success
     assert_includes response.body, @question.content
 
+    # 3) Antwort absenden (richtige Option) – simuliert den Form-Submit im Frontend.
     post match_attempts_path(@match), params: {
       match_question_id: @match_question.id,
       answer_option_id: @correct_option.id
     }
 
+    # 4) Nach dem Submit folgen zwei Redirects: zur Spielansicht und danach zur Ergebnisanzeige.
     assert_redirected_to play_match_path(@match)
     follow_redirect!
 
     assert_redirected_to match_path(@match)
     follow_redirect!
 
+    # 5) Abschliessende Seite bestaetigen und Erfolgstext erwarten.
     assert_response :success
     assert_includes response.body, "Gut gemacht!"
 
+    # 6) Teilnahme neu laden und sicherstellen, dass das Match abgeschlossen und gewertet wurde.
     @participation.reload
     assert @participation.completed?
     assert_operator @participation.score, :>, 0

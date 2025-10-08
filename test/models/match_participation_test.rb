@@ -2,6 +2,7 @@ require "test_helper"
 
 class MatchParticipationTest < ActiveSupport::TestCase
   def setup
+    # Komplette Umgebung aufbauen: Spieler*in, Kategorie, Frage mit Antwort und ein Match.
     @user = User.create!(
       email: "participation@example.com",
       username: "participant",
@@ -31,6 +32,7 @@ class MatchParticipationTest < ActiveSupport::TestCase
   end
 
   test "register_attempt updates score and clears current question" do
+    # Vorbereitung: Teilnahme weiss, welche Frage aktuell bearbeitet wird.
     @participation.start_question!(@match_question)
 
     @participation.register_attempt!(
@@ -41,6 +43,7 @@ class MatchParticipationTest < ActiveSupport::TestCase
       points_awarded: 120
     )
 
+    # Erwartung: Punkte, Zaehler und Durchschnittszeit aktualisiert, aktive Frage geloescht.
     assert_equal 120, @participation.score
     assert_equal 1, @participation.correct_count
     assert_equal 4_000, @participation.average_response_ms
@@ -49,6 +52,7 @@ class MatchParticipationTest < ActiveSupport::TestCase
   end
 
   test "register_attempt handles nil answer option" do
+    # Testet edge-case: automatischer Fehlversuch ohne ausgewaehlte Antwort (z. B. Timeout).
     @participation.start_question!(@match_question)
 
     assert_nothing_raised do
@@ -67,6 +71,7 @@ class MatchParticipationTest < ActiveSupport::TestCase
   end
 
   test "start_question stores active question once" do
+    # Reise in die Zeit, damit wir deterministisch pruefen koennen, wann die Frage gestartet wurde.
     travel_to Time.zone.parse("2024-01-01 12:00:00")
     @participation.start_question!(@match_question)
     @participation.reload
@@ -76,6 +81,7 @@ class MatchParticipationTest < ActiveSupport::TestCase
 
     travel 5.seconds
 
+    # Ein erneuter Aufruf soll den Zeitstempel nicht ueberschreiben.
     assert_no_changes -> { @participation.reload.current_question_started_at } do
       @participation.start_question!(@match_question)
     end
@@ -84,6 +90,7 @@ class MatchParticipationTest < ActiveSupport::TestCase
   end
 
   test "finish! marks participation as completed" do
+    # Abschluss eines Matches setzt Status und Zeitstempel sowie den aktuellen Fragen-Status.
     @participation.start_question!(@match_question)
     @participation.finish!
 

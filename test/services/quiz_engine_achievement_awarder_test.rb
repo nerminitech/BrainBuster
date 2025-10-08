@@ -2,6 +2,7 @@ require "test_helper"
 
 class QuizEngineAchievementAwarderTest < ActiveSupport::TestCase
   setup do
+    # Jedes Szenario beginnt mit einem leeren Achievement-Setup, damit vorherige Vergaben nicht stoeren.
     UserAchievement.delete_all
     Achievement.delete_all
     Achievement.catalog.each { |attrs| Achievement.create!(attrs) }
@@ -23,6 +24,7 @@ class QuizEngineAchievementAwarderTest < ActiveSupport::TestCase
   end
 
   test "awards a bundle of achievements based on match performance" do
+    # Match mit sehr guter Leistung vorbereiten: perfekte Runde, hohe Punkte, schnelle Zeiten.
     match = Match.create!(
       creator: @user,
       category: @category,
@@ -56,6 +58,7 @@ class QuizEngineAchievementAwarderTest < ActiveSupport::TestCase
 
     @user.update!(total_points: 3_200, daily_streak: 7)
 
+    # Awarder ausfuehren und die vergebenen Codes auslesen.
     QuizEngine::AchievementAwarder.call(participation)
 
     awarded_codes = @user.user_achievements.includes(:achievement).map { |ua| ua.achievement.code }
@@ -82,11 +85,13 @@ class QuizEngineAchievementAwarderTest < ActiveSupport::TestCase
       assert_includes awarded_codes, code, "Expected achievement #{code} to be awarded"
     end
 
+    # Keine zusaetzlichen Auszeichnungen und Punkte wurden durch Boni erhoeht.
     assert_equal expected_codes.size, awarded_codes.size
     assert @user.total_points > 3_200, "Total points should have increased through achievement bonuses"
   end
 
   test "awards higher tier perfect match achievements cumulatively" do
+    # Mehrere perfekte Matches fuellen die Zaehler auf, bevor ein finales Spiel die Schwelle uebertritt.
     base_match_attrs = {
       creator: @user,
       category: @category,
@@ -135,10 +140,12 @@ class QuizEngineAchievementAwarderTest < ActiveSupport::TestCase
 
     @user.update!(total_points: 2_000, daily_streak: 2)
 
+    # AchievementAwarder prueft die Zaehler und sollte verschiedene Stufen vergeben.
     QuizEngine::AchievementAwarder.call(final_participation)
 
     codes = @user.user_achievements.includes(:achievement).map { |ua| ua.achievement.code }
 
+    # Erwartung: Die ersten beiden Stufen erreicht, die hoechste noch nicht.
     assert_includes codes, "perfect_run"
     assert_includes codes, "sharpshooter"
     assert_not_includes codes, "flawless_legend"
