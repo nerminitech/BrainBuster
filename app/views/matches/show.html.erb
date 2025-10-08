@@ -24,6 +24,16 @@
     <% end %>
   </header>
 
+  <% if (@participation&.completed? || @match.completed?) && @participation.present? %>
+    <!-- Victory-Screen: zeigt Warte- bzw. Gewinnerstatus fuer fertiggespielte Personen -->
+    <%= render "status_panel",
+            match: @match,
+            participation: @participation,
+            finished: @finished_participations,
+            total: @total_participations,
+            winner: @winner %>
+  <% end %>
+
   <section>
     <h3 class="text-xl font-semibold text-white">Rangliste</h3>
     <%= render partial: "leaderboard", locals: { participations: @leaderboard } %>

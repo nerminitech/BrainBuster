@@ -1,0 +1,49 @@
+<% waiting_classes = "rounded-xl border border-emerald-500/40 bg-emerald-500/10 p-6" %>
+<% waiting_classes += " hidden" if match.completed? %>
+<% victory_classes = "rounded-2xl border border-emerald-400 bg-gradient-to-br from-emerald-500/30 via-emerald-400/20 to-emerald-500/30 p-6 shadow-xl shadow-emerald-500/30" %>
+<% victory_classes += " hidden" unless match.completed? && winner&.user_id == current_user.id %>
+<% defeat_classes = "rounded-2xl border border-slate-700 bg-slate-900/80 p-6 shadow-inner shadow-slate-900/40" %>
+<% defeat_classes += " hidden" unless match.completed? && winner&.user_id.present? && winner&.user_id != current_user.id %>
+
+<div
+  data-controller="match-status"
+  data-match-status-url-value="<%= status_match_path(match) %>"
+  data-match-status-user-value="<%= current_user.id %>"
+  data-match-status-initial-state-value="<%= match.state %>"
+  class="space-y-4"
+>
+  <div data-match-status-target="waiting" class="<%= waiting_classes %>">
+    <h3 class="text-lg font-semibold text-white">Ergebnis wird ermittelt ...</h3>
+    <p class="mt-1 text-sm text-slate-300">Du bist bereits fertig. Wir warten noch auf die anderen Spielenden.</p>
+    <p class="mt-3 text-xs uppercase tracking-wide text-emerald-200">
+      Fertig: <span data-match-status-target="progress"><%= "#{finished}/#{total}" %></span>
+    </p>
+  </div>
+
+  <div data-match-status-target="victory" class="<%= victory_classes %>">
+    <h3 class="text-2xl font-black text-white">Sieg!</h3>
+    <p class="mt-2 text-sm text-emerald-100">Beste Punktzahl im Match - großartig gemacht.</p>
+    <% if winner&.score %>
+      <p class="mt-3 text-xs uppercase tracking-wide text-emerald-200">Dein Score: <%= winner.score %> Punkte</p>
+    <% end %>
+    <div class="mt-4 flex gap-3">
+      <%= link_to "Neues Match starten", new_match_path, class: "inline-flex items-center gap-2 rounded-md bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
+    </div>
+  </div>
+
+  <div data-match-status-target="defeat" class="<%= defeat_classes %>">
+    <h3 class="text-2xl font-black text-white">Ergebnis steht fest</h3>
+    <p class="mt-2 text-sm text-slate-300">
+      Diesmal hat
+      <span class="font-semibold text-emerald-300" data-match-status-target="winnerName"><%= winner&.user&.display_name if winner&.user_id.present? && winner&.user_id != current_user.id %></span>
+      den Sieg geholt. Probier es gleich nochmal!
+    </p>
+    <% if winner&.score %>
+      <p class="mt-3 text-xs uppercase tracking-wide text-slate-400">Top-Score: <%= winner.score %> Punkte</p>
+    <% end %>
+    <div class="mt-4 flex gap-3">
+      <%= link_to "Revanche starten", new_match_path, class: "inline-flex items-center gap-2 rounded-md bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
+      <%= link_to "Alle Matches", matches_path, class: "inline-flex items-center gap-2 rounded-md border border-slate-700 px-4 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-800" %>
+    </div>
+  </div>
+</div>

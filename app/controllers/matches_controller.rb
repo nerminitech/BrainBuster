@@ -1,9 +1,10 @@
 class MatchesController < ApplicationController
   # Dieser Controller kuemmert sich um die komplette Match-Erfahrung: vom Anzeigen,
   # Erstellen und Betreten bis hin zum eigentlichen Spielen eines Quiz.
-  before_action :set_match, only: %i[show play]
+  before_action :set_match, only: %i[show play status]
   before_action :set_participation, only: %i[play]
   before_action :ensure_participation_owner!, only: %i[play]
+  before_action :ensure_match_participation!, only: %i[status]
 
   def index
     # Holt alle Match-Teilnahmen der angemeldeten Person und paginiert sie.
@@ -52,6 +53,10 @@ class MatchesController < ApplicationController
     # Zeigt das Leaderboard und ob der aktuelle Nutzende schon mitgespielt hat.
     @leaderboard = @match.leaderboard.includes(:user)
     @participation = current_user.match_participations.find_by(match: @match)
+    # Zaehlt fertige Spieler und merkt sich den Sieger fuer den Victory-Screen.
+    @finished_participations = @match.match_participations.completed.count
+    @total_participations = @match.match_participations.count
+    @winner = @match.completed? ? @leaderboard.first : nil
   end
 
   def play
@@ -109,6 +114,19 @@ class MatchesController < ApplicationController
     redirect_to matches_path, alert: "Kein Match mit diesem Code gefunden."
   end
 
+  def status
+    winner_participation = @match.leaderboard.first
+    render json: {
+      state: @match.state,
+      completed: @match.completed?,
+      finished_participations: @match.match_participations.completed.count,
+      total_participations: @match.match_participations.count,
+      winner_id: winner_participation&.user_id,
+      winner_name: winner_participation&.user&.display_name,
+      winner_score: winner_participation&.score
+    }
+  end
+
   private
 
   def set_match
@@ -128,6 +146,13 @@ class MatchesController < ApplicationController
     return if @participation.user_id == current_user.id
 
     redirect_to matches_path, alert: "Kein Zugriff auf dieses Match." and return
+  end
+
+  def ensure_match_participation!
+    # Nur wer am Match teilnimmt, darf den Live-Status abrufen.
+    return if @match.match_participations.exists?(user: current_user)
+
+    head :forbidden
   end
 
   def next_question

@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
     member do
       get :play
+      get :status
     end
 
     resources :attempts, only: :create, module: :matches
