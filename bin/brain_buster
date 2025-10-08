@@ -20,7 +20,7 @@ OptionParser.new do |opts|
 
     Beispiele:
       bin/brain_buster                 # Starte ein Solo-Quiz
-      bin/brain_buster -m versus       # Erstelle ein Duell und teile den Match-Code
+      bin/brain_buster -m versus       # Erstelle ein Gruppen-Duell und teile den Match-Code
   BANNER
 
   opts.on("-m MODE", "Spielmodus (solo oder versus)") do |mode|
@@ -129,7 +129,7 @@ participation = match.match_participations.find_by!(user: user)
 match.update!(state: "active", started_at: Time.current)
 
 puts "\nMatch-Code: #{match.share_code}"
-puts "Modus: #{match.mode == "versus" ? "Duell" : "Solo"}"
+puts "Modus: #{match.mode == "versus" ? "Gruppen-Duell" : "Solo"}"
 puts "Kategorie: #{selected_category.name}"
 puts "Fragen: #{match.question_count}\n"
 

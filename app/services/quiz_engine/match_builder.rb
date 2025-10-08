@@ -65,7 +65,7 @@ module QuizEngine
     end
 
     def match_title_prefix
-      mode == "solo" ? "Solo-Quiz" : "Duell"
+      mode == "solo" ? "Solo-Quiz" : "Gruppen-Quiz"
     end
   end
 end

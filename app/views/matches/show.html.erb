@@ -8,7 +8,7 @@
       <span>Kategorie: <%= @match.category.name %></span>
       <span><%= @match.question_count %> Fragen</span>
       <span>⏱ <%= @match.time_per_question %> Sekunden pro Frage</span>
-      <span class="rounded-full bg-blue-500/20 px-3 py-1 font-semibold text-blue-200"><%= @match.mode == "versus" ? "Duell" : "Solo" %></span>
+      <span class="rounded-full bg-blue-500/20 px-3 py-1 font-semibold text-blue-200"><%= @match.mode == "versus" ? "Gruppen-Duell" : "Solo" %></span>
     </div>
     <% if @participation&.playing? %>
       <div class="mt-5">
@@ -18,7 +18,7 @@
       <div class="mt-5">
         <%= form_with url: join_matches_path, method: :post, class: "flex items-center gap-3" do |form| %>
           <%= form.hidden_field :share_code, value: @match.share_code %>
-          <%= form.submit "Dem Duell beitreten", class: "rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
+        <%= form.submit "Dem Gruppen-Duell beitreten", class: "rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
         <% end %>
       </div>
     <% end %>

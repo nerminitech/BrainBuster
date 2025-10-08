@@ -197,7 +197,7 @@ class Achievement < ApplicationRecord
     {
       code: "duel_champion",
       name: "Duell-Champion",
-      description: "Gewinne ein Duell gegen andere Spieler.",
+      description: "Gewinne ein Gruppen-Duell gegen andere Spieler.",
       points_bonus: 200,
       category: "versus",
       threshold: 1,
@@ -206,7 +206,7 @@ class Achievement < ApplicationRecord
     {
       code: "duel_veteran",
       name: "Duell-Veteran",
-      description: "Gewinne fuenf Duelle.",
+      description: "Gewinne fuenf Gruppen-Duelle.",
       points_bonus: 250,
       category: "versus",
       threshold: 5,
@@ -215,7 +215,7 @@ class Achievement < ApplicationRecord
     {
       code: "duel_overlord",
       name: "Duell-Overlord",
-      description: "Setze dich in 15 Duellen durch.",
+      description: "Setze dich in 15 Gruppen-Duellen durch.",
       points_bonus: 350,
       category: "versus",
       threshold: 15,

@@ -6,7 +6,7 @@ BrainBuster ist ein deutschsprachiges Quizspiel, das sowohl im Browser als auch 
 
 - Benutzerkonten mit Devise (Registrierung, Login, Rollenverwaltung)
 - Kategorien- und Fragenverwaltung (inkl. Admin-Backend)
-- Quizengine mit Solo- und Duellmodus, Punktesystem und Geschwindigkeitsbonus
+- Quizengine mit Solo- und Gruppen-Duell-Modus, Punktesystem und Geschwindigkeitsbonus
 - Globale Rangliste und wöchentliche Highlights
 - Achievement-System mit automatischer Vergabe nach jedem Match
 - Vollständiger Konsolenmodus (`bin/brain_buster`) inklusive Hilfeoption `-h`
@@ -44,7 +44,7 @@ Die wichtigsten Routen:
 
 - `/?` – Landing Page für Gäste
 - `/dashboard` – persönliches Dashboard nach dem Login
-- `/matches` – Übersicht, Match-Erstellung und Duelle
+- `/matches` – Übersicht, Match-Erstellung und Gruppen-Duelle
 - `/leaderboards` – globale Rangliste
 - `/admin/categories`, `/admin/questions` – Verwaltungsoberfläche (nur Admin)
 
@@ -53,7 +53,7 @@ Die wichtigsten Routen:
 ```bash
 bin/brain_buster -h            # Hilfe
 bin/brain_buster               # Solo-Quiz
-bin/brain_buster -m versus     # Duell erzeugen (Match-Code teilen)
+bin/brain_buster -m versus     # Gruppen-Duell erzeugen (Match-Code teilen)
 ```
 
 Alle Antworten werden interaktiv eingegeben; nach Spielende erscheinen Match- und globale Rangliste automatisch.
@@ -76,7 +76,7 @@ Aktuell enthalten:
 | `first_steps`   | Erstes fertiges Quiz                       | 50    |
 | `perfect_run`   | Alle Fragen korrekt                        | 150   |
 | `speedster`     | Durchschnittliche Antwortzeit < 5 Sekunden | 100   |
-| `duel_champion` | Duell mit höchster Punktzahl abschließen   | 200   |
+| `duel_champion` | Gruppen-Duell mit höchster Punktzahl abschließen   | 200   |
 
 ## Weitere Hinweise
 
@@ -87,7 +87,7 @@ Aktuell enthalten:
 
 ## Roadmap-Ideen
 
-1. Live-Duelle mit WebSockets
+1. Live-Gruppen-Duelle mit WebSockets
 2. Erweiterte Auswertungen (Kategorie-Heatmaps, Serien)
 3. API-Anbindung an externe Quiz-Datenbanken (Open Trivia DB)
 4. CI/CD-Pipeline (wird gemäß Aufgabenstellung später ergänzt)

@@ -10,7 +10,7 @@ Das Klassendiagramm beschreibt die wichtigsten Bausteine der BrainBuster-Anwendu
 
 4. **AnswerOption** – mögliche Antwort zu einer Frage (`text`), die über das Flag `correct` markiert sein kann.
 
-5. **Match** – eine Quizrunde. `mode` (Solo oder Duell), `state`, `question_count`, `time_per_question` und `share_code` beschreiben den Spieltyp. `leaderboard` liefert die Rangliste zur Runde.
+5. **Match** – eine Quizrunde. `mode` (Solo oder Gruppen-Duell), `state`, `question_count`, `time_per_question` und `share_code` beschreiben den Spieltyp. `leaderboard` liefert die Rangliste zur Runde.
 
 6. **MatchQuestion** – verbindet eine Frage mit einem konkreten Match und speichert die Reihenfolge (`position`). Dadurch kann dieselbe Frage in unterschiedlichen Matches auftauchen.
 
