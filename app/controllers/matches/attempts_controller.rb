@@ -5,7 +5,8 @@ module Matches
 
     def create
       match_question = @match.match_questions.find(params[:match_question_id])
-      ensure_attempt_not_recorded!(match_question)
+      # Stoppt die Aktion frueh, falls schon ein Versuch zur Frage existiert.
+      return if ensure_attempt_not_recorded!(match_question)
 
       unless @participation.current_match_question_id == match_question.id
         redirect_to play_match_path(@match), alert: "Diese Frage ist nicht mehr aktiv." and return
@@ -69,10 +70,10 @@ module Matches
 
     def ensure_attempt_not_recorded!(match_question)
       existing = @participation.question_attempts.find_by(match_question: match_question)
-      return unless existing
+      return false unless existing
 
-      existing.errors.add(:base, "Diese Frage wurde bereits beantwortet.")
-      raise ActiveRecord::RecordInvalid.new(existing)
+      redirect_to play_match_path(@match)
+      true
     end
   end
 end

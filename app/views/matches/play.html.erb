@@ -17,6 +17,34 @@
     </div>
   </header>
 
+  <% if @match.versus? %>
+    <div
+      class="rounded-2xl border border-emerald-500/50 bg-emerald-500/10 p-5 text-center shadow-lg shadow-emerald-500/20"
+      data-controller="clipboard"
+      data-clipboard-text-value="<%= @match.share_code %>"
+    >
+      <p class="text-sm font-semibold uppercase tracking-wide text-emerald-200">Mit Freundinnen und Freunden spielen</p>
+      <div class="mt-3 flex flex-col items-center gap-3 md:flex-row md:justify-center">
+        <span class="rounded-xl border border-emerald-400/60 bg-slate-950 px-5 py-2 font-mono text-xl font-semibold tracking-widest text-emerald-300 shadow-inner shadow-emerald-500/20">
+          <%= @match.share_code %>
+        </span>
+        <button
+          type="button"
+          class="inline-flex items-center gap-2 rounded-md bg-emerald-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-400"
+          data-action="click->clipboard#copy"
+        >
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M9 13.5H7.8A2.8 2.8 0 0 1 5 10.7V7.8A2.8 2.8 0 0 1 7.8 5h2.9" stroke-linecap="round" stroke-linejoin="round" />
+            <rect x="9" y="5" width="10" height="14" rx="2" ry="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          Code kopieren
+        </button>
+      </div>
+      <p class="mt-3 text-xs text-emerald-100">Einfach weiterleiten, damit andere unter „Match-Code eingeben” beitreten.</p>
+      <span data-clipboard-target="feedback" class="mt-2 block text-xs font-semibold text-emerald-200 hidden"></span>
+    </div>
+  <% end %>
+
   <article class="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
     <div class="flex items-center justify-between">
       <%= difficulty_badge(@current_question.difficulty) %>
