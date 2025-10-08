@@ -1,4 +1,4 @@
-# BrainBuster soos
+# BrainBuster
 
 BrainBuster ist ein deutschsprachiges Quizspiel, das sowohl im Browser als auch über die Konsole gespielt werden kann. Spieler:innen sammeln Punkte, schalten Achievements frei und treten in Solo- oder Mehrspielermodi gegeneinander an. Tailwind CSS sorgt für das UI, Devise für die Nutzerverwaltung.
 
@@ -71,12 +71,12 @@ Aktuell enthalten:
 
 ## Achievements
 
-| Code            | Beschreibung                               | Bonus |
-| --------------- | ------------------------------------------ | ----- |
-| `first_steps`   | Erstes fertiges Quiz                       | 50    |
-| `perfect_run`   | Alle Fragen korrekt                        | 150   |
-| `speedster`     | Durchschnittliche Antwortzeit < 5 Sekunden | 100   |
-| `duel_champion` | Gruppen-Duell mit höchster Punktzahl abschließen   | 200   |
+| Code            | Beschreibung                                     | Bonus |
+| --------------- | ------------------------------------------------ | ----- |
+| `first_steps`   | Erstes fertiges Quiz                             | 50    |
+| `perfect_run`   | Alle Fragen korrekt                              | 150   |
+| `speedster`     | Durchschnittliche Antwortzeit < 5 Sekunden       | 100   |
+| `duel_champion` | Gruppen-Duell mit höchster Punktzahl abschließen | 200   |
 
 ## Weitere Hinweise
 
