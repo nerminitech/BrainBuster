@@ -21,6 +21,8 @@ gem "jbuilder"
 gem "devise"
 gem "json", ">= 2.10.2"
 gem "pagy"
+# Mitigates CVE-2025-61594 (URI credential leakage) by ensuring patched release
+gem "uri", ">= 1.0.4"
 gem "dotenv-rails", groups: %i[development test]
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
