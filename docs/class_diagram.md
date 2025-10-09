@@ -13,6 +13,10 @@ classDiagram
     +text bio
     +add_points!(points)
     +completed_matches()
+    -password_complexity()
+    -ensure_display_name()
+    -avatar_format()
+    -purge_avatar_if_requested()
   }
 
   class Category {
@@ -54,6 +58,7 @@ classDiagram
     +completed?()
     +open?()
     +leaderboard()
+    -ensure_share_code()
   }
 
   class MatchQuestion {
