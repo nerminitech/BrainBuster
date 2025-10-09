@@ -12,6 +12,7 @@ classDiagram
     +enum role
     +text bio
     +add_points!(points)
+    +completed_matches()
   }
 
   class Category {
@@ -29,6 +30,7 @@ classDiagram
     +string source_url
     +string language
     +correct_option()
+    +in_language(locale)
   }
 
   class AnswerOption {
@@ -46,6 +48,11 @@ classDiagram
     +string title
     +datetime started_at
     +datetime completed_at
+    +solo?()
+    +versus?()
+    +active?()
+    +completed?()
+    +open?()
     +leaderboard()
   }
 
@@ -63,7 +70,14 @@ classDiagram
     +datetime completed_at
     +integer current_match_question_id
     +datetime current_question_started_at
+    +completed?()
+    +playing?()
+    +current_streak()
+    +start_question!()
+    +current_question_elapsed_seconds()
+    +clear_current_question!()
     +register_attempt!()
+    +update_statistics!()
     +finish!()
   }
 
@@ -73,6 +87,7 @@ classDiagram
     +boolean correct
     +integer response_time_ms
     +integer awarded_points
+    +question
   }
 
   class Achievement {
@@ -91,14 +106,19 @@ classDiagram
 
   User "1" -- "many" MatchParticipation
   User "1" -- "many" Match : creator
+  User "1" -- "many" UserAchievement
   User "many" -- "many" Achievement : through UserAchievement
+  Achievement "1" -- "many" UserAchievement
+  Category "1" -- "many" Match
   Category "1" -- "many" Question
   Question "1" -- "many" AnswerOption
   Match "1" -- "many" MatchQuestion
   MatchQuestion "many" -- "1" Question
+  Match "many" -- "many" Question : through MatchQuestion
   Match "1" -- "many" MatchParticipation
   MatchParticipation "1" -- "many" QuestionAttempt
   QuestionAttempt "many" -- "1" AnswerOption
+  MatchParticipation "many" -- "0..1" MatchQuestion : current
 ```
 
 Dieses Diagramm zeigt die wichtigsten Beziehungen der BrainBuster-Domäne. Für eine detaillierte Beschreibung der Services und Spielabläufe siehe `README.md`.
