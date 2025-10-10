@@ -3,19 +3,15 @@
 puts "==> Initialisiere BrainBuster-Datenbank"
 
 # 1) Administrator anlegen, falls noch nicht vorhanden.
-admin = User.find_or_initialize_by(email: "admin@brainbuster.local")
-if admin.new_record?
-  admin.username = "admin"
-  admin.display_name = "Administrator"
-  admin.role = :admin
-  admin.password = "Passwort123!"
-  admin.password_confirmation = "Passwort123!"
-  admin.total_points = 0
-  admin.save!
-  puts "   ✔ Admin-Konto erstellt (admin@brainbuster.local / Passwort123!)"
-else
-  puts "   ✔ Admin-Konto vorhanden"
-end
+admin = User.find_or_initialize_by(username: "admin")
+admin.email = "admin@brainbuster.local"
+admin.display_name = "Administrator"
+admin.role = :admin
+admin.password = "Passwort123!"
+admin.password_confirmation = "Passwort123!"
+admin.total_points ||= 0
+admin.save!
+puts "   ✔ Admin-Konto vorhanden oder aktualisiert (admin@brainbuster.local / Passwort123!)"
 
 # 2) Achievement-Liste mit der Datenbank synchron halten.
 Achievement.catalog.each do |attrs|
