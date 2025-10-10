@@ -1,7 +1,13 @@
 <section class="space-y-6">
-  <header class="flex items-center justify-between">
+  <header class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
     <h2 class="text-3xl font-bold text-white">Kategorien verwalten</h2>
-    <%= link_to "Neue Kategorie", new_admin_category_path, class: "rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
+    <div class="flex flex-wrap items-center gap-3">
+      <%= link_to "Neue Kategorie", new_admin_category_path, class: "rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" %>
+      <%= button_to "Seed-Daten laden", admin_seed_path,
+                    method: :post,
+                    data: { turbo_confirm: "Seed-Daten wirklich laden? Bereits vorhandene Inhalte werden aktualisiert." },
+                    class: "rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-400" %>
+    </div>
   </header>
 
   <table class="w-full table-fixed rounded-xl border border-slate-800 bg-slate-900/60 text-sm text-slate-200">

@@ -32,5 +32,6 @@ Rails.application.routes.draw do
       resources :questions, only: :create, module: :categories
     end
     resources :questions
+    resource :seed, only: :create, controller: :seed
   end
 end

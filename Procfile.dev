@@ -1,2 +1,2 @@
-web: bundle exec rails db:migrate && bundle exec rails db:seed && bundle exec rails server
+web: bin/rails server
 css: bin/rails tailwindcss:watch
