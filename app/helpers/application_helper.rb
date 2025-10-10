@@ -3,8 +3,8 @@ module ApplicationHelper
 
   def nav_link_classes(path)
     # Kuerzelt die CSS-Klasse fuer Navigationseintraege zusammen und hebt den aktiven Link hervor.
-    base = "transition-colors hover:text-emerald-500"
-    current_page?(path) ? "text-emerald-600 #{base}" : "text-slate-600 #{base}"
+    base = "transition-colors hover:text-emerald-300"
+    current_page?(path) ? "text-emerald-400 #{base}" : "text-slate-300 #{base}"
   end
 
   def difficulty_badge(difficulty)
