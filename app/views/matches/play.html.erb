@@ -1,9 +1,11 @@
-<% content_for :title, "Match ##{@match.share_code} · Frage #{@match_question.position + 1}" %>
+<% content_for :title, @match.versus? ? "Match ##{@match.share_code} · Frage #{@match_question.position + 1}" : "Match · Frage #{@match_question.position + 1}" %>
 
-<section class="space-y-6" data-controller="countdown" data-countdown-remaining-value="<%= @time_remaining_seconds %>" data-countdown-deadline-value="<%= @question_deadline_epoch_ms %>">
+<section class="space-y-6" data-controller="countdown" data-countdown-remaining-value="<%= @time_remaining_seconds %>" data-countdown-deadline-value="<%= @question_deadline_epoch_ms %>" data-countdown-server-time-value="<%= @server_time_epoch_ms %>">
   <header class="flex items-center justify-between">
     <div>
-      <p class="text-xs text-slate-400">Match-Code: <span class="font-mono text-emerald-300"><%= @match.share_code %></span></p>
+      <% if @match.versus? %>
+        <p class="text-xs text-slate-400">Match-Code: <span class="font-mono text-emerald-300"><%= @match.share_code %></span></p>
+      <% end %>
       <h2 class="text-2xl font-bold text-white">Frage <%= @match_question.position + 1 %> von <%= @match.question_count %></h2>
       <p class="mt-1 text-xs text-slate-400">⏱ <%= @match.time_per_question %> Sekunden · Kategorie <%= @match.category.name %></p>
     </div>

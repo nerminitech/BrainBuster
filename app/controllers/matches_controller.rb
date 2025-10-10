@@ -93,6 +93,7 @@ class MatchesController < ApplicationController
     @time_remaining_seconds = [ @match.time_per_question - elapsed_seconds, 0 ].max
     started_at = @participation.current_question_started_at || Time.current
     @question_deadline_epoch_ms = ((started_at + @match.time_per_question.seconds).to_f * 1000).to_i
+    @server_time_epoch_ms = (Time.current.to_f * 1000).to_i
   end
 
   def join

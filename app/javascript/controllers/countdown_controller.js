@@ -3,13 +3,15 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static values = {
     remaining: Number,
-    deadline: Number
+    deadline: Number,
+    serverTime: Number
   }
 
   static targets = ["display", "form"]
 
   connect() {
     this.submitted = false
+    this.offset = this.hasServerTimeValue ? this.serverTimeValue - Date.now() : 0
     this.remaining = 0
     this.syncRemainingFromDeadline()
 
@@ -60,7 +62,7 @@ export default class extends Controller {
   }
 
   syncRemainingFromDeadline() {
-    const nowMs = Date.now()
+    const nowMs = Date.now() + this.offset
 
     if (this.hasDeadlineValue && this.deadlineValue > 0) {
       const diffMs = this.deadlineValue - nowMs
