@@ -109,7 +109,7 @@ Weitere Details:
 | `score_machine`          | Punkte-Maschine     | Schaffe 1.200 Punkte in einem einzigen Match.                   | 140   |
 | `titan_score`            | Punkte-Titan        | Erreiche 1.800 Punkte in einer Matchrunde.                      | 220   |
 
-## Dokumentation & Diagramme
+## Dokumentation & Diagrammeee
 
 - Klassendiagramm: `docs/class_diagram.md` (inkl. Erläuterung in `docs/class_diagram_README.md`)
 - Aktivitätsdiagramm mit Nutzerfluss: `docs/activity_diagram.md` + `docs/activity_diagram_README.md`
