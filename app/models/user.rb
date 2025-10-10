@@ -16,7 +16,7 @@ class User < ApplicationRecord
   has_many :achievements, through: :user_achievements
 
   validates :username, presence: true, uniqueness: true, length: { maximum: 40 }
-  validates :display_name, length: { maximum: 60 }, allow_blank: true
+  validates :display_name, length: { maximum: 60 }, uniqueness: { case_sensitive: false }, allow_blank: true
   validates :bio, length: { maximum: 280 }, allow_blank: true
   validate :avatar_format
   validate :password_complexity
