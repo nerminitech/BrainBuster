@@ -183,6 +183,7 @@ class MatchesController < ApplicationController
     if newly_awarded.present?
       flash[:achievement] = newly_awarded.map do |achievement|
         {
+          code: achievement.code,
           name: achievement.name,
           description: achievement.description,
           points: achievement.points_bonus

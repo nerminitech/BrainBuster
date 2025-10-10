@@ -79,27 +79,32 @@
           end %>
 
   <!-- Die eigentliche Box, die auf der Seite angezeigt wird -->
-  <div class="relative mb-6 flex items-center gap-4 overflow-hidden rounded-3xl border border-white/10 px-6 py-5 text-base font-semibold leading-6 backdrop-blur-sm transition-transform duration-300 ease-out <%= base_classes %>" role="alert" aria-live="assertive">
-    <div class="flex h-12 w-12 flex-none items-center justify-center rounded-full shadow-md <%= icon_wrapper_classes %>">
+  <div data-controller="flash" class="relative mb-4 flex justify-end">
+    <div data-flash-target="container" class="flex w-full items-center gap-4 overflow-hidden rounded-3xl border border-white/10 px-6 py-5 text-base font-semibold leading-6 backdrop-blur-sm transform transition-all duration-300 ease-out translate-x-6 opacity-0 <%= base_classes %>" role="alert" aria-live="assertive">
+      <div class="flex h-12 w-12 flex-none items-center justify-center rounded-full shadow-md <%= icon_wrapper_classes %>">
       <%= icon_svg %>
-    </div>
-    <div class="flex flex-col gap-2 text-left">
-      <span class="text-xs font-bold uppercase tracking-[0.2em] opacity-90"><%= label %></span>
-      <% if variant == :achievement %>
-        <div class="space-y-3">
-          <% Array(message).each do |item| %>
-            <div class="rounded-xl bg-white/10 p-3 shadow-inner">
-              <p class="text-lg font-semibold"><%= item[:name] %></p>
-              <p class="text-sm font-medium text-violet-100/85"><%= item[:description] %></p>
-              <% if item[:points].to_i.positive? %>
-                <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-amber-200">+<%= item[:points] %> Punkte</p>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
-      <% else %>
-        <span class="text-lg font-semibold"><%= message %></span>
-      <% end %>
+      </div>
+      <div class="flex flex-1 flex-col gap-2 text-left">
+        <span class="text-xs font-bold uppercase tracking-[0.2em] opacity-90"><%= label %></span>
+        <% if variant == :achievement %>
+          <div class="space-y-3">
+            <% Array(message).each do |entry| %>
+              <% item = entry.respond_to?(:symbolize_keys) ? entry.symbolize_keys : entry %>
+              <div class="rounded-xl bg-white/10 p-3 shadow-inner">
+                <p class="text-[0.75rem] font-semibold uppercase tracking-wide text-amber-200"><%= item[:code].to_s.tr("_", " ").capitalize %></p>
+                <p class="text-lg font-semibold"><%= item[:name] %></p>
+                <p class="text-sm font-medium text-violet-100/85"><%= item[:description] %></p>
+                <% if item[:points].to_i.positive? %>
+                  <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-emerald-200">+<%= item[:points] %> Punkte</p>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <span class="text-lg font-semibold"><%= message %></span>
+        <% end %>
+      </div>
+      <button type="button" class="text-xl font-bold text-white/70 transition hover:text-white" data-action="flash#close">×</button>
     </div>
   </div>
 <% end %>
