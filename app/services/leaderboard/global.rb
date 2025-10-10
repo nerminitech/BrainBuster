@@ -1,7 +1,8 @@
 module Leaderboard
   class Global
-    def self.top_players(limit: 10)
-      User.order(total_points: :desc).limit(limit)
+    def self.top_players(limit: nil)
+      scope = User.order(total_points: :desc)
+      limit ? scope.limit(limit) : scope
     end
 
     def self.recent_matches(limit: 10)

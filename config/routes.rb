@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get "dashboard", to: "pages#home"
 
   resource :profile, only: %i[show edit update]
+  resources :users, only: :show
 
   resources :categories, only: %i[index show]
 

@@ -7,8 +7,11 @@
     <%= link_to "Neues Quiz", new_match_path, class: "rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400" if user_signed_in? %>
   </header>
 
-  <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
-    <h3 class="text-xl font-semibold text-white">Top 20 Spieler</h3>
+  <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-6 space-y-4">
+    <div class="flex items-center justify-between">
+      <h3 class="text-xl font-semibold text-white">Top-Spieler:innen</h3>
+      <p class="text-xs text-slate-400">Seite <%= @pagy.page %> von <%= @pagy.pages %></p>
+    </div>
     <table class="mt-4 w-full table-fixed text-sm">
       <thead class="text-xs uppercase tracking-wide text-slate-400">
         <tr>
@@ -20,15 +23,23 @@
       </thead>
       <tbody>
         <% @top_players.each_with_index do |player, index| %>
+          <% rank = index + 1 + @pagy.offset %>
           <tr class="border-t border-slate-800/60">
-            <td class="px-4 py-3 text-slate-500">#<%= index + 1 %></td>
-            <td class="px-4 py-3 font-semibold text-white"><%= player.display_name %></td>
+            <td class="px-4 py-3 text-slate-500">#<%= rank %></td>
+            <td class="px-4 py-3 font-semibold text-white">
+              <%= link_to player.display_name, user_path(player), class: "text-emerald-300 hover:text-emerald-200" %>
+            </td>
             <td class="px-4 py-3 text-right text-emerald-400"><%= player.total_points %></td>
             <td class="px-4 py-3 text-right text-slate-300"><%= player.achievements_count %></td>
           </tr>
         <% end %>
       </tbody>
     </table>
+    <% if @pagy.pages > 1 %>
+      <div class="flex justify-center">
+        <%= pagy_nav_slate(@pagy) %>
+      </div>
+    <% end %>
   </div>
 
   <div class="grid gap-6 lg:grid-cols-2">
