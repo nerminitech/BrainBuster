@@ -1,9 +1,9 @@
 class MatchesController < ApplicationController
   # Dieser Controller kuemmert sich um die komplette Match-Erfahrung: vom Anzeigen,
   # Erstellen und Betreten bis hin zum eigentlichen Spielen eines Quiz.
-  before_action :set_match, only: %i[show play status]
-  before_action :set_participation, only: %i[play]
-  before_action :ensure_participation_owner!, only: %i[play]
+  before_action :set_match, only: %i[show play status forfeit]
+  before_action :set_participation, only: %i[play forfeit]
+  before_action :ensure_participation_owner!, only: %i[play forfeit]
   before_action :ensure_match_participation!, only: %i[status]
 
   def index
@@ -54,14 +54,14 @@ class MatchesController < ApplicationController
     @leaderboard = @match.leaderboard.includes(:user)
     @participation = current_user.match_participations.find_by(match: @match)
     # Zaehlt fertige Spieler und merkt sich den Sieger fuer den Victory-Screen.
-    @finished_participations = @match.match_participations.completed.count
+    @finished_participations = @match.match_participations.where(status: %w[completed forfeited]).count
     @total_participations = @match.match_participations.count
     @winner = @match.completed? ? @leaderboard.first : nil
   end
 
   def play
-    # Beendet sofort, wenn das Match bereits abgeschlossen ist.
-    if @participation.completed?
+    # Beendet sofort, wenn das Match bereits abgeschlossen oder abgebrochen ist.
+    if @participation.finished?
       redirect_to match_path(@match), notice: "Dieses Quiz hast du bereits abgeschlossen." and return
     end
 
@@ -103,7 +103,7 @@ class MatchesController < ApplicationController
       record.status = match.solo? ? "playing" : "pending"
     end
 
-    if participation.completed?
+    if participation.finished?
       redirect_to match_path(match), alert: "Du hast dieses Quiz bereits abgeschlossen." and return
     end
 
@@ -120,12 +120,23 @@ class MatchesController < ApplicationController
     render json: {
       state: @match.state,
       completed: @match.completed?,
-      finished_participations: @match.match_participations.completed.count,
+      finished_participations: @match.match_participations.where(status: %w[completed forfeited]).count,
       total_participations: @match.match_participations.count,
       winner_id: winner_participation&.user_id,
       winner_name: winner_participation&.user&.display_name,
       winner_score: winner_participation&.score
     }
+  end
+
+  def forfeit
+    if @participation.finished?
+      redirect_to match_path(@match), alert: "Dieses Match ist bereits abgeschlossen." and return
+    end
+
+    @participation.forfeit!
+    mark_match_completed_if_ready!(@match)
+
+    redirect_to matches_path, notice: "Match wurde abgebrochen."
   end
 
   private
@@ -168,11 +179,18 @@ class MatchesController < ApplicationController
     # Markiert das Match als geschafft, verteilt Punkte und prueft auf Achievements.
     participation.finish!
     current_user.add_points!(participation.score)
-    QuizEngine::AchievementAwarder.call(participation)
-
-    if participation.match.match_participations.where.not(status: "completed").none?
-      participation.match.update!(state: "completed", completed_at: Time.current)
+    newly_awarded = QuizEngine::AchievementAwarder.call(participation)
+    if newly_awarded.present?
+      flash[:achievement] = newly_awarded.map do |achievement|
+        {
+          name: achievement.name,
+          description: achievement.description,
+          points: achievement.points_bonus
+        }
+      end
     end
+
+    mark_match_completed_if_ready!(participation.match)
   end
 
   def handle_time_expired(match_question)
@@ -196,5 +214,11 @@ class MatchesController < ApplicationController
   def match_params
     # Definiert klar, welche Felder aus dem Formular uebernommen werden.
     params.require(:match).permit(:category_id, :mode, :question_count, :time_per_question)
+  end
+
+  def mark_match_completed_if_ready!(match)
+    if match.match_participations.where.not(status: %w[completed forfeited]).none?
+      match.update!(state: "completed", completed_at: Time.current)
+    end
   end
 end

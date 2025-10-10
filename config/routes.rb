@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
     member do
       get :play
+      post :forfeit
       get :status
     end
 

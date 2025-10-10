@@ -7,6 +7,7 @@ module QuizEngine
     def initialize(participation)
       @participation = participation
       @user = participation.user
+      @awarded = []
     end
 
     def call
@@ -18,6 +19,8 @@ module QuizEngine
 
         award(achievement)
       end
+
+      @awarded
     end
 
     private
@@ -42,6 +45,7 @@ module QuizEngine
         unlocked_ids << achievement.id
         @achievements_collected_count += 1
         user.add_points!(achievement.points_bonus) if achievement.points_bonus.positive?
+        @awarded << achievement
       end
     end
 

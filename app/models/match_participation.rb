@@ -18,6 +18,10 @@ class MatchParticipation < ApplicationRecord
     status == "playing"
   end
 
+  def finished?
+    completed? || status == "forfeited"
+  end
+
   def current_streak
     streak = 0
     question_attempts.order(created_at: :desc).each do |attempt|
@@ -80,5 +84,10 @@ class MatchParticipation < ApplicationRecord
   def finish!
     clear_current_question!
     update!(status: "completed", completed_at: Time.current)
+  end
+
+  def forfeit!
+    clear_current_question!
+    update!(status: "forfeited", completed_at: Time.current)
   end
 end

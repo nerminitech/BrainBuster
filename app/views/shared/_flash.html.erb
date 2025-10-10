@@ -23,6 +23,12 @@
               "bg-white/15 text-white",
               "Fehler"
             ]
+          when :achievement
+            [
+              "bg-gradient-to-r from-fuchsia-500 via-violet-500 to-indigo-500 text-white shadow-2xl ring-2 ring-violet-200/70",
+              "bg-white/15 text-white",
+              "Achievement"
+            ]
           else
             [
               "bg-gradient-to-r from-slate-800 to-slate-700 text-slate-100 shadow-2xl ring-2 ring-slate-400/60",
@@ -52,6 +58,16 @@
                 tag.path(d: "M6 6l12 12", stroke_linecap: "round", stroke_linejoin: "round")
               ])
             end
+          when :achievement
+            tag.svg(xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", stroke_width: 2, class: "h-6 w-6") do
+              safe_join([
+                tag.path(d: "M8 21h8", stroke_linecap: "round", stroke_linejoin: "round"),
+                tag.path(d: "M12 17v4", stroke_linecap: "round", stroke_linejoin: "round"),
+                tag.path(d: "M7 4h10v6a5 5 0 01-10 0V4z", stroke_linecap: "round", stroke_linejoin: "round"),
+                tag.path(d: "M7 4l-2 3v2h2", stroke_linecap: "round", stroke_linejoin: "round"),
+                tag.path(d: "M17 4l2 3v2h-2", stroke_linecap: "round", stroke_linejoin: "round")
+              ])
+            end
           else
             tag.svg(xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", stroke_width: 2, class: "h-6 w-6") do
               safe_join([
@@ -67,9 +83,23 @@
     <div class="flex h-12 w-12 flex-none items-center justify-center rounded-full shadow-md <%= icon_wrapper_classes %>">
       <%= icon_svg %>
     </div>
-    <div class="flex flex-col gap-1 text-left">
+    <div class="flex flex-col gap-2 text-left">
       <span class="text-xs font-bold uppercase tracking-[0.2em] opacity-90"><%= label %></span>
-      <span class="text-lg font-semibold"><%= message %></span>
+      <% if variant == :achievement %>
+        <div class="space-y-3">
+          <% Array(message).each do |item| %>
+            <div class="rounded-xl bg-white/10 p-3 shadow-inner">
+              <p class="text-lg font-semibold"><%= item[:name] %></p>
+              <p class="text-sm font-medium text-violet-100/85"><%= item[:description] %></p>
+              <% if item[:points].to_i.positive? %>
+                <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-amber-200">+<%= item[:points] %> Punkte</p>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <span class="text-lg font-semibold"><%= message %></span>
+      <% end %>
     </div>
   </div>
 <% end %>
