@@ -1,25 +1,31 @@
 module QuizEngine
   class AchievementAwarder
+    # Einstieg: Service mit Teilnahme-Objekt starten.
     def self.call(participation)
       new(participation).call
     end
 
     def initialize(participation)
+      # Vorbereitung: Teilnahme und zugehörigen User merken, Ergebnisliste anlegen.
       @participation = participation
       @user = participation.user
       @awarded = []
     end
 
     def call
+      # Zähler auf den aktuellen Stand bringen (z.B. bereits freigeschaltete Erfolge).
       initialize_counters!
 
       achievements_to_check.each do |achievement|
+        # Überspringen, wenn der Erfolg schon gehört oder Bedingung nicht erfüllt.
         next if unlocked_ids.include?(achievement.id)
         next unless meets_condition?(achievement)
 
+        # Erfolg freischalten, Punkte vergeben, merken.
         award(achievement)
       end
 
+      # Liste der neu vergebenen Achievements zurückgeben.
       @awarded
     end
 
@@ -32,14 +38,17 @@ module QuizEngine
     end
 
     def achievements_to_check
+      # Einmalig alle Achievements in stabiler Reihenfolge holen.
       @achievements_to_check ||= Achievement.order(:created_at, :id)
     end
 
     def unlocked_ids
+      # Cache der bereits freigeschalteten Achievements aufbauen.
       @unlocked_ids ||= user.user_achievements.pluck(:achievement_id)
     end
 
     def award(achievement)
+      # Datenbankeintrag erzeugen, falls noch nicht vorhanden; Bonuspunkte gut schreiben.
       UserAchievement.find_or_create_by!(user:, achievement:) do |ua|
         ua.awarded_at = Time.current
         unlocked_ids << achievement.id
@@ -50,6 +59,7 @@ module QuizEngine
     end
 
     def meets_condition?(achievement)
+      # Nach Bedingungstyp entscheiden, welcher Zähler relevant ist.
       case achievement.condition
       when "matches_completed"
         completed_matches >= achievement.threshold
@@ -75,10 +85,12 @@ module QuizEngine
     end
 
     def completed_matches
+      # Bereits erfolgreich beendete Matches des Users zählen.
       @completed_matches ||= user.match_participations.completed.count
     end
 
     def perfect_match_count
+      # Matches ohne Fehler und mit mindestens einer richtigen Antwort zählen.
       @perfect_match_count ||= user.match_participations
                                      .completed
                                      .where(incorrect_count: 0)
@@ -87,6 +99,7 @@ module QuizEngine
     end
 
     def best_average_response_ms
+      # Beste (kleinste) durchschnittliche Antwortzeit über alle Matches holen.
       @best_average_response_ms ||= user.match_participations
                                         .completed
                                         .where("average_response_ms > 0")
@@ -94,6 +107,7 @@ module QuizEngine
     end
 
     def duel_wins_count
+      # Siege in Duellen erfassen: höchster Score, bei Gleichstand schnellere Zeit.
       @duel_wins_count ||= begin
         participations = user.match_participations
                              .includes(match: :match_participations)
@@ -112,6 +126,7 @@ module QuizEngine
     end
 
     def best_question_streak
+      # Längste Serie richtiger Antworten aus allen Matches.
       @best_question_streak ||= user.match_participations.maximum(:best_streak).to_i
     end
 
@@ -120,6 +135,7 @@ module QuizEngine
     end
 
     def highest_match_score
+      # Höchster erreichte Match-Score des Users.
       @highest_match_score ||= user.match_participations.maximum(:score).to_i
     end
   end
