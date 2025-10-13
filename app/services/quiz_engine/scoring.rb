@@ -43,17 +43,12 @@ module QuizEngine
 
     private
 
-    # Hillfsmethoode von Rails. Man muss keine Instanzvariable schrieben oder getter methode benutzen.
+    # Hilfsmethode von Rails: stellt Getter für die gespeicherten Werte bereit.
     attr_reader :question, :response_time_ms, :correct, :current_streak
 
     def calculate_speed_bonus(base)
       # Bonus orientiert sich daran, wie viel Zeit noch übrig war.
-=begin
-      Eine Frage gibt 100 base points
-      Zeit Limit ist 30sec
-      Du brauchst aber nur 15sec
-      (15/30) * 100 * 0.5 = 25 Zusatzpunkte
-=end
+      # Beispiel: 100 Basis-Punkte, 30s Limit, Antwort nach 15s → (15/30)*100*0.5 = 25 Bonuspunkte.
       time_limit_ms = question.time_limit_seconds * 1000
       return 0 if time_limit_ms.zero?
 

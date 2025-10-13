@@ -51,7 +51,7 @@ module QuizEngine
     end
 
     def create_participation!(match)
-      # Erste Teilnahme erzeugen – bei Solo direkt „playing“, sonst „pending“.
+      # Erste Teilnahme erzeugen – bei Solo direkt „playing“, sonst „pending". Fängt ein Spieler an mit dem Spiel so geht das Programm auf "playing" im MatchesController passiert das.
       status = match.solo? ? "playing" : "pending"
       match.match_participations.create!(user: user, status: status)
     end
