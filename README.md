@@ -1,4 +1,4 @@
-# BrainBuster
+# BrainBuster Team 11
 
 BrainBuster ist ein deutschsprachiges Quizspiel, das sowohl im Browser als auch über die Konsole gespielt werden kann. Spieler:innen sammeln Punkte, schalten Achievements frei und treten in Solo- oder Mehrspielermodi gegeneinander an. Tailwind CSS sorgt für das UI, Devise für die Nutzerverwaltung.
 
