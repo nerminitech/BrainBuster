@@ -24,6 +24,7 @@ class MatchGameplayFlowTest < ActionDispatch::IntegrationTest
     @correct_option = @question.answer_options.create!(text: "Paris", correct: true, position: 0)
     @question.answer_options.create!(text: "Berlin", correct: false, position: 1)
     @question.answer_options.create!(text: "Madrid", correct: false, position: 2)
+    @question.answer_options.create!(text: "Rom", correct: false, position: 3)
 
     @match = Match.create!(
       creator: @user,
