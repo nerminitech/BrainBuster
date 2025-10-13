@@ -12,10 +12,14 @@ module QuizEngine
       @awarded = []
     end
 
+    # Der Awarder löuft einmal nachdem ein Match beended wurde für einen Spieler
     def call
-      # Zähler auf den aktuellen Stand bringen (z.B. bereits freigeschaltete Erfolge).
+      # Methode. Zählt wie viele Achievements der User schon hat.
       initialize_counters!
 
+      # For each loop durch alle achievements
+      # Hat der user die Ahicevements schon werden die übersprüungen
+      # Ansonsten ein Check ob die Konditionen erfüllt sind für ds freischalten eines Achievements.
       achievements_to_check.each do |achievement|
         # Überspringen, wenn der Erfolg schon gehört oder Bedingung nicht erfüllt.
         next if unlocked_ids.include?(achievement.id)
@@ -33,17 +37,18 @@ module QuizEngine
 
     attr_reader :participation, :user
 
+    # Methode die durch alle Achievements durchgeht die der User schon hat.
     def initialize_counters!
       @achievements_collected_count = user.user_achievements.count
     end
 
     def achievements_to_check
-      # Einmalig alle Achievements in stabiler Reihenfolge holen.
+      # Einmalig alle Achievements in stabiler Reihenfolge holen. Rails hilfsfunktion zum temporären Cachen.
       @achievements_to_check ||= Achievement.order(:created_at, :id)
     end
 
     def unlocked_ids
-      # Cache der bereits freigeschalteten Achievements aufbauen.
+      # Cache der bereits freigeschalteten Achievements aufbauen. Rails hilfsfunktion zum temporären Cachen.
       @unlocked_ids ||= user.user_achievements.pluck(:achievement_id)
     end
 
@@ -60,6 +65,7 @@ module QuizEngine
 
     def meets_condition?(achievement)
       # Nach Bedingungstyp entscheiden, welcher Zähler relevant ist.
+      # Dann check ob das Achievement erreicht wurde oder nicht.
       case achievement.condition
       when "matches_completed"
         completed_matches >= achievement.threshold
@@ -130,6 +136,7 @@ module QuizEngine
       @best_question_streak ||= user.match_participations.maximum(:best_streak).to_i
     end
 
+    # Wie viele achievements schon erreicht wurden
     def achievements_collected_count
       @achievements_collected_count
     end
