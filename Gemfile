@@ -8,6 +8,8 @@ gem "propshaft"
 gem "pg", "~> 1.5"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
+# Mitigates CVE-2025-61780 & CVE-2025-61919 (Rack disclosure & DoS) by pinning patched release
+gem "rack", "~> 3.2.3"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]

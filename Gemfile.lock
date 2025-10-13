@@ -219,7 +219,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.2.2)
+    rack (3.2.3)
     rack-session (2.1.1)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -394,6 +394,7 @@ DEPENDENCIES
   pg (~> 1.5)
   propshaft
   puma (>= 5.0)
+  rack (~> 3.2.3)
   rails (~> 8.0.2, >= 8.0.2.1)
   rubocop-rails-omakase
   selenium-webdriver
@@ -409,4 +410,4 @@ DEPENDENCIES
   web-console
 
 BUNDLED WITH
-   2.6.9
+   2.4.19
