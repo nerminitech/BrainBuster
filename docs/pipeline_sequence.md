@@ -11,14 +11,18 @@ sequenceDiagram
     Dev->>Repo: git push (HTTPS)
     Repo-->>CI: Webhook Trigger (HTTPS)
 
-    CI->>CI: Checkout Repository
+    CI->>CI: Docker Container für Runner starten
+    CI->>CI: Arbeitsverzeichnis anlegen
+    CI->>CI: Checkout Repository (actions/checkout)
     CI->>CI: ruby/setup-ruby (Bundler Cache)
+    CI->>CI: Bundle install (falls nötig)
     CI->>DB: PostgreSQL 16 Service starten
+    CI->>CI: Warten bis DB bereit ist
 
-    Note over CI: Qualitätssicherungsschritt 1
-    CI->>QA: bundle exec rubocop
-    CI->>QA: bundle exec brakeman -q
-    CI->>QA: bundle exec bundler-audit update && check
+    Note over CI: Qualitätssicherung (Schritt 1)
+    CI->>QA: bundle exec rubocop (Qualitätssichernde Maßnahme: Stilprüfung)
+    CI->>QA: bundle exec brakeman -q (Qualitätssichernde Maßnahme: Sicherheit)
+    CI->>QA: bundle exec bundler-audit update && check (Qualitätssichernde Maßnahme: Abhängigkeiten)
 
     Note over CI: Testdatenbank vorbereiten
     CI->>CI:  bin/rails db:test:prepare

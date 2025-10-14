@@ -186,6 +186,169 @@ categories_payload = [
     ]
   },
   {
+    name: "WISO",
+    description: "Wirtschafts- und Sozialkunde rund um Arbeitswelt, Politik und Recht.",
+    featured: false,
+    questions: [
+      {
+        content: "Die Infotec GmbH überträgt der IT-Systemkauffrau Sophie Schulz die Beschaffung von Hardware bis zu einem Auftragswert von 10.000 EUR. Mit welcher der folgenden Unterschriften muss Frau Schulz Geschäftsbriefe unterzeichnen?",
+        difficulty: "mittel",
+        time_limit_seconds: 35,
+        base_points: 110,
+        answers: [
+          { text: "Schulz", correct: false },
+          { text: "Sophie Schulz", correct: false },
+          { text: "i.H. Schulz", correct: false },
+          { text: "i.A. Schulz", correct: true }
+        ]
+      },
+      {
+        content: "Die Nachfrage der Kunden der Infotec GmbH hängt von verschiedenen Faktoren ab. Welche Aussage trifft zu?",
+        difficulty: "mittel",
+        time_limit_seconds: 35,
+        base_points: 110,
+        answers: [
+          { text: "Die Nachfrage der Konsumenten ist immer unabhängig vom Angebot.", correct: false },
+          { text: "Die Menge der Bedürfnisse der Konsumenten entspricht dem Bedarf.", correct: false },
+          { text: "Der Bedarf der Konsumenten ist abhängig von der Kaufkraft.", correct: true },
+          { text: "Die Bedürfnisse der Konsumenten entsprechen dem Angebot.", correct: false }
+        ]
+      },
+      {
+        content: "Die Fachinformatikerin Claudia Richter soll zu einem Vorstellungsgespräch eingeladen werden. Welche Frage darf nicht gestellt werden bzw. muss nicht wahrheitsgemäß beantwortet werden?",
+        difficulty: "mittel",
+        time_limit_seconds: 35,
+        base_points: 110,
+        answers: [
+          { text: "Sind Sie bereit, im Ausland zu arbeiten?", correct: false },
+          { text: "Haben Sie Erfahrungen in Teamarbeit?", correct: false },
+          { text: "Welcher Religionsgemeinschaft gehören Sie an?", correct: true },
+          { text: "Wie gut schätzen Sie Ihre Java-Kenntnisse ein?", correct: false }
+        ]
+      },
+      {
+        content: "Die Bundesregierung plant Maßnahmen zur Steigerung der Kaufkraft. Welche Maßnahme wirkt sich positiv auf die Kaufkraft aus?",
+        difficulty: "mittel",
+        time_limit_seconds: 30,
+        base_points: 100,
+        answers: [
+          { text: "Erhöhung der Importzölle für Produkte aus den USA.", correct: false },
+          { text: "Erhöhung des Beitragssatzes zur gesetzlichen Krankenversicherung.", correct: false },
+          { text: "Erhöhung des Wohngeldes.", correct: true },
+          { text: "Erhöhung der Beitragsbemessungsgrenze in der Sozialversicherung.", correct: false }
+        ]
+      },
+      {
+        content: "Der Betriebsrat der Infotec GmbH lädt zur Betriebsversammlung ein. Wer ist teilnahmeberechtigt?",
+        difficulty: "leicht",
+        time_limit_seconds: 25,
+        base_points: 90,
+        answers: [
+          { text: "Alle Arbeitnehmer des Unternehmens.", correct: true },
+          { text: "Nur Betriebsratsmitglieder und Gewerkschaftsvertreter.", correct: false },
+          { text: "Nur gewerkschaftlich organisierte Mitarbeitende.", correct: false },
+          { text: "Nur Vollzeitmitarbeitende und Führungskräfte.", correct: false }
+        ]
+      },
+      {
+        content: "Solidarität ist ein gesellschaftspolitisches Prinzip in Deutschland. Welcher Sachverhalt entspricht dem Solidaritätsprinzip?",
+        difficulty: "mittel",
+        time_limit_seconds: 30,
+        base_points: 100,
+        answers: [
+          { text: "Die Freibeträge bei der Erbschaftsteuer werden gesenkt.", correct: false },
+          { text: "Der Erwerb von Immobilien durch Kapitalgesellschaften wird steuerlich gefördert.", correct: false },
+          { text: "Der Staat erhöht die Steuersätze für Einkünfte aus Zinsen und Dividenden.", correct: false },
+          { text: "Die Leistungen der gesetzlichen Krankenversicherung sind einkommensunabhängig.", correct: true }
+        ]
+      },
+      {
+        content: "Welche Maßnahme fördert die Globalisierung und kommt der deutschen Volkswirtschaft zugute?",
+        difficulty: "mittel",
+        time_limit_seconds: 30,
+        base_points: 100,
+        answers: [
+          { text: "Die USA erhöhen Zölle auf EU-Produkte.", correct: false },
+          { text: "Die Steuern für Transportdienstleistungen werden erhöht.", correct: false },
+          { text: "Die EU schließt ein Freihandelsabkommen mit südamerikanischen Staaten.", correct: true },
+          { text: "Die Infotec GmbH schließt ihre Niederlassungen in Asien.", correct: false }
+        ]
+      },
+      {
+        content: "Mitarbeitende der Infotec GmbH sind gesetzlich krankenversichert. Welche Aussage trifft zu?",
+        difficulty: "mittel",
+        time_limit_seconds: 30,
+        base_points: 100,
+        answers: [
+          { text: "Ein Kassenwechsel ist nur mit Zustimmung des Arbeitgebers möglich.", correct: false },
+          { text: "Der Beitragssatz wird vom Bundesministerium für Gesundheit festgelegt.", correct: false },
+          { text: "Der Beitrag wird vom Nettolohn berechnet.", correct: false },
+          { text: "Die Beitragsbemessungsgrenze gibt die Grenze des Jahresbruttoentgelts an, bis zu der Beiträge fällig sind.", correct: true }
+        ]
+      },
+      {
+        content: "Für neue Mitarbeitende wird eine Probezeit von sechs Monaten vereinbart. Welche Aussage trifft zu?",
+        difficulty: "leicht",
+        time_limit_seconds: 25,
+        base_points: 90,
+        answers: [
+          { text: "Der Arbeitnehmer kann während der Probezeit nicht kündigen.", correct: false },
+          { text: "Der Arbeitgeber darf nur aus wichtigem Grund kündigen.", correct: false },
+          { text: "Während der Probezeit kann mit einer Frist von zwei Wochen gekündigt werden.", correct: true },
+          { text: "Nur der Arbeitnehmer darf während der Probezeit kündigen.", correct: false }
+        ]
+      },
+      {
+        content: "Die Infotec GmbH plant für ein neues Geschäftsfeld eine tägliche Arbeitszeit von zehn Stunden. Welche Aussage ist richtig?",
+        difficulty: "mittel",
+        time_limit_seconds: 35,
+        base_points: 110,
+        answers: [
+          { text: "Die Vereinbarung ist zulässig, wenn sie tarifvertraglich geregelt wurde.", correct: false },
+          { text: "Die tägliche Arbeitszeit unterliegt keiner gesetzlichen Beschränkung.", correct: false },
+          { text: "Die Vereinbarung ist zulässig, weil am Wochenende nicht gearbeitet wird.", correct: false },
+          { text: "Die Vereinbarung ist zulässig, wenn im Schnitt von sechs Monaten acht Stunden werktäglich nicht überschritten werden.", correct: true }
+        ]
+      },
+      {
+        content: "Die 18-jährige Auszubildende Laura Peters kauft einen Gaming-PC und zahlt in Raten. Welche Aussage trifft zu?",
+        difficulty: "mittel",
+        time_limit_seconds: 30,
+        base_points: 100,
+        answers: [
+          { text: "Darlehensgeschäfte mit Auszubildenden sind nichtig.", correct: false },
+          { text: "Der Kauf ist schwebend unwirksam, bis die gesetzlichen Vertreter zustimmen.", correct: false },
+          { text: "Der Kauf ist gültig, weil Frau Peters unbeschränkt geschäftsfähig ist.", correct: true },
+          { text: "Auszubildende sind generell geschäftsunfähig.", correct: false }
+        ]
+      },
+      {
+        content: "Die Infotec GmbH ist Mitglied eines Arbeitgeberverbands. In welchem Vertragsbestandteil ist sie an kollektives Arbeitsrecht gebunden?",
+        difficulty: "mittel",
+        time_limit_seconds: 30,
+        base_points: 100,
+        answers: [
+          { text: "Das Arbeitsverhältnis beginnt am 1. Juli 2020.", correct: false },
+          { text: "Der Mitarbeitende erhält 3.000 EUR Bruttogehalt.", correct: false },
+          { text: "Der Mitarbeitende arbeitet im IT-Service.", correct: false },
+          { text: "Die wöchentliche Arbeitszeit beträgt nach Tarifvertrag 38,5 Stunden.", correct: true }
+        ]
+      },
+      {
+        content: "Zwei Auszubildende diskutieren über Rentenversicherung und private Vorsorge. Welches Argument trifft zu?",
+        difficulty: "mittel",
+        time_limit_seconds: 30,
+        base_points: 100,
+        answers: [
+          { text: "Eine private Altersvorsorge ist notwendig, weil die gesetzliche Rente voraussichtlich nicht ausreichen wird.", correct: true },
+          { text: "Eine private Altersvorsorge ist unnötig, weil das Rentenniveau in der gesetzlichen Versicherung steigt.", correct: false },
+          { text: "Eine private Altersvorsorge lohnt sich nicht, weil jedem Arbeitnehmer eine Betriebsrente zusteht.", correct: false },
+          { text: "Eine private Altersvorsorge ist nur bei steigender Inflation notwendig.", correct: false }
+        ]
+      }
+    ]
+  },
+  {
     name: "Technologie",
     description: "Aktuelle Trends aus IT, Wissenschaft und Zukunftstechnologien.",
     featured: true,
