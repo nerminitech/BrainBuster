@@ -35,7 +35,6 @@ sequenceDiagram
     CI-->>Repo: Statusbericht (Commit-Status)
     Repo-->>Dev: Benachrichtigung (E-Mail / GitHub UI)
     CI->>Render: Deploy aktualisiertes Build (nach erfolgreicher CI)
-    Render-->>CI: Deploy-Status
 ```
 
 - **Kommunikationsprotokolle:** Git-Push über HTTPS, GitHub-Webhooks ebenfalls HTTPS.
