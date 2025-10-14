@@ -3,7 +3,7 @@ require "test_helper"
 class MatchGameplayFlowTest < ActionDispatch::IntegrationTest
   setup do
     # Vorbereitungen: Eine Spielerin, Kategorie, Frage samt Antworten und ein Match anlegen,
-    # damit der Flow den kompletten Spielablauf nachvollziehen kann.
+    # Damit der Flow den kompletten Spielablauf nachvollziehen kann.
     @user = User.create!(
       username: "player_one",
       email: "player@example.com",
@@ -16,8 +16,8 @@ class MatchGameplayFlowTest < ActionDispatch::IntegrationTest
     @question = Question.create!(
       category: @category,
       content: "Wie heißt die Hauptstadt von Frankreich?",
-      difficulty: "leicht",
       # Wird nichtmehr genutzt
+      difficulty: "leicht",
       time_limit_seconds: 45,
       base_points: 100,
       answer_options_attributes: [
@@ -62,6 +62,7 @@ class MatchGameplayFlowTest < ActionDispatch::IntegrationTest
     assert_includes response.body, @question.content
 
     # 3) Antwort absenden (richtige Option) – simuliert den Form-Submit im Frontend.
+    # POST /matches/:match_id/attempts
     post match_attempts_path(@match), params: {
       # match_question_id welche frage wird da gerade beantwortet.
       match_question_id: @match_question.id,
@@ -70,7 +71,7 @@ class MatchGameplayFlowTest < ActionDispatch::IntegrationTest
     }
 
     # 4) Nach dem Submit folgen zwei Redirects: zur Spielansicht und danach zur Ergebnisanzeige.
-    # Erste redirect damit man zur nächsten Frage kommt
+    # Der erste redirect damit man zur nächsten Frage kommt
     # assertr_rdirected_to checkt ob nachdem post korrekt redirected wird. Also ein Check.
     assert_redirected_to play_match_path(@match)
     follow_redirect!
@@ -81,10 +82,12 @@ class MatchGameplayFlowTest < ActionDispatch::IntegrationTest
 
     # 5) Abschliessende Seite bestaetigen und Erfolgstext erwarten.
     assert_response :success
+    # "Gut Gemacht" ist eine notice die im matches_controller zurückgegeben wird. (Ist eine Flash Message die kommt beim Ende des Matches)
     assert_includes response.body, "Gut gemacht!"
 
     # 6) Teilnahme neu laden und sicherstellen, dass das Match abgeschlossen und gewertet wurde.
     @participation.reload
+    # compelted ist eine methode aus dem Match Model.
     assert @participation.completed?
     assert_operator @participation.score, :>, 0
     # match_participation.register_attempt! würde dann die punkte dem User gutschreiben.

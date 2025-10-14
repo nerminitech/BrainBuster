@@ -1,6 +1,13 @@
 module QuizEngine
   class AchievementAwarder
-    # Einstieg: Service mit Teilnahme-Objekt starten.
+    # Komfort-Einstieg: Erlaubt `AchievementAwarder.call(...)` statt `new(...).call`.
+=begin
+      ansonsten müsste man das hier schreiben jedesmal wenn man den Achievement Service aufrufen will.
+      awarder = QuizEngine::AchievementAwarder.new(participation)
+      awarder.call
+
+      awarder = QuizEngine::AchievementAwarder.call(participation)
+=end
     def self.call(participation)
       new(participation).call
     end

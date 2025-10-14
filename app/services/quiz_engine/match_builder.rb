@@ -4,6 +4,7 @@ module QuizEngine
     DEFAULT_QUESTION_COUNT = 10
 
     # Baut einen MatchBuilder mit allen Eingaben, setzt Defaults bei ungültigen Werten.
+    # Ist der Konsturktor. Läuft als erstes wenn ein neues Objekt erstellt wird.
     def initialize(user:, category:, mode:, question_count: DEFAULT_QUESTION_COUNT, time_per_question: 30)
       @user = user
       @category = category
@@ -52,6 +53,7 @@ module QuizEngine
 
     def create_participation!(match)
       # Erste Teilnahme erzeugen – bei Solo direkt „playing“, sonst „pending". Fängt ein Spieler an mit dem Spiel so geht das Programm auf "playing" im MatchesController passiert das.
+      # Ist eine Sache die leider nicht vollständig eingebaut wurde.
       status = match.solo? ? "playing" : "pending"
       match.match_participations.create!(user: user, status: status)
     end

@@ -5,14 +5,15 @@ module QuizEngine
     STREAK_THRESHOLD = 3
     STREAK_BONUS_MULTIPLIER = 10
 
+    # Ein neues Objet erstellt was das Debuggen einfacher macht.
     Result = Struct.new(:total_points, :components, keyword_init: true)
 
-    # Einstiegspunkt: baut eine Instanz und führt die Berechnung aus.
+    # Baut eine Instanz und führt die Berechnung aus mit call. Syntaktischer Zucker.
     def self.call(question:, response_time_ms:, correct:, current_streak: 0)
       new(question:, response_time_ms:, correct:, current_streak:).call
     end
 
-    # Der Konstruktor erstellt ein frisches Objekt mit Startwerten.
+    # Der Konstruktor erstellt ein frisches Objekt mit Startwerten. Erste Methode die aufgerufen wird und initalisiert ein Objekt mit Startwerten.
     def initialize(question:, response_time_ms:, correct:, current_streak: 0)
       @question = question
       @response_time_ms = response_time_ms
@@ -48,7 +49,7 @@ module QuizEngine
 
     def calculate_speed_bonus(base)
       # Bonus orientiert sich daran, wie viel Zeit noch übrig war.
-      # Beispiel: 100 Basis-Punkte, 30s Limit, Antwort nach 15s → (15/30)*100*0.5 = 25 Bonuspunkte.
+      # Beispiel: 100 Basis-Punkte, 30s Limit, Antwort nach 15s → (15/30)*100*0.5(diese 0.5 kommen von der Konstanten die oben definiert ist) = 25 Bonuspunkte.
       time_limit_ms = question.time_limit_seconds * 1000
       return 0 if time_limit_ms.zero?
 
@@ -59,7 +60,7 @@ module QuizEngine
     def calculate_streak_bonus
       # Serienbonus zählt erst ab einer Mindestanzahl richtiger Antworten in Folge.
       return 0 if current_streak < STREAK_THRESHOLD
-      # Wenn current_streak 5 ist, dann wäre es 5 x 10 = 50 Zusatzpunkte
+      # Beispiel: Wenn current_streak 5 ist, dann wäre es 5 x 10 = 50 Zusatzpunkte
       (current_streak * STREAK_BONUS_MULTIPLIER)
     end
   end
