@@ -11,8 +11,9 @@
     <%= form.check_box :featured, class: "h-4 w-4 rounded border-slate-700 bg-slate-900" %>
     <%= form.label :featured, "Kategorie empfehlen" %>
   </div>
+  <% category_object = form.object.respond_to?(:persisted?) ? form.object : Array(form.object).last %>
   <div class="flex items-center gap-3">
-    <%= form.submit(form.object.persisted? ? "Kategorie aktualisieren" : "Kategorie erstellen", class: "rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400") %>
+    <%= form.submit(category_object&.persisted? ? "Kategorie aktualisieren" : "Kategorie erstellen", class: "rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400") %>
     <%= link_to "Abbrechen", admin_categories_path, class: "text-sm text-slate-400 hover:text-slate-200" %>
   </div>
 <% end %>
