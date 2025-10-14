@@ -1,3 +1,4 @@
+# CI-Pipeline für BrainBuster: führt Checks & Tests bei jedem Push/PR aus.
 name: CI
 
 on:
@@ -8,9 +9,11 @@ on:
 
 jobs:
   test:
+    # Läuft auf einer frischen Ubuntu-VM in GitHub Actions.
     runs-on: ubuntu-latest
     services:
       postgres:
+        # Postgres-Container als Test-Datenbank.
         image: postgres:16
         env:
           POSTGRES_USER: root
@@ -23,6 +26,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     env:
+      # Standard-ENV für Rails-Tests und DB-Verbindung.
       RAILS_ENV: test
       RUBYOPT: ""
       PGHOST: localhost
@@ -30,31 +34,39 @@ jobs:
       PGPASSWORD: root
       PGPORT: "5432"
     steps:
+      # 1) Repository-Code klonen.
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2) Ruby 3.2.1 installieren + Gems aus dem Cache/bundle install.
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2.1'
           bundler-cache: true
 
+      # 3) Stil- und Lint-Prüfung.
       - name: Run Rubocop (style checks)
         run: bundle exec rubocop
 
+      # 4) Sicherheitsanalyse für Rails.
       - name: Run Brakeman (security scan)
         run: bundle exec brakeman -q
 
+      # 5) Gem-Abhängigkeiten auf bekannte CVEs prüfen.
       - name: Run Bundler Audit (dependency vulnerabilities)
         run: |
           bundle exec bundler-audit update
           bundle exec bundler-audit check
 
+      # 6) Test-Datenbank aufsetzen.
       - name: Prepare database
         run: bin/rails db:test:prepare
 
+      # 7) Integrations-Tests ausführen.
       - name: Run integration tests
         run: bin/rails test:integration
 
+      # 8) Gesamte Testsuite laufen lassen.
       - name: Run test suite
         run: bin/rails test
