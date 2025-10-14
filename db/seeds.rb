@@ -1481,13 +1481,22 @@ categories_payload.each do |category_attrs|
     answers = question_attrs.delete(:answers)
     question = category.questions.find_or_initialize_by(content: question_attrs[:content])
     question.assign_attributes(question_attrs.merge(language: "de"))
-    question.save!
-
     kept_ids = []
-    answers.each_with_index do |answer_attrs, position|
-      option = question.answer_options.find_or_initialize_by(position: position)
-      option.update!(answer_attrs.merge(position: position))
-      kept_ids << option.id
+
+    if question.new_record?
+      answers.each_with_index do |answer_attrs, position|
+        question.answer_options.build(answer_attrs.merge(position: position))
+      end
+      question.save!
+      kept_ids = question.answer_options.pluck(:id)
+    else
+      question.save!
+
+      answers.each_with_index do |answer_attrs, position|
+        option = question.answer_options.find_or_initialize_by(position: position)
+        option.update!(answer_attrs.merge(position: position))
+        kept_ids << option.id
+      end
     end
 
     question.answer_options.where.not(id: kept_ids).find_each do |option|

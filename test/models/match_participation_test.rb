@@ -15,9 +15,13 @@ class MatchParticipationTest < ActiveSupport::TestCase
       content: "Wie viele Seiten hat ein Quadrat?",
       difficulty: "leicht",
       time_limit_seconds: 20,
-      base_points: 80
+      base_points: 80,
+      answer_options_attributes: [
+        { text: "4", correct: true, position: 0 },
+        { text: "3", correct: false, position: 1 }
+      ]
     )
-    @answer = @question.answer_options.create!(text: "4", correct: true, position: 0)
+    @answer = @question.answer_options.find_by!(text: "4")
     @match = Match.create!(
       creator: @user,
       category: @category,

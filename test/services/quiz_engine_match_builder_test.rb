@@ -13,13 +13,15 @@ class QuizEngineMatchBuilderTest < ActiveSupport::TestCase
     @category = Category.create!(name: "Builder Kategorie", featured: false)
     6.times do |index|
       # Jede Frage erhaelt mindestens eine korrekte Antwortoption, damit sie spielbar ist.
-      question = @category.questions.create!(
+      @category.questions.create!(
         content: "Frage #{index}",
         difficulty: "leicht",
         time_limit_seconds: 20,
-        base_points: 80
+        base_points: 80,
+        answer_options_attributes: [
+          { text: "Antwort", correct: true, position: 0 }
+        ]
       )
-      question.answer_options.create!(text: "Antwort", correct: true, position: 0)
     end
   end
 

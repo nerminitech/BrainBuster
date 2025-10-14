@@ -3,11 +3,11 @@
 one:
   question: one
   text: MyString
-  correct: false
+  correct: true
   position: 1
 
 two:
   question: two
   text: MyString
-  correct: false
+  correct: true
   position: 1

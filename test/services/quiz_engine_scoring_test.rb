@@ -8,9 +8,12 @@ class QuizEngineScoringTest < ActiveSupport::TestCase
       content: "Wie viele Farben hat die deutsche Flagge?",
       difficulty: "mittel",
       time_limit_seconds: 30,
-      base_points: 100
+      base_points: 100,
+      answer_options_attributes: [
+        { text: "3", correct: true, position: 0 },
+        { text: "4", correct: false, position: 1 }
+      ]
     )
-    question.answer_options.create!(text: "3", correct: true, position: 0)
 
     # Spieler beantwortet die Frage schnell und mit laufender Streak.
     result = QuizEngine::Scoring.call(
@@ -32,9 +35,12 @@ class QuizEngineScoringTest < ActiveSupport::TestCase
       content: "Dummy",
       difficulty: "leicht",
       time_limit_seconds: 20,
-      base_points: 80
+      base_points: 80,
+      answer_options_attributes: [
+        { text: "A", correct: false, position: 0 },
+        { text: "B", correct: true, position: 1 }
+      ]
     )
-    question.answer_options.create!(text: "A", correct: false, position: 0)
 
     result = QuizEngine::Scoring.call(
       question: question,

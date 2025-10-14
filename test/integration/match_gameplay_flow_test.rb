@@ -19,13 +19,16 @@ class MatchGameplayFlowTest < ActionDispatch::IntegrationTest
       difficulty: "leicht",
       # Wird nichtmehr genutzt
       time_limit_seconds: 45,
-      base_points: 100
+      base_points: 100,
+      answer_options_attributes: [
+        { text: "Paris", correct: true, position: 0 },
+        { text: "Berlin", correct: false, position: 1 },
+        { text: "Madrid", correct: false, position: 2 },
+        { text: "Rom", correct: false, position: 3 }
+      ]
     )
 
-    @correct_option = @question.answer_options.create!(text: "Paris", correct: true, position: 0)
-    @question.answer_options.create!(text: "Berlin", correct: false, position: 1)
-    @question.answer_options.create!(text: "Madrid", correct: false, position: 2)
-    @question.answer_options.create!(text: "Rom", correct: false, position: 3)
+    @correct_option = @question.answer_options.find_by!(text: "Paris")
 
     @match = Match.create!(
       creator: @user,
