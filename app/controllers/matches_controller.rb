@@ -1,26 +1,25 @@
 class MatchesController < ApplicationController
-  # Dieser Controller kuemmert sich um die komplette Match-Erfahrung: vom Anzeigen,
-  # Erstellen und Betreten bis hin zum eigentlichen Spielen eines Quiz.
+  # Verwalten des gesamten Match-Lebenszyklus: Übersicht, Erstellung, Spielablauf und Status.
   before_action :set_match, only: %i[show play status forfeit]
   before_action :set_participation, only: %i[play forfeit]
   before_action :ensure_participation_owner!, only: %i[play forfeit]
   before_action :ensure_match_participation!, only: %i[status]
 
   def index
-    # Holt alle Match-Teilnahmen der angemeldeten Person und paginiert sie.
+    # Zeigt dem eingeloggten Account alle eigenen Matches in umgekehrter Reihenfolge.
     @pagy, @participations = pagy(
       current_user.match_participations.includes(match: :category).order(created_at: :desc)
     )
   end
 
   def new
-    # Baut ein leeres Match-Objekt mit sinnvollen Voreinstellungen.
+    # Formular für ein neues Match vorbereiten (Default: Solo, 10 Fragen).
     @categories = Category.order(:name)
     @match = Match.new(question_count: 10, time_per_question: 30, mode: "solo")
   end
 
   def create
-    # Sicherheitsnetz: Ohne Kategorie darf kein Match erzeugt werden.
+    # Aus Formular kommend: Ohne Kategorie dürfen wir nicht fortfahren.
     if match_params[:category_id].blank?
       @categories = Category.order(:name)
       @match = Match.new(match_params)
@@ -28,7 +27,7 @@ class MatchesController < ApplicationController
       render :new, status: 422 and return
     end
 
-    # Laesst den spezialisierten Builder ein Match inklusive Fragen zusammenstellen.
+    # Übergibt an den MatchBuilder, der Fragen zuteilt und Teilnahme erzeugt.
     category = Category.find(match_params[:category_id])
     builder = QuizEngine::MatchBuilder.new(
       user: current_user,
@@ -40,9 +39,15 @@ class MatchesController < ApplicationController
 
     @match = builder.call
 
-    notice = @match.solo? ? "Viel Erfolg!" : "Quiz erstellt. Teile den Code #{@match.share_code} mit anderen Spielern."
+    # Leitende Person direkt auf die Spieloberfläche schicken.
+    notice = if @match.solo?
+               "Viel Erfolg!"
+             else
+               "Quiz erstellt. Teile den Code #{@match.share_code} mit anderen Spielern."
+             end
     redirect_to play_match_path(@match), notice: notice
   rescue ActiveRecord::RecordInvalid => e
+    # Fehler aus dem Builder (z.B. zu wenige Fragen) wieder im Formular anzeigen.
     @categories = Category.order(:name)
     flash.now[:alert] = e.record.errors.full_messages.to_sentence
     @match = Match.new(match_params)
@@ -50,43 +55,41 @@ class MatchesController < ApplicationController
   end
 
   def show
-    # Zeigt das Leaderboard und ob der aktuelle Nutzende schon mitgespielt hat.
+    # Match-Ergebnis/Leaderboard inklusive eigener Teilnahme anzeigen.
     @leaderboard = @match.leaderboard.includes(:user)
     @participation = current_user.match_participations.find_by(match: @match)
-    # Zaehlt fertige Spieler und merkt sich den Sieger fuer den Victory-Screen.
     @finished_participations = @match.match_participations.where(status: %w[completed forfeited]).count
     @total_participations = @match.match_participations.count
     @winner = @match.completed? ? @leaderboard.first : nil
   end
 
   def play
-    # Beendet sofort, wenn das Match bereits abgeschlossen oder abgebrochen ist.
+    # Spieloberfläche. Bereits erledigte Matches senden wir zurück zur Auswertung.
     if @participation.finished?
       redirect_to match_path(@match), notice: "Dieses Quiz hast du bereits abgeschlossen." and return
     end
 
-    # Markiert das Match als gestartet, sobald die erste Person spielt.
+    # Erstes Betreten setzt das Match auf „active“.
     @match.update!(state: "active", started_at: Time.current) if @match.open?
 
-    # Holt die naechste noch unbeantwortete Frage.
+    # Nächste offene Frage bestimmen – falls keine mehr da ist, Abschluss.
     match_question = next_question
     if match_question.blank?
-      # Es gibt keine Frage mehr -> Match abschliessen.
       finalize_participation!(@participation)
       redirect_to match_path(@match), notice: "Gut gemacht!" and return
     end
 
-    # Speichert, welche Frage gerade bearbeitet wird.
+    # Speichert Startzeit der Frage (für die Zeitmessung).
     @participation.start_question!(match_question)
 
-    # Prueft, ob die Zeit schon abgelaufen ist.
+    # Prüft Timeout, trägt sonst Fehlversuch ein.
     elapsed_seconds = @participation.current_question_elapsed_seconds
     if elapsed_seconds >= @match.time_per_question
       handle_time_expired(match_question)
       redirect_to play_match_path(@match), alert: "Zeit abgelaufen! Die Frage wurde als falsch gewertet." and return
     end
 
-    # Bereitet alle Werte fuer die Ansicht auf.
+    # Daten für das View vorbereiten (aktueller Stand, Restzeit etc.).
     @match_question = match_question
     @current_question = match_question.question
     @positions_answered = @participation.question_attempts.count
@@ -97,7 +100,7 @@ class MatchesController < ApplicationController
   end
 
   def join
-    # Ermoeglicht Mitspielen via geteilter Code-Eingabe.
+    # Teilnahme über Match-Code (z.B. bei Gruppenquiz) ermöglichen.
     match = Match.find_by!(share_code: params[:share_code].to_s.upcase)
     participation = match.match_participations.find_or_create_by!(user: current_user) do |record|
       record.status = match.solo? ? "playing" : "pending"
@@ -116,6 +119,7 @@ class MatchesController < ApplicationController
   end
 
   def status
+    # JSON-Endpunkt für Live-Status (z.B. Victory-Screen, Polling).
     winner_participation = @match.leaderboard.first
     render json: {
       state: @match.state,
@@ -129,6 +133,7 @@ class MatchesController < ApplicationController
   end
 
   def forfeit
+    # Manuelles Abbrechen durch Teilnehmende.
     if @participation.finished?
       redirect_to match_path(@match), alert: "Dieses Match ist bereits abgeschlossen." and return
     end
@@ -142,33 +147,33 @@ class MatchesController < ApplicationController
   private
 
   def set_match
-    # Sucht das Match ueber die URL-Id heraus.
+    # Lädt das Match anhand der URL-ID.
     @match = Match.find(params[:id])
   end
 
   def set_participation
-    # Stellt sicher, dass die aktuelle Person eine Teilnahme zum Match hat.
+    # Holt oder erstellt eine Teilnahme für die aktuelle Person.
     @participation = @match.match_participations.find_or_create_by!(user: current_user) do |record|
       record.status = "playing"
     end
   end
 
   def ensure_participation_owner!
-    # Verhindert, dass jemand anderes fremde Matches spielt.
+    # Nur Match-Beteiligte dürfen spielen/abbrechen.
     return if @participation.user_id == current_user.id
 
     redirect_to matches_path, alert: "Kein Zugriff auf dieses Match." and return
   end
 
   def ensure_match_participation!
-    # Nur wer am Match teilnimmt, darf den Live-Status abrufen.
+    # Zugriffsschutz für den Status-Endpunkt.
     return if @match.match_participations.exists?(user: current_user)
 
     head :forbidden
   end
 
   def next_question
-    # Merkt sich die naechste unbeantwortete Frage und fragt sie nur einmal ab.
+    # Nächste offene MatchQuestion (oder nil) – gecachet bis zur nächsten Antwort.
     @next_question ||= begin
       answered_ids = @participation.question_attempts.select(:match_question_id)
       @match.match_questions.where.not(id: answered_ids).order(:position).first
@@ -176,7 +181,7 @@ class MatchesController < ApplicationController
   end
 
   def finalize_participation!(participation)
-    # Markiert das Match als geschafft, verteilt Punkte und prueft auf Achievements.
+    # Abschluss-Workflow: Teilnahme beenden, Punkte vergeben, Achievements prüfen.
     participation.finish!
     current_user.add_points!(participation.score)
     newly_awarded = QuizEngine::AchievementAwarder.call(participation)
@@ -195,7 +200,7 @@ class MatchesController < ApplicationController
   end
 
   def handle_time_expired(match_question)
-    # Falls noch kein Versuch existiert, wird ein falscher Versuch eingetragen.
+    # Timeout-Logik: Falscher Versuch, danach ggf. Matchabschluss.
     return if @participation.question_attempts.exists?(match_question: match_question)
 
     @participation.register_attempt!(
@@ -213,11 +218,12 @@ class MatchesController < ApplicationController
   end
 
   def match_params
-    # Definiert klar, welche Felder aus dem Formular uebernommen werden.
+    # Whitelist für Match-Formularwerte.
     params.require(:match).permit(:category_id, :mode, :question_count, :time_per_question)
   end
 
   def mark_match_completed_if_ready!(match)
+    # Wenn alle Teilnahmen abgeschlossen sind, gilt das Match als beendet.
     if match.match_participations.where.not(status: %w[completed forfeited]).none?
       match.update!(state: "completed", completed_at: Time.current)
     end
