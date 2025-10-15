@@ -91,21 +91,7 @@ class QuizEngineAchievementAwarderTest < ActiveSupport::TestCase
   end
 
   test "awards higher tier perfect match achievements cumulatively" do
-    # Mehrere perfekte Matches fuellen die Zaehler auf, bevor ein finales Spiel die Schwelle uebertritt.
-    base_match_attrs = {
-      creator: @user,
-      category: @category,
-      mode: "solo",
-      state: "completed",
-      question_count: 8,
-      time_per_question: 20
-    }
-
-    4.times do |idx|
-      match = Match.create!(base_match_attrs.merge(title: "Prep #{idx}"))
-      match.match_participations.create!(
-        user: @user,
-        status: "completed",
+   tatus: "completed",
         score: 900,
         correct_count: 8,
         incorrect_count: 0,
