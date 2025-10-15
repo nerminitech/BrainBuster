@@ -41,10 +41,10 @@ class MatchesController < ApplicationController
 
     # Leitende Person direkt auf die Spieloberfläche schicken.
     notice = if @match.solo?
-               "Viel Erfolg!"
-             else
-               "Quiz erstellt. Teile den Code #{@match.share_code} mit anderen Spielern."
-             end
+      "Viel Erfolg!"
+    else
+      "Quiz erstellt. Teile den Code #{@match.share_code} mit anderen Spielern."
+    end
     redirect_to play_match_path(@match), notice: notice
   rescue ActiveRecord::RecordInvalid => e
     # Fehler aus dem Builder (z.B. zu wenige Fragen) wieder im Formular anzeigen.
