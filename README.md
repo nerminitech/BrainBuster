@@ -4,7 +4,7 @@ BrainBuster ist ein deutschsprachiges Quizspiel, das sowohl im Browser als auch 
 
 ## Funktionsumfang
 
-otest
+o
 
 - Benutzerkonten mit Devise (Registrierung, Login, Rollenverwaltung)
 - Kategorien- und Fragenverwaltung (inkl. Admin-Backend)
